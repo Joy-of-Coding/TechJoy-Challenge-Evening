@@ -12,7 +12,7 @@
 
 ## Potential Names for the app:
 
-###🔥 Functional & Clear
+### 🔥 Functional & Clear
 
 CampList
 
@@ -30,7 +30,7 @@ CheckCamp
 
 CampChecklist
 
-###🌲 Nature-Inspired
+### 🌲 Nature-Inspired
 
 TrailKit
 
@@ -46,7 +46,7 @@ CampNest
 
 Gear Grove
 
-###🏕️ Fun & Friendly
+### 🏕️ Fun & Friendly
 
 PackPal
 
@@ -60,7 +60,7 @@ Camp Compass
 
 BuddyPack
 
-###🧭 Adventure Vibes
+### 🧭 Adventure Vibes
 
 TrailCheck
 
@@ -74,7 +74,7 @@ ReadySetCamp
 
 GoCampGo
 
-###🏕️ Playful Camping App Name Ideas
+### 🏕️ Playful Camping App Name Ideas
 
 Campy – short, quirky, and memorable
 
