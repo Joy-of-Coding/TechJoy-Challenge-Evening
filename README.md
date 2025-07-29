@@ -1,7 +1,5 @@
 # TechJoy-Challenge-Evening
 
----
-
 ## Team Members:
 
 *Add your name and discord handle to this readme*
