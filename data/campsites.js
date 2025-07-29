@@ -280,4 +280,6 @@ const campsitesData = [
         type: "mountain",
         tags: ["mountain", "alpine", "wildlife", "climbing"]
     }
-]; 
+];
+
+module.exports = campsitesData; 

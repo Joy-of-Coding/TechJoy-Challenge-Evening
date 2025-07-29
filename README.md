@@ -26,27 +26,58 @@ The app intelligently suggests items to bring based on:
 
 ## 🚀 Getting Started
 
-1. Clone the repository
-2. Open `index.html` in your browser
-3. Start exploring amazing campsites!
+### Prerequisites
+- Node.js (v14 or higher)
+- npm (comes with Node.js)
+
+### Installation & Running
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd TechJoy-Challenge-Evening
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser** and navigate to `http://localhost:3000`
+
+### Production
+To run in production mode:
+```bash
+npm start
+```
 
 ## 🛠️ Technical Details
 
-- **Pure Vanilla JavaScript**: No frameworks or dependencies
-- **Local JSON Data**: All data stored locally in JavaScript files
+- **Backend**: Node.js with Express.js
+- **Frontend**: Pure Vanilla JavaScript (no frameworks)
+- **API**: RESTful endpoints for campsites and packing lists
+- **Data**: Local JSON data served through API
 - **Responsive CSS Grid**: Modern layout system
 - **Accessibility**: Keyboard navigation and screen reader friendly
 - **Performance**: Optimized for fast loading and smooth interactions
+- **Development**: Hot reload with nodemon
 
 ## 📁 Project Structure
 
 ```
 ├── index.html          # Main HTML file
 ├── styles.css          # Beautiful, responsive styling
-├── app.js             # Main application logic
+├── client.js          # Frontend application logic
+├── server.js          # Express server and API endpoints
+├── package.json       # Node.js dependencies and scripts
 ├── data/
-│   ├── campsites.js   # Campsite data
-│   └── packingLists.js # Packing suggestions
+│   ├── campsites.js   # Campsite data (exported for Node.js)
+│   └── packingLists.js # Packing suggestions (exported for Node.js)
 └── README.md          # This file
 ```
 

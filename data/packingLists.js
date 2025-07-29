@@ -276,4 +276,6 @@ const activityPackingSuggestions = {
         "Astronomy guidebook",
         "Patience for clear nights"
     ]
-}; 
+};
+
+module.exports = { packingListsData, activityPackingSuggestions }; 

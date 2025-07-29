@@ -1,18 +1,50 @@
 // CampJoy - Main Application
 class CampJoyApp {
     constructor() {
-        this.campsites = campsitesData;
-        this.filteredCampsites = [...this.campsites];
+        this.campsites = [];
+        this.filteredCampsites = [];
         this.currentFilter = 'all';
         this.searchTerm = '';
+        this.packingListsData = {};
+        this.activityPackingSuggestions = {};
 
         this.initializeApp();
     }
 
-    initializeApp() {
+    async initializeApp() {
         this.bindEvents();
+        await this.loadData();
         this.renderCampsites();
-        this.addLoadingAnimation();
+    }
+
+    async loadData() {
+        try {
+            // Load campsites data
+            const campsitesResponse = await fetch('/api/campsites');
+            this.campsites = await campsitesResponse.json();
+            this.filteredCampsites = [...this.campsites];
+
+            // Load packing lists data
+            const packingResponse = await fetch('/api/packing-lists');
+            const packingData = await packingResponse.json();
+            this.packingListsData = packingData.packingListsData;
+            this.activityPackingSuggestions = packingData.activityPackingSuggestions;
+        } catch (error) {
+            console.error('Failed to load data:', error);
+            this.showErrorMessage('Failed to load campsite data. Please refresh the page.');
+        }
+    }
+
+    showErrorMessage(message) {
+        const grid = document.getElementById('campsitesGrid');
+        grid.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #e53e3e; margin-bottom: 1rem;"></i>
+                <h3>Oops! Something went wrong</h3>
+                <p>${message}</p>
+                <button onclick="location.reload()" class="retry-btn">Try Again</button>
+            </div>
+        `;
     }
 
     bindEvents() {
@@ -183,7 +215,7 @@ class CampJoyApp {
 
     generatePackingList(campsite) {
         const packingList = document.getElementById('detailPackingList');
-        const basePackingList = packingListsData[campsite.type] || {};
+        const basePackingList = this.packingListsData[campsite.type] || {};
 
         let packingHTML = '';
 
@@ -227,8 +259,8 @@ class CampJoyApp {
 
         activities.forEach(activity => {
             const activityKey = activity.toLowerCase().replace(/\s+/g, '_');
-            if (activityPackingSuggestions[activityKey]) {
-                activityPackingSuggestions[activityKey].forEach(item => {
+            if (this.activityPackingSuggestions[activityKey]) {
+                this.activityPackingSuggestions[activityKey].forEach(item => {
                     suggestions.add(item);
                 });
             }

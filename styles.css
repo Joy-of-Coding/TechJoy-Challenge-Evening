@@ -426,3 +426,38 @@ input:focus {
     outline: 2px solid #38a169;
     outline-offset: 2px;
 }
+
+/* Error message styles */
+.error-message {
+    text-align: center;
+    padding: 3rem;
+    color: #718096;
+    grid-column: 1 / -1;
+}
+
+.error-message h3 {
+    margin-bottom: 0.5rem;
+    color: #e53e3e;
+}
+
+.error-message p {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.retry-btn {
+    background: #38a169;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+    background: #2f855a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+}
