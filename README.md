@@ -2,6 +2,35 @@
 
 A beautiful, functional camping app built with Vanilla JavaScript following SLC (Simple, Lovable, Complete) principles.
 
+## 🚀 Quick Start
+
+### Prerequisites
+- **Node.js** (v14 or higher) - [Download here](https://nodejs.org/)
+- **npm** (comes with Node.js)
+
+### Run the Project
+```bash
+# 1. Clone the repository
+git clone <repository-url>
+cd TechJoy-Challenge-Evening
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the development server
+npm run dev
+
+# 4. Open your browser
+# Navigate to: http://localhost:3000
+```
+
+### Available Commands
+- `npm run dev` - Start development server with hot reload
+- `npm start` - Start production server
+- `npm test` - Run tests (when implemented)
+
+---
+
 ## 🌟 Features
 
 - **Search & Filter**: Find campsites by name, location, or activity type
@@ -24,37 +53,7 @@ The app intelligently suggests items to bring based on:
 - **Available Activities**: Activity-specific equipment recommendations
 - **Categorized Items**: Essentials, clothing, activities, safety gear
 
-## 🚀 Getting Started
 
-### Prerequisites
-- Node.js (v14 or higher)
-- npm (comes with Node.js)
-
-### Installation & Running
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd TechJoy-Challenge-Evening
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser** and navigate to `http://localhost:3000`
-
-### Production
-To run in production mode:
-```bash
-npm start
-```
 
 ## 🛠️ Technical Details
 
@@ -80,6 +79,42 @@ npm start
 │   └── packingLists.js # Packing suggestions (exported for Node.js)
 └── README.md          # This file
 ```
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**Port 3000 already in use:**
+```bash
+# Kill the process using port 3000
+lsof -ti:3000 | xargs kill -9
+# Or use a different port
+PORT=3001 npm run dev
+```
+
+**Node modules not found:**
+```bash
+# Delete node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**API not responding:**
+- Check if server is running: `curl http://localhost:3000/api/health`
+- Check browser console for errors (F12)
+- Ensure you're on the correct branch: `git branch`
+
+## 📡 API Endpoints
+
+The app provides RESTful API endpoints:
+
+- `GET /api/health` - Health check
+- `GET /api/campsites` - Get all campsites
+- `GET /api/campsites/:id` - Get specific campsite
+- `GET /api/campsites/type/:type` - Filter by type (lake, mountain, forest, beach)
+- `GET /api/packing-lists` - Get all packing lists
+- `GET /api/packing-lists/:type` - Get packing list by type
+- `GET /api/search?q=query&type=type` - Search campsites
 
 ## 🎯 SLC Principles Applied
 
