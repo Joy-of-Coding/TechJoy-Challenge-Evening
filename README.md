@@ -1,11 +1,20 @@
 # TechJoy-Challenge-Evening
 
-Raul 1digitalnomad
-Anna Rankin
+---
 
-Potential Names for the app:
+## Team Members:
 
-🔥 Functional & Clear
+*Add your name and discord handle to this readme*
+
+- Raul (1digitalnomad)
+- Anna Rankin (anna902)
+- Doug (Level3EyedRaven)
+
+---
+
+## Potential Names for the app:
+
+###🔥 Functional & Clear
 
 CampList
 
@@ -23,7 +32,7 @@ CheckCamp
 
 CampChecklist
 
-🌲 Nature-Inspired
+###🌲 Nature-Inspired
 
 TrailKit
 
@@ -39,7 +48,7 @@ CampNest
 
 Gear Grove
 
-🏕️ Fun & Friendly
+###🏕️ Fun & Friendly
 
 PackPal
 
@@ -53,7 +62,7 @@ Camp Compass
 
 BuddyPack
 
-🧭 Adventure Vibes
+###🧭 Adventure Vibes
 
 TrailCheck
 
@@ -67,7 +76,7 @@ ReadySetCamp
 
 GoCampGo
 
-🏕️ Playful Camping App Name Ideas
+###🏕️ Playful Camping App Name Ideas
 
 Campy – short, quirky, and memorable
 
@@ -98,3 +107,6 @@ Campy McChecklist – pure silliness, but some people love that
 Tote-ally Campin’ – punny and lighthearted
 
 Don't Forget the Marshmallows – playful and memorable!
+
+
+
