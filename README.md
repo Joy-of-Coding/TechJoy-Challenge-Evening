@@ -20,6 +20,7 @@ A beautiful, functional camping app built with Vanilla JavaScript following SLC 
 ## 🎒 Packing Lists
 
 The app intelligently suggests items to bring based on:
+
 - **Campsite Type**: Different environments require different gear
 - **Available Activities**: Activity-specific equipment recommendations
 - **Categorized Items**: Essentials, clothing, activities, safety gear
@@ -27,11 +28,13 @@ The app intelligently suggests items to bring based on:
 ## 🚀 Getting Started
 
 ### Option 1: Direct Browser Opening (Simplest)
+
 1. Clone the repository
 2. Open `index.html` directly in your browser
 3. Start exploring amazing campsites!
 
 ### Option 2: Local Server (Recommended for Development)
+
 ```bash
 # Using Python 3
 python3 -m http.server 8000
@@ -43,6 +46,7 @@ npx serve .
 ```
 
 ### Option 3: GitHub Pages Deployment
+
 The app is ready to deploy on GitHub Pages with no additional setup required!
 
 ## 🛠️ Technical Details
@@ -80,4 +84,14 @@ The app is ready to deploy on GitHub Pages with no additional setup required!
 
 ---
 
-*Built with ❤️ for outdoor enthusiasts*
+_Built with ❤️ for outdoor enthusiasts_
+
+---
+
+Potential Names for the app:
+
+🏕️ Playful Camping App Name Ideas
+
+Campy
+Joy of Camping
+Don't Forget the Marshmallows
