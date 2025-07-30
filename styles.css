@@ -288,6 +288,10 @@ body {
     gap: 2rem;
 }
 
+.detail-section.full-width {
+  grid-column: 1 / -1;
+}
+
 .detail-section {
     background: #f7fafc;
     padding: 1.5rem;
@@ -425,4 +429,34 @@ button:focus,
 input:focus {
     outline: 2px solid #38a169;
     outline-offset: 2px;
+}
+
+/* Activity and Inventory Buttons */
+.interactive-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0.3rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 999px;
+  background-color: #f7fafc;
+  color: #2d3748;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.interactive-button:hover {
+  background-color: #edf2f7;
+  transform: scale(1.05);
+}
+
+.interactive-button:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.interactive-button.active {
+  background-color: #4299e1;
+  color: white;
+  border-color: #3182ce;
 }

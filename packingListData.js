@@ -1,7 +1,7 @@
-// Packing Lists Data - Organized by campsite type and activities
+// Packing Lists Data - Embedded directly for local file access
 const packingListsData = {
-    lake: {
-        essentials: [
+    "lake": {
+        "essentials": [
             "Tent with rainfly",
             "Sleeping bags",
             "Sleeping pads",
@@ -13,7 +13,7 @@ const packingListsData = {
             "Water bottles",
             "Cooler with ice"
         ],
-        water_activities: [
+        "water_activities": [
             "Swimsuits",
             "Towels",
             "Water shoes",
@@ -25,7 +25,7 @@ const packingListsData = {
             "Fishing license",
             "Fish cleaning supplies"
         ],
-        clothing: [
+        "clothing": [
             "Quick-dry clothing",
             "Waterproof jacket",
             "Hat for sun protection",
@@ -34,7 +34,7 @@ const packingListsData = {
             "Warm layers for evenings",
             "Rain gear"
         ],
-        cooking: [
+        "cooking": [
             "Portable stove",
             "Fuel",
             "Cooking utensils",
@@ -45,9 +45,8 @@ const packingListsData = {
             "Campfire cooking grate"
         ]
     },
-
-    mountain: {
-        essentials: [
+    "mountain": {
+        "essentials": [
             "4-season tent",
             "Cold-weather sleeping bags",
             "Insulated sleeping pads",
@@ -59,7 +58,7 @@ const packingListsData = {
             "High-calorie food",
             "Bear canister (if required)"
         ],
-        hiking_climbing: [
+        "hiking_climbing": [
             "Hiking boots with ankle support",
             "Climbing gear (if applicable)",
             "Helmet",
@@ -71,7 +70,7 @@ const packingListsData = {
             "Multi-tool",
             "Duct tape"
         ],
-        clothing: [
+        "clothing": [
             "Moisture-wicking base layers",
             "Insulating mid-layers",
             "Waterproof outer shell",
@@ -81,7 +80,7 @@ const packingListsData = {
             "Sunglasses with UV protection",
             "Buff or neck gaiter"
         ],
-        safety: [
+        "safety": [
             "Weather radio",
             "Emergency blanket",
             "Fire starter",
@@ -92,9 +91,8 @@ const packingListsData = {
             "Altitude sickness medication"
         ]
     },
-
-    forest: {
-        essentials: [
+    "forest": {
+        "essentials": [
             "Tent with good ventilation",
             "Sleeping bags appropriate for season",
             "Sleeping pads",
@@ -106,7 +104,7 @@ const packingListsData = {
             "Water bottles",
             "Food storage (bear-proof if needed)"
         ],
-        nature_exploration: [
+        "nature_exploration": [
             "Binoculars",
             "Field guides (birds, plants, mushrooms)",
             "Nature journal",
@@ -116,7 +114,7 @@ const packingListsData = {
             "Trail maps",
             "Compass"
         ],
-        clothing: [
+        "clothing": [
             "Long pants and long sleeves (for bug protection)",
             "Hiking boots or sturdy shoes",
             "Rain gear",
@@ -125,7 +123,7 @@ const packingListsData = {
             "Comfortable walking shoes",
             "Socks (multiple pairs)"
         ],
-        comfort: [
+        "comfort": [
             "Hammock",
             "Portable speaker (for nature sounds)",
             "Books or e-reader",
@@ -135,9 +133,8 @@ const packingListsData = {
             "Camping table"
         ]
     },
-
-    beach: {
-        essentials: [
+    "beach": {
+        "essentials": [
             "Beach tent or canopy",
             "Sleeping bags",
             "Sleeping pads",
@@ -149,7 +146,7 @@ const packingListsData = {
             "Cooler with ice",
             "Beach towels"
         ],
-        water_sports: [
+        "water_sports": [
             "Swimsuits (multiple)",
             "Rash guards",
             "Water shoes",
@@ -161,7 +158,7 @@ const packingListsData = {
             "Waterproof phone case",
             "Beach games"
         ],
-        beach_activities: [
+        "beach_activities": [
             "Beach volleyball",
             "Frisbee",
             "Beach ball",
@@ -171,7 +168,7 @@ const packingListsData = {
             "Beach umbrella",
             "Beach cart"
         ],
-        sun_protection: [
+        "sun_protection": [
             "Wide-brimmed hat",
             "Sunglasses with UV protection",
             "UPF clothing",
@@ -183,97 +180,3 @@ const packingListsData = {
         ]
     }
 };
-
-// Activity-specific packing suggestions
-const activityPackingSuggestions = {
-    fishing: [
-        "Fishing rods and reels",
-        "Tackle box with various lures",
-        "Fishing line",
-        "Bait (live or artificial)",
-        "Fishing license",
-        "Fish cleaning knife",
-        "Fish measuring device",
-        "Fishing gloves",
-        "Polarized sunglasses",
-        "Fishing vest or tackle bag"
-    ],
-
-    hiking: [
-        "Hiking boots with good traction",
-        "Trekking poles",
-        "Day pack",
-        "Trail maps",
-        "Compass or GPS",
-        "Extra water",
-        "High-energy snacks",
-        "Emergency whistle",
-        "Multi-tool",
-        "Lightweight rain jacket"
-    ],
-
-    swimming: [
-        "Swimsuits",
-        "Quick-dry towels",
-        "Water shoes",
-        "Goggles",
-        "Swim cap (if needed)",
-        "Waterproof sunscreen",
-        "Beach umbrella",
-        "Floatation devices",
-        "Waterproof bag for valuables",
-        "Change of clothes"
-    ],
-
-    boating: [
-        "Life jackets for everyone",
-        "Paddles or oars",
-        "Boat safety kit",
-        "Boat registration (if required)",
-        "Anchor and rope",
-        "Bilge pump",
-        "Emergency flares",
-        "Weather radio",
-        "Marine GPS",
-        "Boat cleaning supplies"
-    ],
-
-    wildlife_watching: [
-        "Binoculars",
-        "Camera with zoom lens",
-        "Field guides",
-        "Notebook and pen",
-        "Quiet clothing (earth tones)",
-        "Patience and time",
-        "Wildlife identification app",
-        "Spotting scope (optional)",
-        "Blind or camouflage netting",
-        "Respectful distance"
-    ],
-
-    photography: [
-        "Camera with extra batteries",
-        "Multiple memory cards",
-        "Tripod",
-        "Lens cleaning kit",
-        "Polarizing filter",
-        "Neutral density filters",
-        "Remote shutter release",
-        "Camera bag",
-        "Laptop for editing",
-        "Portable hard drive"
-    ],
-
-    stargazing: [
-        "Telescope or binoculars",
-        "Star charts or astronomy app",
-        "Red flashlight",
-        "Warm clothing",
-        "Comfortable chair",
-        "Hot drinks",
-        "Star photography equipment",
-        "Planisphere",
-        "Astronomy guidebook",
-        "Patience for clear nights"
-    ]
-}; 

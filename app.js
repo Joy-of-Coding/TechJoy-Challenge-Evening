@@ -5,6 +5,8 @@ class CampJoyApp {
         this.filteredCampsites = [...this.campsites];
         this.currentFilter = 'all';
         this.searchTerm = '';
+        this.packingListsData = packingListsData;
+        this.activityPackingSuggestions = activityPackingSuggestions;
 
         this.initializeApp();
     }
@@ -157,7 +159,7 @@ class CampJoyApp {
         document.getElementById('detailRating').textContent = campsite.rating;
         document.getElementById('detailPrice').textContent = campsite.price;
         document.getElementById('detailCapacity').textContent = campsite.capacity;
-        document.getElementById('detailDescription').textContent = campsite.description;
+        // document.getElementById('detailDescription').textContent = campsite.description;
 
         // Amenities
         const amenitiesList = document.getElementById('detailAmenities');
@@ -183,7 +185,7 @@ class CampJoyApp {
 
     generatePackingList(campsite) {
         const packingList = document.getElementById('detailPackingList');
-        const basePackingList = packingListsData[campsite.type] || {};
+        const basePackingList = this.packingListsData[campsite.type] || {};
 
         let packingHTML = '';
 
@@ -227,8 +229,8 @@ class CampJoyApp {
 
         activities.forEach(activity => {
             const activityKey = activity.toLowerCase().replace(/\s+/g, '_');
-            if (activityPackingSuggestions[activityKey]) {
-                activityPackingSuggestions[activityKey].forEach(item => {
+            if (this.activityPackingSuggestions[activityKey]) {
+                this.activityPackingSuggestions[activityKey].forEach(item => {
                     suggestions.add(item);
                 });
             }
