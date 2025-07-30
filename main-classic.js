@@ -264,6 +264,17 @@
                 </div>
             `;
         }
+
+        // Get packing checklist for specific activity
+        getActivityPackingList(activity) {
+            const activityKey = activity.toLowerCase().replace(/\s+/g, '_');
+            return this.activityPackingSuggestions[activityKey] || [];
+        }
+
+        // Get base packing list for campsite type
+        getBasePackingList(campsiteType) {
+            return this.packingListsData[campsiteType] || {};
+        }
     }
 
     // SearchFilterController - Search and filter UI
@@ -397,13 +408,141 @@
         populateActivities(campsite) {
             const activitiesList = document.getElementById('detailActivities');
             if (activitiesList && campsite.activities) {
+                // Render interactive activity buttons instead of static items
                 activitiesList.innerHTML = campsite.activities.map(activity =>
-                    `<div class="activity-item">
+                    `<button class="interactive-button activity-button" data-activity="${activity}">
                         <i class="fas fa-hiking"></i>
-                        <span>${activity}</span>
-                    </div>`
+                        ${activity}
+                    </button>`
                 ).join('');
+                
+                // Bind click events to activity buttons
+                this.bindActivityButtonEvents(campsite);
             }
+        }
+
+        bindActivityButtonEvents(campsite) {
+            document.querySelectorAll('.activity-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const activity = button.dataset.activity;
+                    button.classList.toggle('active');
+                    
+                    if (button.classList.contains('active')) {
+                        this.showActivityInventory(activity);
+                        button.innerHTML = `<i class="fas fa-check"></i> ${activity}`;
+                    } else {
+                        this.hideActivityInventory(activity);
+                        button.innerHTML = `<i class="fas fa-hiking"></i> ${activity}`;
+                    }
+                });
+            });
+        }
+
+        showActivityInventory(activity) {
+            // Get inventory items for this activity
+            const activityKey = activity.toLowerCase().replace(/\s+/g, '_');
+            console.log('Looking for activity:', activity, 'with key:', activityKey);
+            
+            const items = this.packingListGenerator.getActivityPackingList(activity);
+            console.log('Found items:', items);
+            
+            // If no specific items found, create some generic ones for testing
+            let itemsToShow = items;
+            if (items.length === 0) {
+                // Fallback items for testing
+                itemsToShow = [
+                    `${activity} Equipment`,
+                    `${activity} Safety Gear`,
+                    `${activity} Accessories`
+                ];
+                console.log('Using fallback items:', itemsToShow);
+            }
+            
+            // Find or create inventory container
+            let inventoryContainer = document.getElementById('activityInventory');
+            if (!inventoryContainer) {
+                inventoryContainer = document.createElement('div');
+                inventoryContainer.id = 'activityInventory';
+                inventoryContainer.innerHTML = '<h4>Selected Activity Gear</h4>';
+                
+                // Insert after activities section - find the right parent
+                const activitiesSection = document.getElementById('detailActivities');
+                if (activitiesSection && activitiesSection.parentNode) {
+                    activitiesSection.parentNode.insertBefore(inventoryContainer, activitiesSection.nextSibling);
+                } else {
+                    // Fallback: append to detail section
+                    const detailSection = document.getElementById('campsiteDetail');
+                    if (detailSection) {
+                        detailSection.appendChild(inventoryContainer);
+                    }
+                }
+                console.log('Created inventory container');
+            }
+            
+            // Make sure container is visible
+            inventoryContainer.style.display = 'block';
+            
+            // Create section for this activity's items
+            const section = document.createElement('div');
+            section.classList.add('inventory-section');
+            section.dataset.activity = activity;
+            
+            section.innerHTML = `
+                <h5>${activity} Gear</h5>
+                <div class="inventory-items">
+                    ${itemsToShow.map(item => `
+                        <button class="interactive-button inventory-item" data-item="${item}" data-activity="${activity}">
+                            ${item}
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+            
+            inventoryContainer.appendChild(section);
+            console.log('Added section for:', activity);
+            this.bindInventoryItemEvents(section);
+        }
+
+        hideActivityInventory(activity) {
+            const section = document.querySelector(`.inventory-section[data-activity="${activity}"]`);
+            if (section) {
+                section.remove();
+                
+                // If no more sections, hide the container
+                const inventoryContainer = document.getElementById('activityInventory');
+                if (inventoryContainer && inventoryContainer.querySelectorAll('.inventory-section').length === 0) {
+                    inventoryContainer.style.display = 'none';
+                }
+            }
+        }
+
+        bindInventoryItemEvents(section) {
+            console.log('Binding events for inventory section');
+            section.querySelectorAll('.inventory-item').forEach(button => {
+                console.log('Binding click event for:', button.dataset.item);
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const item = button.dataset.item;
+                    console.log('Inventory item clicked:', item);
+                    
+                    button.classList.toggle('selected');
+                    
+                    // Add checkmark when selected
+                    if (button.classList.contains('selected')) {
+                        button.innerHTML = `✅ ${item}`;
+                        button.style.backgroundColor = '#48bb78';
+                        button.style.color = 'white';
+                        console.log('Item selected:', item);
+                    } else {
+                        button.innerHTML = item;
+                        button.style.backgroundColor = '';
+                        button.style.color = '';
+                        console.log('Item deselected:', item);
+                    }
+                });
+            });
         }
 
         populatePackingList(campsite) {
@@ -532,6 +671,74 @@
                 
                 .activity-tag {
                     transition: transform 0.2s ease;
+                }
+                
+                .interactive-button {
+                    background: #e2e8f0;
+                    border: 2px solid #cbd5e0;
+                    border-radius: 8px;
+                    padding: 0.75rem 1rem;
+                    margin: 0.25rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+                
+                .interactive-button:hover {
+                    background: #cbd5e0;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                }
+                
+                .interactive-button.active {
+                    background: #4299e1;
+                    color: white;
+                    border-color: #3182ce;
+                }
+                
+                .interactive-button.selected {
+                    background: #48bb78 !important;
+                    color: white !important;
+                    border-color: #38a169;
+                }
+                
+                .inventory-section {
+                    margin: 1rem 0;
+                    padding: 1rem;
+                    background: #f7fafc;
+                    border-radius: 8px;
+                    border-left: 4px solid #4299e1;
+                }
+                
+                .inventory-section h5 {
+                    margin: 0 0 0.75rem 0;
+                    color: #2d3748;
+                    font-size: 1rem;
+                }
+                
+                .inventory-items {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
+                }
+                
+                #activityInventory {
+                    margin-top: 2rem;
+                    padding: 1rem;
+                    background: white;
+                    border-radius: 8px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                }
+                
+                #activityInventory h4 {
+                    margin: 0 0 1rem 0;
+                    color: #2d3748;
+                    border-bottom: 2px solid #e2e8f0;
+                    padding-bottom: 0.5rem;
                 }
             `;
             document.head.appendChild(style);

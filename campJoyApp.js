@@ -6,6 +6,7 @@ import { SearchFilterController } from './searchFilterController.js';
 import { PackingListGenerator } from './packingListGenerator.js';
 import { DetailViewController } from './detailViewController.js';
 import { UIInteractions } from './uiInteractions.js';
+import { ActivityInventoryController } from './controllers/ActivityInventoryController.js';
 
 export class CampJoyApp {
     constructor(campsitesData, packingListsData, activityPackingSuggestions) {
