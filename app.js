@@ -1,9 +1,3 @@
-
-
-
-
-
-
 // CampJoy - Main Application
 class CampJoyApp {
     constructor() {
@@ -22,8 +16,6 @@ class CampJoyApp {
         this.renderCampsites();
         this.addLoadingAnimation();
     }
-
-
 
     bindEvents() {
         // Search functionality
