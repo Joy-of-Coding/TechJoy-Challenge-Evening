@@ -288,6 +288,10 @@ body {
     gap: 2rem;
 }
 
+.detail-section.full-width {
+  grid-column: 1 / -1;
+}
+
 .detail-section {
     background: #f7fafc;
     padding: 1.5rem;
