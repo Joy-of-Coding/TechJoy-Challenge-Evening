@@ -65,11 +65,13 @@
 
         setSearchTerm(term) {
             this.searchTerm = term.toLowerCase();
+            this.currentPage = 1; // Reset to first page when searching
             this.applyFilters();
         }
 
         setFilter(filter) {
             this.currentFilter = filter;
+            this.currentPage = 1; // Reset to first page when changing filters
             this.applyFilters();
         }
 
