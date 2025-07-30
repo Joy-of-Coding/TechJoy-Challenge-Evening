@@ -6,7 +6,7 @@ const campsitesData = [
         "location": "Rocky Mountain National Park, Colorado",
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.8,
-        "price": "$25/night",
+        "price": "25/night",
         "capacity": "Up to 6 people",
         "description": "Nestled beside the pristine Crystal Lake, this campground offers stunning mountain views and excellent fishing opportunities. The crystal-clear waters reflect the surrounding peaks, creating a picture-perfect camping experience.",
         "amenities": [
@@ -35,7 +35,7 @@ const campsitesData = [
         "location": "Mount Rainier National Park, Washington",
         "image": "https://assets.milestoneinternet.com/cdn-cgi/image/f=auto/aramark-parent/yosemite-national-park/site-images/climber-with-helmet-and-gear-ascends-a-steep-rock-face-yosemite-national-park-lodging-and-activities-california-united-states.jpg?cropY=534&cropW=4000&cropH=1460&width=800&height=292",
         "rating": 4.9,
-        "price": "$30/night",
+        "price": "30/night",
         "capacity": "Up to 4 people",
         "description": "High-altitude camping at the base of majestic peaks. This campsite offers challenging hiking trails, breathtaking vistas, and the opportunity to experience alpine ecosystems up close.",
         "amenities": [
@@ -63,7 +63,7 @@ const campsitesData = [
         "location": "Redwood National Park, California",
         "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
         "rating": 4.7,
-        "price": "$20/night",
+        "price": "20/night",
         "capacity": "Up to 8 people",
         "description": "Immerse yourself in the ancient redwood forest. Towering trees create a natural cathedral, while the forest floor teems with diverse wildlife and plant life.",
         "amenities": [
@@ -91,7 +91,7 @@ const campsitesData = [
         "location": "Big Sur, California",
         "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
         "rating": 4.6,
-        "price": "$35/night",
+        "price": "35/night",
         "capacity": "Up to 6 people",
         "description": "Oceanfront camping with spectacular sunset views. The sound of crashing waves and salty ocean breeze create the perfect beach camping experience.",
         "amenities": [
@@ -119,7 +119,7 @@ const campsitesData = [
         "location": "Glacier National Park, Montana",
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.9,
-        "price": "$28/night",
+        "price": "28/night",
         "capacity": "Up to 5 people",
         "description": "Perched above the stunning Emerald Lake, this campsite offers panoramic views of glacier-carved valleys and crystal-clear alpine waters.",
         "amenities": [
@@ -147,7 +147,7 @@ const campsitesData = [
         "location": "Appalachian Trail, Virginia",
         "image": "https://www.simplyawesometrips.com/wp-content/uploads/2024/12/wildflowers-upper-hawksbill-trail-shenandoah-national-park1.jpg",
         "rating": 4.5,
-        "price": "$15/night",
+        "price": "15/night",
         "capacity": "Up to 3 people",
         "description": "High-elevation camping along the famous Appalachian Trail. Experience the thrill of mountain camping with stunning ridge-top views and challenging terrain.",
         "amenities": [
@@ -174,7 +174,7 @@ const campsitesData = [
         "location": "Olympic National Park, Washington",
         "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
         "rating": 4.8,
-        "price": "$22/night",
+        "price": "22/night",
         "capacity": "Up to 7 people",
         "description": "Ancient temperate rainforest camping surrounded by moss-covered trees and fern-covered forest floors. Experience the magic of the Pacific Northwest.",
         "amenities": [
@@ -202,7 +202,7 @@ const campsitesData = [
         "location": "Florida Keys, Florida",
         "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
         "rating": 4.4,
-        "price": "$40/night",
+        "price": "40/night",
         "capacity": "Up to 6 people",
         "description": "Tropical beach camping with coral reef access. Crystal clear waters and white sand beaches make this a paradise for water enthusiasts.",
         "amenities": [
@@ -230,7 +230,7 @@ const campsitesData = [
         "location": "Adirondack Mountains, New York",
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.7,
-        "price": "$32/night",
+        "price": "32/night",
         "capacity": "Up to 8 people",
         "description": "Peaceful lakeside camping in the heart of the Adirondacks. Perfect for families seeking a quiet retreat with excellent fishing and boating opportunities.",
         "amenities": [
@@ -258,7 +258,7 @@ const campsitesData = [
         "location": "Grand Teton National Park, Wyoming",
         "image": "https://images.squarespace-cdn.com/content/v1/61eb640f60360a71b6ced4e7/a8c60ae8-71ac-407d-b89a-8f78995a539a/IMG_4977.jpg",
         "rating": 4.9,
-        "price": "$35/night",
+        "price": "35/night",
         "capacity": "Up to 4 people",
         "description": "High-altitude camping with spectacular views of the Teton Range. Experience the raw beauty of the Rocky Mountains in this pristine alpine setting.",
         "amenities": [
@@ -286,7 +286,7 @@ const campsitesData = [
         "location": "Yosemite National Park, California",
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.9,
-        "price": "$26/night",
+        "price": "26/night",
         "capacity": "Up to 6 people",
         "description": "Iconic camping in the heart of Yosemite Valley with stunning views of El Capitan and Half Dome. Experience world-class rock climbing, hiking, and breathtaking waterfalls.",
         "amenities": [
@@ -314,7 +314,7 @@ const campsitesData = [
         "location": "Acadia National Park, Maine",
         "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
         "rating": 4.7,
-        "price": "$22/night",
+        "price": "22/night",
         "capacity": "Up to 6 people",
         "description": "Coastal camping on Mount Desert Island with dramatic ocean views, granite peaks, and pristine lakes. Perfect for exploring the rugged Maine coastline.",
         "amenities": [
@@ -342,7 +342,7 @@ const campsitesData = [
         "location": "Great Smoky Mountains National Park, Tennessee",
         "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
         "rating": 4.6,
-        "price": "$17/night",
+        "price": "17/night",
         "capacity": "Up to 6 people",
         "description": "Misty mountain camping in America's most visited national park. Experience the rich biodiversity, historic cabins, and stunning fall colors.",
         "amenities": [
@@ -370,7 +370,7 @@ const campsitesData = [
         "location": "Lake Tahoe, Nevada",
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.8,
-        "price": "$35/night",
+        "price": "35/night",
         "capacity": "Up to 8 people",
         "description": "Crystal clear alpine lake camping with stunning mountain views. Enjoy water sports, hiking, and year-round outdoor activities in this pristine setting.",
         "amenities": [
@@ -398,7 +398,7 @@ const campsitesData = [
         "location": "Shenandoah National Park, Virginia",
         "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
         "rating": 4.5,
-        "price": "$20/night",
+        "price": "20/night",
         "capacity": "Up to 6 people",
         "description": "Blue Ridge Mountains camping with panoramic views and abundant wildlife. Experience the famous Skyline Drive and cascading waterfalls.",
         "amenities": [
@@ -426,7 +426,7 @@ const campsitesData = [
         "location": "Crater Lake National Park, Oregon",
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.9,
-        "price": "$21/night",
+        "price": "21/night",
         "capacity": "Up to 6 people",
         "description": "Camping beside the deepest lake in America with its stunning blue waters. Experience volcanic landscapes and pristine wilderness.",
         "amenities": [
@@ -454,7 +454,7 @@ const campsitesData = [
         "location": "Everglades National Park, Florida",
         "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
         "rating": 4.4,
-        "price": "$16/night",
+        "price": "16/night",
         "capacity": "Up to 6 people",
         "description": "Unique wetland camping in America's largest subtropical wilderness. Experience alligators, exotic birds, and the mysterious River of Grass.",
         "amenities": [
@@ -482,7 +482,7 @@ const campsitesData = [
         "location": "Zion National Park, Utah",
         "image": "https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=600&fit=crop",
         "rating": 4.8,
-        "price": "$20/night",
+        "price": "20/night",
         "capacity": "Up to 6 people",
         "description": "Dramatic red rock canyon camping with towering sandstone cliffs. Experience world-famous hiking trails and stunning desert landscapes.",
         "amenities": [
@@ -510,7 +510,7 @@ const campsitesData = [
         "location": "Glacier National Park, Montana",
         "image": "https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=600&fit=crop",
         "rating": 4.9,
-        "price": "$23/night",
+        "price": "23/night",
         "capacity": "Up to 6 people",
         "description": "Alpine camping in the Crown of the Continent with pristine lakes, glaciers, and abundant wildlife including grizzly bears.",
         "amenities": [
@@ -538,7 +538,7 @@ const campsitesData = [
         "location": "Cape Cod National Seashore, Massachusetts",
         "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
         "rating": 4.6,
-        "price": "$28/night",
+        "price": "28/night",
         "capacity": "Up to 6 people",
         "description": "Coastal camping on the historic Cape Cod peninsula with sandy beaches, dunes, and charming New England atmosphere.",
         "amenities": [
@@ -566,7 +566,7 @@ const campsitesData = [
         "location": "Denali National Park, Alaska",
         "image": "https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=600&fit=crop",
         "rating": 4.7,
-        "price": "$27/night",
+        "price": "27/night",
         "capacity": "Up to 6 people",
         "description": "Wilderness camping in the shadow of North America's highest peak. Experience the vast Alaskan wilderness and abundant wildlife.",
         "amenities": [
@@ -594,7 +594,7 @@ const campsitesData = [
         "location": "Hawaii Volcanoes National Park, Hawaii",
         "image": "https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=600&fit=crop",
         "rating": 4.5,
-        "price": "$15/night",
+        "price": "15/night",
         "capacity": "Up to 6 people",
         "description": "Unique volcanic camping experience with active lava flows, steam vents, and dramatic landscapes shaped by volcanic activity.",
         "amenities": [
@@ -622,7 +622,7 @@ const campsitesData = [
         "location": "Boundary Waters Canoe Area, Minnesota",
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.8,
-        "price": "$18/night",
+        "price": "18/night",
         "capacity": "Up to 4 people",
         "description": "Remote wilderness camping in a pristine lake district with over 1,000 lakes and streams. Perfect for canoeing and fishing adventures.",
         "amenities": [
@@ -650,7 +650,7 @@ const campsitesData = [
         "location": "Big Bend National Park, Texas",
         "image": "https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=600&fit=crop",
         "rating": 4.6,
-        "price": "$16/night",
+        "price": "16/night",
         "capacity": "Up to 6 people",
         "description": "Desert camping in the remote Chihuahuan Desert with dramatic canyons, the Rio Grande River, and stunning night skies.",
         "amenities": [
@@ -678,7 +678,7 @@ const campsitesData = [
         "location": "Olympic National Park, Washington",
         "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
         "rating": 4.7,
-        "price": "$20/night",
+        "price": "20/night",
         "capacity": "Up to 6 people",
         "description": "Wild Pacific coast camping with dramatic sea stacks, tide pools, and pristine beaches. Experience the rugged Washington coastline.",
         "amenities": [
@@ -706,7 +706,7 @@ const campsitesData = [
         "location": "Adirondack Park, New York",
         "image": "https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=600&fit=crop",
         "rating": 4.5,
-        "price": "$22/night",
+        "price": "22/night",
         "capacity": "Up to 6 people",
         "description": "Mountain camping in the largest protected area in the contiguous United States. Experience 46 high peaks and pristine wilderness.",
         "amenities": [
@@ -734,7 +734,7 @@ const campsitesData = [
         "location": "Pictured Rocks National Lakeshore, Michigan",
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.6,
-        "price": "$20/night",
+        "price": "20/night",
         "capacity": "Up to 6 people",
         "description": "Great Lakes camping with stunning sandstone cliffs, waterfalls, and crystal clear waters. Experience the beauty of Lake Superior.",
         "amenities": [
@@ -762,7 +762,7 @@ const campsitesData = [
         "location": "Redwood National and State Parks, California",
         "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
         "rating": 4.8,
-        "price": "$35/night",
+        "price": "35/night",
         "capacity": "Up to 8 people",
         "description": "Ancient redwood forest camping with the world's tallest trees. Experience the magic of the coastal redwood ecosystem.",
         "amenities": [
@@ -790,7 +790,7 @@ const campsitesData = [
         "location": "Acadia National Park, Maine",
         "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
         "rating": 4.7,
-        "price": "$25/night",
+        "price": "25/night",
         "capacity": "Up to 6 people",
         "description": "Rocky coast camping with dramatic ocean views and granite peaks. Experience the rugged beauty of the Maine coastline.",
         "amenities": [
@@ -818,7 +818,7 @@ const campsitesData = [
         "location": "Rocky Mountain National Park, Colorado",
         "image": "https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=600&fit=crop",
         "rating": 4.9,
-        "price": "$26/night",
+        "price": "26/night",
         "capacity": "Up to 6 people",
         "description": "Alpine camping in the heart of the Rockies with pristine lakes, wildflowers, and abundant wildlife including elk and moose.",
         "amenities": [
@@ -846,7 +846,7 @@ const campsitesData = [
         "location": "Bahia Honda State Park, Florida",
         "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
         "rating": 4.5,
-        "price": "$36/night",
+        "price": "36/night",
         "capacity": "Up to 6 people",
         "description": "Tropical island camping with crystal clear waters, coral reefs, and white sand beaches. Experience the laid-back Keys lifestyle.",
         "amenities": [
@@ -874,7 +874,7 @@ const campsitesData = [
         "location": "Saguaro National Park, Arizona",
         "image": "https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=600&fit=crop",
         "rating": 4.4,
-        "price": "$20/night",
+        "price": "20/night",
         "capacity": "Up to 6 people",
         "description": "Sonoran Desert camping surrounded by iconic saguaro cacti. Experience the unique desert ecosystem and stunning sunsets.",
         "amenities": [
@@ -902,7 +902,7 @@ const campsitesData = [
         "location": "Carlsbad Caverns National Park, New Mexico",
         "image": "https://images.unsplash.com/photo-1464822759844-d150baec0134?w=800&h=600&fit=crop",
         "rating": 4.6,
-        "price": "$15/night",
+        "price": "15/night",
         "capacity": "Up to 6 people",
         "description": "High desert camping with spectacular cave systems and dramatic landscapes. Experience the mysterious underground world.",
         "amenities": [
@@ -930,7 +930,7 @@ const campsitesData = [
         "location": "Chequamegon-Nicolet National Forest, Wisconsin",
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.5,
-        "price": "$18/night",
+        "price": "18/night",
         "capacity": "Up to 6 people",
         "description": "Northwoods camping with pristine lakes, dense forests, and abundant wildlife. Experience the peaceful beauty of northern Wisconsin.",
         "amenities": [
@@ -958,7 +958,7 @@ const campsitesData = [
         "location": "Cape Perpetua Scenic Area, Oregon",
         "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
         "rating": 4.7,
-        "price": "$24/night",
+        "price": "24/night",
         "capacity": "Up to 6 people",
         "description": "Pacific coast camping with dramatic sea cliffs, tide pools, and old-growth forests. Experience the wild Oregon coastline.",
         "amenities": [
