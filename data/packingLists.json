@@ -1,0 +1,25 @@
+{
+  "lake": {
+    "essentials": [
+      "Tent",
+      "Sleeping bags",
+      "Cooler"
+    ],
+    "water_activities": [
+      "Swimsuits",
+      "Life jackets"
+    ]
+  },
+  "mountain": {
+    "essentials": [
+      "Tent",
+      "Warm clothing",
+      "Flashlights"
+    ],
+    "hiking": [
+      "Hiking boots",
+      "Trail maps",
+      "Compass"
+    ]
+  }
+}

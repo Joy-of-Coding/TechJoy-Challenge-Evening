@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "Crystal Lake Campground",
+    "location": "Rocky Mountain National Park, Colorado",
+    "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
+    "rating": 4.8,
+    "price": "$25/night",
+    "capacity": "Up to 6 people",
+    "description": "Nestled beside the pristine Crystal Lake...",
+    "amenities": [
+      "Boat ramp",
+      "Fishing dock",
+      "Clean restrooms"
+    ],
+    "activities": [
+      "Fishing",
+      "Boating",
+      "Swimming"
+    ],
+    "type": "lake",
+    "tags": [
+      "lake",
+      "fishing",
+      "boating",
+      "swimming"
+    ]
+  }
+]
