@@ -48,7 +48,7 @@
             this.currentFilter = 'all';
             this.searchTerm = '';
             this.currentPage = 1;
-            this.cardsPerPage = 12;
+            this.cardsPerPage = 9;
         }
 
         getAllCampsites() {
@@ -173,8 +173,8 @@
                 return;
             }
 
-            // Update grid class based on cards per page (default to 12)
-            this.updateGridLayout(paginationData?.cardsPerPage || 12);
+            // Update grid class based on cards per page (default to 9)
+            this.updateGridLayout(paginationData?.cardsPerPage || 9);
 
             this.gridElement.innerHTML = campsites.map(campsite =>
                 this.createCampsiteCard(campsite)
@@ -190,15 +190,15 @@
 
         updateGridLayout(cardsPerPage) {
             // Remove existing grid classes
-            this.gridElement.classList.remove('grid-9', 'grid-12', 'grid-20');
+            this.gridElement.classList.remove('grid-6', 'grid-9', 'grid-15');
 
             // Add appropriate grid class
-            if (cardsPerPage === 9) {
+            if (cardsPerPage === 6) {
+                this.gridElement.classList.add('grid-6');
+            } else if (cardsPerPage === 9) {
                 this.gridElement.classList.add('grid-9');
-            } else if (cardsPerPage === 12) {
-                this.gridElement.classList.add('grid-12');
-            } else if (cardsPerPage === 20) {
-                this.gridElement.classList.add('grid-20');
+            } else if (cardsPerPage === 15) {
+                this.gridElement.classList.add('grid-15');
             }
         }
 
@@ -857,8 +857,8 @@
             this.addDynamicStyles();
             this.addMicroInteractions();
 
-            // Set initial grid layout to 12 cards per page
-            this.modules.campsiteRenderer.updateGridLayout(12);
+            // Set initial grid layout to 9 cards per page
+            this.modules.campsiteRenderer.updateGridLayout(9);
 
             // Show loading, then render campsites
             this.modules.campsiteRenderer.showLoading();

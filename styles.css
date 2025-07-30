@@ -133,28 +133,96 @@ body {
     color: white;
 }
 
-/* Campsites Grid */
+
+
+/* Responsive grid layouts - fixed card sizes with adaptive columns */
 .campsites-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 2rem;
     margin-bottom: 3rem;
+    justify-content: center;
+    padding: 0 2rem;
 }
 
 /* Grid layouts for different card counts - fixed card sizes */
+.campsites-grid.grid-6 {
+    grid-template-columns: repeat(3, 350px);
+    justify-content: center;
+}
+
 .campsites-grid.grid-9 {
     grid-template-columns: repeat(3, 350px);
     justify-content: center;
 }
 
-.campsites-grid.grid-12 {
-    grid-template-columns: repeat(4, 350px);
+.campsites-grid.grid-15 {
+    grid-template-columns: repeat(3, 350px);
     justify-content: center;
 }
 
-.campsites-grid.grid-20 {
-    grid-template-columns: repeat(5, 350px);
-    justify-content: center;
+/* Responsive breakpoints for different screen sizes */
+@media (max-width: 1200px) {
+
+    .campsites-grid.grid-6,
+    .campsites-grid.grid-9,
+    .campsites-grid.grid-15 {
+        grid-template-columns: repeat(2, 350px);
+    }
+}
+
+@media (max-width: 800px) {
+
+    .campsites-grid.grid-6,
+    .campsites-grid.grid-9,
+    .campsites-grid.grid-15 {
+        grid-template-columns: repeat(1, 350px);
+    }
+}
+
+/* Responsive breakpoints for different screen sizes */
+@media (max-width: 1600px) {
+    .campsites-grid {
+        max-width: 1400px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .campsites-grid {
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .campsites-grid {
+        max-width: 1000px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .campsites-grid {
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 800px) {
+    .campsites-grid {
+        max-width: 600px;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .campsites-grid {
+        max-width: 400px;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .campsites-grid {
+        max-width: 350px;
+        padding: 0 0.5rem;
+    }
 }
 
 .campsite-card {
@@ -384,9 +452,7 @@ body {
         font-size: 2rem;
     }
 
-    .campsites-grid {
-        grid-template-columns: 1fr;
-    }
+
 
     .detail-header {
         grid-template-columns: 1fr;
