@@ -173,7 +173,7 @@
                 return;
             }
 
-            // Update grid class based on cards per page
+            // Update grid class based on cards per page (default to 12)
             this.updateGridLayout(paginationData?.cardsPerPage || 12);
 
             this.gridElement.innerHTML = campsites.map(campsite =>
@@ -856,6 +856,9 @@
         startApp() {
             this.addDynamicStyles();
             this.addMicroInteractions();
+
+            // Set initial grid layout to 12 cards per page
+            this.modules.campsiteRenderer.updateGridLayout(12);
 
             // Show loading, then render campsites
             this.modules.campsiteRenderer.showLoading();

@@ -141,51 +141,20 @@ body {
     margin-bottom: 3rem;
 }
 
-/* Grid layouts for different card counts */
+/* Grid layouts for different card counts - fixed card sizes */
 .campsites-grid.grid-9 {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 350px);
+    justify-content: center;
 }
 
 .campsites-grid.grid-12 {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 350px);
+    justify-content: center;
 }
 
 .campsites-grid.grid-20 {
-    grid-template-columns: repeat(5, 1fr);
-}
-
-/* Responsive grid adjustments */
-@media (max-width: 1200px) {
-    .campsites-grid.grid-20 {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (max-width: 992px) {
-
-    .campsites-grid.grid-9,
-    .campsites-grid.grid-12,
-    .campsites-grid.grid-20 {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-
-    .campsites-grid.grid-9,
-    .campsites-grid.grid-12,
-    .campsites-grid.grid-20 {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 480px) {
-
-    .campsites-grid.grid-9,
-    .campsites-grid.grid-12,
-    .campsites-grid.grid-20 {
-        grid-template-columns: 1fr;
-    }
+    grid-template-columns: repeat(5, 350px);
+    justify-content: center;
 }
 
 .campsite-card {
