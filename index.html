@@ -63,10 +63,16 @@
 
             <section id="campsiteDetail" class="campsite-detail hidden">
                 <div class="detail-container">
-                    <button class="back-btn" id="backBtn">
-                        <i class="fas fa-arrow-left"></i>
-                        Back to Campsites
-                    </button>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <button class="back-btn" id="backBtn" type="button" aria-label="Back to Campsites">
+                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                            Back to Campsites
+                        </button>
+                        <button class="print-btn" id="printBtn" type="button" aria-label="Print or Save Campsite Details">
+                            <i class="fas fa-print" aria-hidden="true"></i>
+                            Print / Save
+                        </button>
+                    </div>
 
                     <div class="detail-content">
                         <div class="detail-header">
@@ -123,6 +129,14 @@
     <script src="packingListData.js"></script>
     <script src="activityPackingSuggestions.js"></script>
     <script src="main-classic.js"></script>
+
+<!-- Add this before the closing </body> tag in index.html -->
+<script>
+    document.getElementById('printBtn').addEventListener('click', function () {
+        window.print();
+    });
+</script>
+
 </body>
 
 </html>
