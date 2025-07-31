@@ -436,6 +436,11 @@ body {
     color: #38a169;
 }
 
+/* Deactive 'accordian' data */
+.activity-gear-container {
+  display: none !important;
+}
+
 /* Collapsible Section Styles */
 .section-header {
     display: flex;
