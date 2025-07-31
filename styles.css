@@ -441,6 +441,32 @@ body {
     user-select: none;
 }
 
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.item-count {
+    background: #38a169;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    min-width: 20px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(56, 161, 105, 0.2);
+}
+
+.section-header:hover .item-count {
+    background: #2f855a;
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(56, 161, 105, 0.3);
+}
+
 .section-header:hover {
     background: rgba(56, 161, 105, 0.05);
     transform: translateX(4px);

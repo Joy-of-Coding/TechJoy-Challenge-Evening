@@ -629,6 +629,8 @@
 
         populateAmenities(campsite) {
             const amenitiesList = document.getElementById('detailAmenities');
+            const amenitiesCount = document.getElementById('amenitiesCount');
+
             if (amenitiesList && campsite.amenities) {
                 amenitiesList.innerHTML = campsite.amenities.map(amenity =>
                     `<div class="amenity-item">
@@ -636,11 +638,20 @@
                         <span>${amenity}</span>
                     </div>`
                 ).join('');
+
+                // Update count
+                if (amenitiesCount) {
+                    amenitiesCount.textContent = campsite.amenities.length;
+                }
+            } else if (amenitiesCount) {
+                amenitiesCount.textContent = '0';
             }
         }
 
         populateActivities(campsite) {
             const activitiesList = document.getElementById('detailActivities');
+            const activitiesCount = document.getElementById('activitiesCount');
+
             if (activitiesList && campsite.activities) {
                 // Render interactive activity buttons instead of static items
                 activitiesList.innerHTML = campsite.activities.map(activity =>
@@ -650,8 +661,15 @@
                     </button>`
                 ).join('');
 
+                // Update count
+                if (activitiesCount) {
+                    activitiesCount.textContent = campsite.activities.length;
+                }
+
                 // Bind click events to activity buttons
                 this.bindActivityButtonEvents(campsite);
+            } else if (activitiesCount) {
+                activitiesCount.textContent = '0';
             }
         }
 
@@ -781,10 +799,29 @@
 
         populatePackingList(campsite) {
             const packingListElement = document.getElementById('detailPackingList');
+            const packingCount = document.getElementById('packingCount');
+
             if (packingListElement && this.packingListGenerator) {
                 const packingData = this.packingListGenerator.generatePackingList(campsite);
                 const packingHTML = this.packingListGenerator.renderPackingListHTML(packingData);
                 packingListElement.innerHTML = packingHTML;
+
+                // Calculate total items across all categories
+                let totalItems = 0;
+                if (packingData && typeof packingData === 'object') {
+                    Object.values(packingData).forEach(category => {
+                        if (Array.isArray(category)) {
+                            totalItems += category.length;
+                        }
+                    });
+                }
+
+                // Update count
+                if (packingCount) {
+                    packingCount.textContent = totalItems;
+                }
+            } else if (packingCount) {
+                packingCount.textContent = '0';
             }
         }
 
@@ -821,7 +858,7 @@
 
         initializeCollapsibleSections() {
             const sectionHeaders = document.querySelectorAll('.section-header');
-            
+
             sectionHeaders.forEach(header => {
                 header.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -844,16 +881,16 @@
         toggleSection(header) {
             const targetId = header.getAttribute('data-target');
             const content = document.getElementById(targetId);
-            
+
             if (!content) return;
 
             const isExpanded = header.classList.contains('expanded');
-            
+
             if (isExpanded) {
                 // Collapse the section
                 header.classList.remove('expanded');
                 content.classList.remove('expanded');
-                
+
                 // Add a small delay to ensure smooth animation
                 setTimeout(() => {
                     content.style.maxHeight = '0';
@@ -862,11 +899,11 @@
                 // Expand the section
                 header.classList.add('expanded');
                 content.classList.add('expanded');
-                
+
                 // Calculate the actual height for smooth animation
                 const scrollHeight = content.scrollHeight;
                 content.style.maxHeight = scrollHeight + 'px';
-                
+
                 // Reset max-height after animation completes
                 setTimeout(() => {
                     if (content.classList.contains('expanded')) {
