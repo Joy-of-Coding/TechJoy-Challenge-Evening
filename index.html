@@ -56,8 +56,40 @@
             </section>
 
             <section class="campsites-section">
+                <div class="display-controls">
+                    <div class="display-options">
+                        <label>Cards per page:</label>
+                        <div class="cards-selector-group">
+                            <button class="card-option" data-value="6">6</button>
+                            <div class="option-divider"></div>
+                            <button class="card-option active" data-value="9">9</button>
+                            <div class="option-divider"></div>
+                            <button class="card-option" data-value="15">15</button>
+                        </div>
+                    </div>
+                    <div class="results-info">
+                        <span id="resultsCount">Showing 0 of 0 campsites</span>
+                    </div>
+                </div>
+
                 <div id="campsitesGrid" class="campsites-grid">
                     <!-- Campsites will be dynamically loaded here -->
+                </div>
+
+                <div class="pagination-container">
+                    <div class="pagination">
+                        <button id="prevPage" class="pagination-btn" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                            Previous
+                        </button>
+                        <div class="page-numbers" id="pageNumbers">
+                            <!-- Page numbers will be generated here -->
+                        </div>
+                        <button id="nextPage" class="pagination-btn">
+                            Next
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
                 </div>
             </section>
 

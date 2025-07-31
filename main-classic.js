@@ -2,7 +2,7 @@
 // This version doesn't use import/export and can be loaded with regular <script> tags
 
 // All classes will be attached to window object for global access
-(function() {
+(function () {
     'use strict';
 
     // EventManager - Centralized event handling
@@ -47,6 +47,8 @@
             this.filteredCampsites = [...this.campsites];
             this.currentFilter = 'all';
             this.searchTerm = '';
+            this.currentPage = 1;
+            this.cardsPerPage = 9;
         }
 
         getAllCampsites() {
@@ -63,11 +65,13 @@
 
         setSearchTerm(term) {
             this.searchTerm = term.toLowerCase();
+            this.currentPage = 1; // Reset to first page when searching
             this.applyFilters();
         }
 
         setFilter(filter) {
             this.currentFilter = filter;
+            this.currentPage = 1; // Reset to first page when changing filters
             this.applyFilters();
         }
 
@@ -87,8 +91,13 @@
             });
 
             eventManager.emit('campsites:filtered', {
-                campsites: this.filteredCampsites,
-                hasResults: this.filteredCampsites.length > 0
+                campsites: this.getPaginatedCampsites(),
+                allCampsites: this.filteredCampsites,
+                hasResults: this.filteredCampsites.length > 0,
+                currentPage: this.currentPage,
+                totalPages: this.getTotalPages(),
+                totalCampsites: this.getTotalCampsites(),
+                cardsPerPage: this.cardsPerPage
             });
         }
 
@@ -98,6 +107,39 @@
 
         getSearchTerm() {
             return this.searchTerm;
+        }
+
+        setCardsPerPage(cardsPerPage) {
+            this.cardsPerPage = parseInt(cardsPerPage);
+            this.currentPage = 1; // Reset to first page when changing cards per page
+            this.applyFilters();
+        }
+
+        setCurrentPage(page) {
+            this.currentPage = page;
+            this.applyFilters();
+        }
+
+        getCurrentPage() {
+            return this.currentPage;
+        }
+
+        getCardsPerPage() {
+            return this.cardsPerPage;
+        }
+
+        getTotalPages() {
+            return Math.ceil(this.filteredCampsites.length / this.cardsPerPage);
+        }
+
+        getPaginatedCampsites() {
+            const startIndex = (this.currentPage - 1) * this.cardsPerPage;
+            const endIndex = startIndex + this.cardsPerPage;
+            return this.filteredCampsites.slice(startIndex, endIndex);
+        }
+
+        getTotalCampsites() {
+            return this.filteredCampsites.length;
         }
     }
 
@@ -115,21 +157,51 @@
 
         bindEvents() {
             eventManager.on('campsites:filtered', (data) => {
-                this.renderCampsiteGrid(data.campsites, data.hasResults);
+                const paginationData = {
+                    totalCampsites: data.totalCampsites,
+                    totalPages: data.totalPages,
+                    currentPage: data.currentPage,
+                    cardsPerPage: data.cardsPerPage
+                };
+                this.renderCampsiteGrid(data.campsites, data.hasResults, paginationData);
             });
         }
 
-        renderCampsiteGrid(campsites, hasResults = true) {
+        renderCampsiteGrid(campsites, hasResults = true, paginationData = null) {
             if (!hasResults) {
                 this.renderNoResults();
+                this.updateResultsInfo(0, 0);
+                this.renderPagination(0, 1);
                 return;
             }
+
+            // Update grid class based on cards per page (default to 9)
+            this.updateGridLayout(paginationData?.cardsPerPage || 9);
 
             this.gridElement.innerHTML = campsites.map(campsite =>
                 this.createCampsiteCard(campsite)
             ).join('');
 
             this.bindCardEvents(campsites);
+
+            if (paginationData) {
+                this.updateResultsInfo(paginationData.totalCampsites, campsites.length);
+                this.renderPagination(paginationData.totalPages, paginationData.currentPage);
+            }
+        }
+
+        updateGridLayout(cardsPerPage) {
+            // Remove existing grid classes
+            this.gridElement.classList.remove('grid-6', 'grid-9', 'grid-15');
+
+            // Add appropriate grid class
+            if (cardsPerPage === 6) {
+                this.gridElement.classList.add('grid-6');
+            } else if (cardsPerPage === 9) {
+                this.gridElement.classList.add('grid-9');
+            } else if (cardsPerPage === 15) {
+                this.gridElement.classList.add('grid-15');
+            }
         }
 
         createCampsiteCard(campsite) {
@@ -162,11 +234,13 @@
                         </div>
                         <div class="campsite-activities">
                             ${activities}
-                            ${campsite.activities.length > 3 ?
-                                `<span class="activity-tag">+${campsite.activities.length - 3} more</span>` :
-                                ''
-                            }
                         </div>
+                        ${campsite.activities.length > 3 ?
+                    `<div class="campsite-more-activities">
+                        <span class="activity-tag">+${campsite.activities.length - 3} more</span>
+                    </div>` :
+                    ''
+                }
                     </div>
                 </div>
             `;
@@ -192,6 +266,106 @@
 
         showLoading() {
             this.gridElement.innerHTML = '<div class="loading">Loading amazing campsites...</div>';
+        }
+
+        updateResultsInfo(totalCampsites, currentCount) {
+            const resultsElement = document.getElementById('resultsCount');
+            if (resultsElement) {
+                resultsElement.textContent = `Showing ${currentCount} of ${totalCampsites} campsites`;
+            }
+        }
+
+        renderPagination(totalPages, currentPage) {
+            const paginationContainer = document.getElementById('pageNumbers');
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+
+            if (!paginationContainer || totalPages <= 1) {
+                if (paginationContainer) {
+                    paginationContainer.innerHTML = '';
+                }
+                if (prevBtn) prevBtn.disabled = true;
+                if (nextBtn) nextBtn.disabled = true;
+                return;
+            }
+
+            // Update previous/next buttons
+            if (prevBtn) prevBtn.disabled = currentPage <= 1;
+            if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+
+            // Generate page numbers
+            let pageNumbersHTML = '';
+            const maxVisiblePages = 5;
+
+            if (totalPages <= maxVisiblePages) {
+                // Show all pages if total is small
+                for (let i = 1; i <= totalPages; i++) {
+                    pageNumbersHTML += this.createPageNumber(i, i === currentPage);
+                }
+            } else {
+                // Show smart pagination with ellipsis
+                if (currentPage <= 3) {
+                    // Show first 3 pages + ellipsis + last page
+                    for (let i = 1; i <= 3; i++) {
+                        pageNumbersHTML += this.createPageNumber(i, i === currentPage);
+                    }
+                    pageNumbersHTML += this.createEllipsis();
+                    pageNumbersHTML += this.createPageNumber(totalPages, false);
+                } else if (currentPage >= totalPages - 2) {
+                    // Show first page + ellipsis + last 3 pages
+                    pageNumbersHTML += this.createPageNumber(1, false);
+                    pageNumbersHTML += this.createEllipsis();
+                    for (let i = totalPages - 2; i <= totalPages; i++) {
+                        pageNumbersHTML += this.createPageNumber(i, i === currentPage);
+                    }
+                } else {
+                    // Show first page + ellipsis + current-1, current, current+1 + ellipsis + last page
+                    pageNumbersHTML += this.createPageNumber(1, false);
+                    pageNumbersHTML += this.createEllipsis();
+                    for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+                        pageNumbersHTML += this.createPageNumber(i, i === currentPage);
+                    }
+                    pageNumbersHTML += this.createEllipsis();
+                    pageNumbersHTML += this.createPageNumber(totalPages, false);
+                }
+            }
+
+            paginationContainer.innerHTML = pageNumbersHTML;
+            this.bindPaginationEvents();
+        }
+
+        createPageNumber(pageNum, isActive) {
+            return `<button class="page-number ${isActive ? 'active' : ''}" data-page="${pageNum}">${pageNum}</button>`;
+        }
+
+        createEllipsis() {
+            return `<span class="page-number ellipsis">...</span>`;
+        }
+
+        bindPaginationEvents() {
+            // Bind page number clicks
+            document.querySelectorAll('.page-number:not(.ellipsis)').forEach(button => {
+                button.addEventListener('click', () => {
+                    const page = parseInt(button.dataset.page);
+                    eventManager.emit('pagination:pageChange', page);
+                });
+            });
+
+            // Bind previous/next button clicks
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+
+            if (prevBtn) {
+                prevBtn.onclick = () => {
+                    eventManager.emit('pagination:pageChange', 'prev');
+                };
+            }
+
+            if (nextBtn) {
+                nextBtn.onclick = () => {
+                    eventManager.emit('pagination:pageChange', 'next');
+                };
+            }
         }
     }
 
@@ -238,8 +412,8 @@
 
             if (packingData.activityItems.length > 0) {
                 packingHTML += this.createCategorySection(
-                    'Activity-Specific Items', 
-                    packingData.activityItems, 
+                    'Activity-Specific Items',
+                    packingData.activityItems,
                     'star'
                 );
             }
@@ -319,10 +493,69 @@
             this.filterButtons.forEach(btn => {
                 btn.classList.remove('active');
             });
-            
+
             const activeButton = document.querySelector(`[data-filter="${activeFilter}"]`);
             if (activeButton) {
                 activeButton.classList.add('active');
+            }
+        }
+    }
+
+    // PaginationController - Handle display controls and pagination
+    class PaginationController {
+        constructor(campsiteManager) {
+            this.campsiteManager = campsiteManager;
+            this.initializeElements();
+            this.bindEvents();
+        }
+
+        initializeElements() {
+            this.cardOptions = document.querySelectorAll('.card-option');
+        }
+
+        bindEvents() {
+            // Cards per page change
+            this.cardOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    const value = e.target.dataset.value;
+                    this.handleCardsPerPageChange(value);
+                    this.updateActiveOption(value);
+                });
+            });
+
+            // Pagination events
+            eventManager.on('pagination:pageChange', (page) => {
+                this.handlePageChange(page);
+            });
+        }
+
+        updateActiveOption(selectedValue) {
+            this.cardOptions.forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.value === selectedValue) {
+                    option.classList.add('active');
+                }
+            });
+        }
+
+        handleCardsPerPageChange(cardsPerPage) {
+            this.campsiteManager.setCardsPerPage(cardsPerPage);
+        }
+
+        handlePageChange(page) {
+            if (page === 'prev') {
+                const currentPage = this.campsiteManager.getCurrentPage();
+                if (currentPage > 1) {
+                    this.campsiteManager.setCurrentPage(currentPage - 1);
+                }
+            } else if (page === 'next') {
+                const currentPage = this.campsiteManager.getCurrentPage();
+                const totalPages = this.campsiteManager.getTotalPages();
+                if (currentPage < totalPages) {
+                    this.campsiteManager.setCurrentPage(currentPage + 1);
+                }
+            } else {
+                this.campsiteManager.setCurrentPage(page);
             }
         }
     }
@@ -420,7 +653,7 @@
                         ${activity}
                     </button>`
                 ).join('');
-                
+
                 // Bind click events to activity buttons
                 this.bindActivityButtonEvents(campsite);
             }
@@ -431,7 +664,7 @@
                 button.addEventListener('click', () => {
                     const activity = button.dataset.activity;
                     button.classList.toggle('active');
-                    
+
                     if (button.classList.contains('active')) {
                         this.showActivityInventory(activity);
                         button.innerHTML = `<i class="fas fa-check"></i> ${activity}`;
@@ -447,10 +680,10 @@
             // Get inventory items for this activity
             const activityKey = activity.toLowerCase().replace(/\s+/g, '_');
             console.log('Looking for activity:', activity, 'with key:', activityKey);
-            
+
             const items = this.packingListGenerator.getActivityPackingList(activity);
             console.log('Found items:', items);
-            
+
             // If no specific items found, create some generic ones for testing
             let itemsToShow = items;
             if (items.length === 0) {
@@ -462,19 +695,13 @@
                 ];
                 console.log('Using fallback items:', itemsToShow);
             }
-            
+
             // Find or create inventory container
             let inventoryContainer = document.getElementById('activityInventory');
             if (!inventoryContainer) {
                 inventoryContainer = document.createElement('div');
                 inventoryContainer.id = 'activityInventory';
-                inventoryContainer.innerHTML = `
-                    <h4>Selected Activity Gear</h4>
-                    <button id="printButton" class="print-button" style="display: none;">
-                        <i class="fas fa-print"></i>
-                        PRINT THIS LIST
-                    </button>
-                `;
+                inventoryContainer.innerHTML = '<h4>Selected Activity Gear</h4>';
                 
                 // Insert after activities section - find the right parent
                 const activitiesSection = document.getElementById('detailActivities');
@@ -492,15 +719,15 @@
                 // Bind print button event
                 this.bindPrintButtonEvent();
             }
-            
+
             // Make sure container is visible
             inventoryContainer.style.display = 'block';
-            
+
             // Create section for this activity's items
             const section = document.createElement('div');
             section.classList.add('inventory-section');
             section.dataset.activity = activity;
-            
+
             section.innerHTML = `
                 <h5>${activity} Gear</h5>
                 <div class="inventory-items">
@@ -511,7 +738,7 @@
                     `).join('')}
                 </div>
             `;
-            
+
             inventoryContainer.appendChild(section);
             console.log('Added section for:', activity);
             this.bindInventoryItemEvents(section);
@@ -521,7 +748,7 @@
             const section = document.querySelector(`.inventory-section[data-activity="${activity}"]`);
             if (section) {
                 section.remove();
-                
+
                 // If no more sections, hide the container
                 const inventoryContainer = document.getElementById('activityInventory');
                 if (inventoryContainer && inventoryContainer.querySelectorAll('.inventory-section').length === 0) {
@@ -537,13 +764,13 @@
                 button.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     const item = button.dataset.item;
                     console.log('Inventory item clicked:', item);
-                    
+
                     button.classList.toggle('selected');
                     
-                    // Track selected items
+                    // Add checkmark when selected
                     if (button.classList.contains('selected')) {
                         this.selectedItems.add(item);
                         button.innerHTML = `✅ ${item}`;
@@ -701,7 +928,7 @@
         hideMainSections() {
             const campsitesSection = document.querySelector('.campsites-section');
             const searchSection = document.querySelector('.search-section');
-            
+
             if (campsitesSection) campsitesSection.style.display = 'none';
             if (searchSection) searchSection.style.display = 'none';
         }
@@ -709,7 +936,7 @@
         showMainSections() {
             const campsitesSection = document.querySelector('.campsites-section');
             const searchSection = document.querySelector('.search-section');
-            
+
             if (campsitesSection) campsitesSection.style.display = 'block';
             if (searchSection) searchSection.style.display = 'block';
         }
@@ -752,12 +979,18 @@
             this.modules.searchFilterController = new SearchFilterController(
                 this.modules.campsiteManager
             );
+            this.modules.paginationController = new PaginationController(
+                this.modules.campsiteManager
+            );
         }
 
         startApp() {
             this.addDynamicStyles();
             this.addMicroInteractions();
-            
+
+            // Set initial grid layout to 9 cards per page
+            this.modules.campsiteRenderer.updateGridLayout(9);
+
             // Show loading, then render campsites
             this.modules.campsiteRenderer.showLoading();
             setTimeout(() => {
@@ -938,8 +1171,8 @@
     // Initialize the application when DOM is ready
     function initializeApp() {
         try {
-            if (typeof campsitesData === 'undefined' || 
-                typeof packingListsData === 'undefined' || 
+            if (typeof campsitesData === 'undefined' ||
+                typeof packingListsData === 'undefined' ||
                 typeof activityPackingSuggestions === 'undefined') {
                 throw new Error('Required data not loaded. Make sure data files are included before main.js');
             }

@@ -1,4 +1,4 @@
-// CampJoy - Main Application
+// CampJoy - Main Application. Search criteria
 class CampJoyApp {
     constructor() {
         this.campsites = campsitesData;
