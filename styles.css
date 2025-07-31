@@ -30,8 +30,12 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.header-content {
+.header .header-content {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .logo {
@@ -397,6 +401,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    align-items: start;
 }
 
 .detail-section.full-width {
@@ -408,6 +413,15 @@ body {
     padding: 1.5rem;
     border-radius: 15px;
     border-left: 4px solid #38a169;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    align-self: start;
+    height: fit-content;
+}
+
+.detail-section:hover {
+    background: #f0f4f8;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .detail-section h3 {
@@ -422,12 +436,138 @@ body {
     color: #38a169;
 }
 
+/* Collapsible Section Styles */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+}
+
+.section-header .header-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    text-align: left;
+}
+
+.item-count {
+    background: #38a169;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    min-width: 20px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(56, 161, 105, 0.2);
+}
+
+.section-header:hover .item-count {
+    background: #2f855a;
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(56, 161, 105, 0.3);
+}
+
+.section-header:hover {
+    background: rgba(56, 161, 105, 0.05);
+    transform: translateX(4px);
+}
+
+.section-header:active {
+    transform: translateX(2px) scale(0.98);
+}
+
+.section-header h3 {
+    margin-bottom: 0;
+    transition: color 0.3s ease;
+}
+
+.section-header:hover h3 {
+    color: #38a169;
+}
+
+.collapse-arrow {
+    color: #718096;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+.section-header:hover .collapse-arrow {
+    color: #38a169;
+    transform: scale(1.1);
+}
+
+.section-header.expanded .collapse-arrow {
+    transform: rotate(90deg);
+    color: #38a169;
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(-10px);
+    position: relative;
+}
+
+.collapsible-content.expanded {
+    max-height: 2000px;
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 1rem;
+}
+
 .amenities-list,
 .activities-list,
 .packing-list {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+/* Activity Container Styles */
+.activity-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.activity-gear-container {
+    margin-left: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.activity-gear-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+.activity-gear-items .inventory-item {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.75rem;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.activity-gear-items .inventory-item:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+    transform: translateX(4px);
 }
 
 .amenity-item,
