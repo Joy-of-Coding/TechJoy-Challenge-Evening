@@ -358,6 +358,38 @@ body {
     font-size: 0.9rem;
 }
 
+/* Print/Save Button Styles */
+.print-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #2d7a46; /* Match or complement your theme */
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    height: 100%; /* Ensures vertical alignment with .back-btn */
+}
+
+.print-btn i {
+    font-size: 1.1em;
+}
+
+.print-btn:focus {
+    outline: 2px solid #1e5631;
+    outline-offset: 2px;
+}
+
+.print-btn:hover,
+.print-btn:active {
+    background-color: #256338;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
