@@ -255,12 +255,18 @@
             return `
                 <div class="packing-category">
                     <h4>${categoryName}</h4>
-                    ${items.map(item => `
-                        <div class="packing-item">
-                            <i class="fas fa-${iconClass}"></i>
-                            <span>${item}</span>
-                        </div>
-                    `).join('')}
+                    ${items.map(item =>
+                    //   `
+                    //     <div class="packing-item">
+                    //         <i class="fas fa-${iconClass}"></i>
+                    //         <span>${item}</span>
+                    //     </div>
+                    // `
+                    `<button class="interactive-button inventory-item" data-activity="${item}">
+                      <i class="fas fa-${iconClass}"></i>
+                      ${item}
+                    </button>`
+                    ).join('')}
                 </div>
             `;
         }
@@ -329,7 +335,8 @@
 
     // DetailViewController - Detail view management
     class DetailViewController {
-        constructor(packingListGenerator) {
+      constructor(packingListGenerator) {
+          // console.log('DetailViewController constructor', packingListGenerator);
             this.packingListGenerator = packingListGenerator;
             this.currentCampsite = null;
             this.detailSection = null;
@@ -466,7 +473,7 @@
                 inventoryContainer.innerHTML = '<h4>Selected Activity Gear</h4>';
                 
                 // Insert after activities section - find the right parent
-                const activitiesSection = document.getElementById('detailActivities');
+                const activitiesSection = document.getElementById('detailActivitiesAdded');
                 if (activitiesSection && activitiesSection.parentNode) {
                     activitiesSection.parentNode.insertBefore(inventoryContainer, activitiesSection.nextSibling);
                 } else {
@@ -522,7 +529,7 @@
                 console.log('Binding click event for:', button.dataset.item);
                 button.addEventListener('click', (e) => {
                     e.preventDefault();
-                    e.stopPropagation();
+                    // e.stopPropagation();
                     
                     const item = button.dataset.item;
                     console.log('Inventory item clicked:', item);

@@ -61,16 +61,24 @@ export class PackingListGenerator {
     }
 
     // Create HTML for a packing category section
-    createCategorySection(categoryName, items, iconClass) {
+  createCategorySection(categoryName, items, iconClass) {
+      console.log('Creating category section:', categoryName);
         return `
             <div class="packing-category">
                 <h4>${categoryName}</h4>
-                ${items.map(item => `
-                    <div class="packing-item">
-                        <i class="fas fa-${iconClass}"></i>
-                        <span>${item}</span>
-                    </div>
-                `).join('')}
+                ${items.map(item => {
+                  console.log('Creating button for item:', item);
+                  // `<div class="packing-item">
+                  //       <i class="fas fa-hiking"></i>
+                  //       <span>${item}</span>
+                  //   </div>'
+
+return `<button class="interactive-button activity-button" data-activity="${item}">
+                        <i class="fas fa-hiking"></i>
+                        ${activity}
+                    </button>`
+
+  }).join('')}
             </div>
         `;
     }

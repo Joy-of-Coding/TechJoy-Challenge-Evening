@@ -1,15 +1,26 @@
+(() => {
+    // This will run as soon as the file loads
+    document.body.style.border = '10px solid purple';
+})();
+
+
+
 // DetailViewController.js - Manages campsite detail view
 import { eventManager } from './eventManager.js';
 
 export class DetailViewController {
-    constructor(packingListGenerator) {
-        this.packingListGenerator = packingListGenerator;
-        this.currentCampsite = null;
-        this.detailSection = null;
-        this.backButton = null;
-        this.initializeElements();
-        this.bindEvents();
-    }
+  // In the same file, update the constructor
+constructor(packingListGenerator) {
+    document.body.style.border = '5px solid blue';
+    document.body.insertAdjacentHTML('afterbegin', '<div style="background:green;color:white;padding:10px;position:fixed;top:40px;left:0;z-index:9999">Constructor Running!</div>');
+    
+    this.packingListGenerator = packingListGenerator;
+    this.currentCampsite = null;
+    this.detailSection = null;
+    this.backButton = null;
+    this.initializeElements();
+    this.bindEvents();
+}
 
     initializeElements() {
         this.detailSection = document.getElementById('campsiteDetail');
@@ -17,8 +28,10 @@ export class DetailViewController {
     }
 
     bindEvents() {
-        // Listen for campsite selection
-        eventManager.on('campsite:selected', (campsite) => {
+      // Listen for campsite selection
+      console.log('DEBUG: bindEvents called');
+      eventManager.on('campsite:selected', (campsite) => {
+          console.log('DEBUG: campsite:selected event received', campsite);
             this.showCampsiteDetail(campsite);
         });
 
@@ -38,7 +51,8 @@ export class DetailViewController {
     }
 
     // Show campsite detail view
-    showCampsiteDetail(campsite) {
+  showCampsiteDetail(campsite) {
+    console.log('DEBUG: showCampsiteDetail called with:', campsite);
         this.currentCampsite = campsite;
         
         // Hide main sections
@@ -47,7 +61,8 @@ export class DetailViewController {
         // Show detail section
         this.detailSection.classList.remove('hidden');
         
-        // Populate content
+    // Populate content
+    console.log('DEBUG: About to call populateDetailContent');
         this.populateDetailContent(campsite);
         
         // Smooth scroll to top
@@ -75,12 +90,26 @@ export class DetailViewController {
     }
 
     // Populate detail content
-    populateDetailContent(campsite) {
+populateDetailContent(campsite) {
+    console.log('DEBUG: populateDetailContent called with:', campsite);
+    
+    // Add try-catch blocks to each populate method
+    try {
         this.populateBasicInfo(campsite);
+        console.log('DEBUG: Basic info populated');
+        
         this.populateAmenities(campsite);
+        console.log('DEBUG: Amenities populated');
+        
         this.populateActivities(campsite);
+        console.log('DEBUG: Activities populated');
+        
         this.populatePackingList(campsite);
+        console.log('DEBUG: Packing list populated');
+    } catch (error) {
+        console.error('Error in populateDetailContent:', error);
     }
+}
 
     // Populate basic campsite information
     populateBasicInfo(campsite) {
@@ -120,15 +149,89 @@ export class DetailViewController {
     }
 
     // Populate packing list
-    populatePackingList(campsite) {
-        const packingListElement = document.getElementById('detailPackingList');
-        if (packingListElement && this.packingListGenerator) {
-            const packingData = this.packingListGenerator.generatePackingList(campsite);
-            const packingHTML = this.packingListGenerator.renderPackingListHTML(packingData);
-            packingListElement.innerHTML = packingHTML;
-        }
+// ...existing code...
+populatePackingList(campsite) {
+    console.log('DEBUG: Starting populatePackingList');
+    const packingListElement = document.getElementById('detailPackingList');
+    
+    if (!packingListElement) {
+        console.error('DEBUG: Packing list element not found');
+        return;
     }
+    
+    try {
+        console.log('DEBUG: Generating packing list');
+        const packingData = this.packingListGenerator.generatePackingList(campsite);
+        const packingHTML = this.packingListGenerator.renderPackingListHTML(packingData);
+        
+        console.log('DEBUG: Setting innerHTML');
+        packingListElement.innerHTML = packingHTML;
+        
+        // Direct button binding
+        const buttons = packingListElement.getElementsByTagName('button');
+        console.log('DEBUG: Found buttons:', buttons.length);
+        
+        Array.from(buttons).forEach(button => {
+            console.log('DEBUG: Adding click handler to button:', button.textContent);
+            button.addEventListener('click', function(e) {
+                console.log('DEBUG: Button clicked:', this.textContent);
+                e.preventDefault();
+                e.stopPropagation();
+                
+                this.classList.toggle('selected');
+                if (this.classList.contains('selected')) {
+                    const originalText = this.textContent.trim();
+                    this.setAttribute('data-original-html', this.innerHTML);
+                    this.innerHTML = `✅ ${originalText}`;
+                    this.style.backgroundColor = '#48bb78';
+                    this.style.color = 'white';
+                } else {
+                    const originalHtml = this.getAttribute('data-original-html');
+                    this.innerHTML = originalHtml;
+                    this.style.backgroundColor = '';
+                    this.style.color = '';
+                }
+            });
+        });
 
+    } catch (error) {
+        console.error('DEBUG: Error in populatePackingList:', error);
+        console.error(error.stack);
+    }
+}
+// ...existing code...
+
+// bindPackingListButtonEvents(container) {
+//     console.log('Starting to bind events to container:', container);
+//     const buttons = container.querySelectorAll('.inventory-item');
+//     console.log('Found buttons:', buttons.length);
+    
+//     buttons.forEach(button => {
+//         console.log('Binding to button:', button.textContent);
+//         button.addEventListener('click', (e) => {
+//             console.log('Button clicked:', button.textContent);
+//             e.preventDefault();
+            
+//             const item = button.dataset.activity || button.dataset.item || button.textContent.trim();
+//             console.log('Item text:', item);
+            
+//             button.classList.toggle('selected');
+//             if (button.classList.contains('selected')) {
+//                 const originalHtml = button.innerHTML;
+//                 button.setAttribute('data-original-html', originalHtml);
+//                 button.innerHTML = `✅ ${item}`;
+//                 button.style.backgroundColor = '#48bb78';
+//                 button.style.color = 'white';
+//             } else {
+//                 const originalHtml = button.getAttribute('data-original-html');
+//                 button.innerHTML = originalHtml;
+//                 button.style.backgroundColor = '';
+//                 button.style.color = '';
+//             }
+//         });
+//     });
+// }
+  
     // Helper method to set element content
     setElementContent(elementId, content, attribute = 'textContent') {
         const element = document.getElementById(elementId);
