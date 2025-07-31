@@ -614,6 +614,7 @@
             this.populateAmenities(campsite);
             this.populateActivities(campsite);
             this.populatePackingList(campsite);
+            this.initializeCollapsibleSections();
         }
 
         populateBasicInfo(campsite) {
@@ -628,6 +629,8 @@
 
         populateAmenities(campsite) {
             const amenitiesList = document.getElementById('detailAmenities');
+            const amenitiesCount = document.getElementById('amenitiesCount');
+
             if (amenitiesList && campsite.amenities) {
                 amenitiesList.innerHTML = campsite.amenities.map(amenity =>
                     `<div class="amenity-item">
@@ -635,22 +638,43 @@
                         <span>${amenity}</span>
                     </div>`
                 ).join('');
+
+                // Update count
+                if (amenitiesCount) {
+                    amenitiesCount.textContent = campsite.amenities.length;
+                }
+            } else if (amenitiesCount) {
+                amenitiesCount.textContent = '0';
             }
         }
 
         populateActivities(campsite) {
             const activitiesList = document.getElementById('detailActivities');
+            const activitiesCount = document.getElementById('activitiesCount');
+
             if (activitiesList && campsite.activities) {
-                // Render interactive activity buttons instead of static items
+                // Render interactive activity buttons with collapsible gear sections
                 activitiesList.innerHTML = campsite.activities.map(activity =>
-                    `<button class="interactive-button activity-button" data-activity="${activity}">
-                        <i class="fas fa-hiking"></i>
-                        ${activity}
-                    </button>`
+                    `<div class="activity-container">
+                        <button class="interactive-button activity-button" data-activity="${activity}">
+                            <i class="fas fa-hiking"></i>
+                            ${activity}
+                        </button>
+                        <div class="activity-gear-container" data-activity="${activity}" style="display: none;">
+                            <div class="activity-gear-items"></div>
+                        </div>
+                    </div>`
                 ).join('');
+
+                // Update count
+                if (activitiesCount) {
+                    activitiesCount.textContent = campsite.activities.length;
+                }
 
                 // Bind click events to activity buttons
                 this.bindActivityButtonEvents(campsite);
+            } else if (activitiesCount) {
+                activitiesCount.textContent = '0';
             }
         }
 
@@ -673,11 +697,7 @@
 
         showActivityInventory(activity) {
             // Get inventory items for this activity
-            const activityKey = activity.toLowerCase().replace(/\s+/g, '_');
-            console.log('Looking for activity:', activity, 'with key:', activityKey);
-
             const items = this.packingListGenerator.getActivityPackingList(activity);
-            console.log('Found items:', items);
 
             // If no specific items found, create some generic ones for testing
             let itemsToShow = items;
@@ -688,64 +708,50 @@
                     `${activity} Safety Gear`,
                     `${activity} Accessories`
                 ];
-                console.log('Using fallback items:', itemsToShow);
             }
 
-            // Find or create inventory container
-            let inventoryContainer = document.getElementById('activityInventory');
-            if (!inventoryContainer) {
-                inventoryContainer = document.createElement('div');
-                inventoryContainer.id = 'activityInventory';
-                inventoryContainer.innerHTML = '<h4>Selected Activity Gear</h4>';
+            // Find the gear container for this specific activity
+            const gearContainer = document.querySelector(`.activity-gear-container[data-activity="${activity}"]`);
+            const gearItems = gearContainer.querySelector('.activity-gear-items');
 
-                // Insert after activities section - find the right parent
-                const activitiesSection = document.getElementById('detailActivities');
-                if (activitiesSection && activitiesSection.parentNode) {
-                    activitiesSection.parentNode.insertBefore(inventoryContainer, activitiesSection.nextSibling);
-                } else {
-                    // Fallback: append to detail section
-                    const detailSection = document.getElementById('campsiteDetail');
-                    if (detailSection) {
-                        detailSection.appendChild(inventoryContainer);
-                    }
-                }
-                console.log('Created inventory container');
+            if (gearContainer && gearItems) {
+                // Populate the gear items
+                gearItems.innerHTML = itemsToShow.map(item => `
+                    <button class="interactive-button inventory-item" data-item="${item}" data-activity="${activity}">
+                        ${item}
+                    </button>
+                `).join('');
+
+                // Show the container with smooth animation
+                gearContainer.style.display = 'block';
+                gearContainer.style.maxHeight = '0';
+                gearContainer.style.overflow = 'hidden';
+                gearContainer.style.transition = 'max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+
+                // Trigger the animation
+                setTimeout(() => {
+                    gearContainer.style.maxHeight = gearContainer.scrollHeight + 'px';
+                }, 10);
+
+                // Bind events to the new items
+                this.bindInventoryItemEvents(gearContainer);
             }
-
-            // Make sure container is visible
-            inventoryContainer.style.display = 'block';
-
-            // Create section for this activity's items
-            const section = document.createElement('div');
-            section.classList.add('inventory-section');
-            section.dataset.activity = activity;
-
-            section.innerHTML = `
-                <h5>${activity} Gear</h5>
-                <div class="inventory-items">
-                    ${itemsToShow.map(item => `
-                        <button class="interactive-button inventory-item" data-item="${item}" data-activity="${activity}">
-                            ${item}
-                        </button>
-                    `).join('')}
-                </div>
-            `;
-
-            inventoryContainer.appendChild(section);
-            console.log('Added section for:', activity);
-            this.bindInventoryItemEvents(section);
         }
 
         hideActivityInventory(activity) {
-            const section = document.querySelector(`.inventory-section[data-activity="${activity}"]`);
-            if (section) {
-                section.remove();
+            const gearContainer = document.querySelector(`.activity-gear-container[data-activity="${activity}"]`);
 
-                // If no more sections, hide the container
-                const inventoryContainer = document.getElementById('activityInventory');
-                if (inventoryContainer && inventoryContainer.querySelectorAll('.inventory-section').length === 0) {
-                    inventoryContainer.style.display = 'none';
-                }
+            if (gearContainer) {
+                // Animate the collapse
+                gearContainer.style.maxHeight = '0';
+                gearContainer.style.transition = 'max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+
+                // Hide after animation completes
+                setTimeout(() => {
+                    gearContainer.style.display = 'none';
+                    gearContainer.style.maxHeight = '';
+                    gearContainer.style.transition = '';
+                }, 300);
             }
         }
 
@@ -780,10 +786,29 @@
 
         populatePackingList(campsite) {
             const packingListElement = document.getElementById('detailPackingList');
+            const packingCount = document.getElementById('packingCount');
+
             if (packingListElement && this.packingListGenerator) {
                 const packingData = this.packingListGenerator.generatePackingList(campsite);
                 const packingHTML = this.packingListGenerator.renderPackingListHTML(packingData);
                 packingListElement.innerHTML = packingHTML;
+
+                // Calculate total items across all categories
+                let totalItems = 0;
+                if (packingData && typeof packingData === 'object') {
+                    Object.values(packingData).forEach(category => {
+                        if (Array.isArray(category)) {
+                            totalItems += category.length;
+                        }
+                    });
+                }
+
+                // Update count
+                if (packingCount) {
+                    packingCount.textContent = totalItems;
+                }
+            } else if (packingCount) {
+                packingCount.textContent = '0';
             }
         }
 
@@ -816,6 +841,63 @@
 
         isDetailViewVisible() {
             return this.detailSection && !this.detailSection.classList.contains('hidden');
+        }
+
+        initializeCollapsibleSections() {
+            const sectionHeaders = document.querySelectorAll('.section-header');
+
+            sectionHeaders.forEach(header => {
+                header.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.toggleSection(header);
+                });
+
+                // Add keyboard accessibility
+                header.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.toggleSection(header);
+                    }
+                });
+
+                // Set tabindex for keyboard navigation
+                header.setAttribute('tabindex', '0');
+            });
+        }
+
+        toggleSection(header) {
+            const targetId = header.getAttribute('data-target');
+            const content = document.getElementById(targetId);
+
+            if (!content) return;
+
+            const isExpanded = header.classList.contains('expanded');
+
+            if (isExpanded) {
+                // Collapse the section
+                header.classList.remove('expanded');
+                content.classList.remove('expanded');
+
+                // Add a small delay to ensure smooth animation
+                setTimeout(() => {
+                    content.style.maxHeight = '0';
+                }, 10);
+            } else {
+                // Expand the section
+                header.classList.add('expanded');
+                content.classList.add('expanded');
+
+                // Calculate the actual height for smooth animation
+                const scrollHeight = content.scrollHeight;
+                content.style.maxHeight = scrollHeight + 'px';
+
+                // Reset max-height after animation completes
+                setTimeout(() => {
+                    if (content.classList.contains('expanded')) {
+                        content.style.maxHeight = 'none';
+                    }
+                }, 400);
+            }
         }
     }
 
