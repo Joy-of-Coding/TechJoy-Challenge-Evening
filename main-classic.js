@@ -234,11 +234,13 @@
                         </div>
                         <div class="campsite-activities">
                             ${activities}
-                            ${campsite.activities.length > 3 ?
-                    `<span class="activity-tag">+${campsite.activities.length - 3} more</span>` :
+                        </div>
+                        ${campsite.activities.length > 3 ?
+                    `<div class="campsite-more-activities">
+                        <span class="activity-tag">+${campsite.activities.length - 3} more</span>
+                    </div>` :
                     ''
                 }
-                        </div>
                     </div>
                 </div>
             `;

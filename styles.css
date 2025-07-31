@@ -253,8 +253,27 @@ body {
 .campsite-name {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #2d3748;
     margin-bottom: 0.5rem;
+}
+
+.campsite-card:nth-child(4n+1) .campsite-name {
+    color: #8B7355;
+    /* Warm earth brown */
+}
+
+.campsite-card:nth-child(4n+2) .campsite-name {
+    color: #5D7A8C;
+    /* Soft water blue-gray */
+}
+
+.campsite-card:nth-child(4n+3) .campsite-name {
+    color: #6B8E6B;
+    /* Forest green */
+}
+
+.campsite-card:nth-child(4n+4) .campsite-name {
+    color: #7A7A7A;
+    /* Neutral gray */
 }
 
 .campsite-location {
@@ -284,6 +303,14 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+}
+
+.campsite-more-activities {
+    margin-top: 0.5rem;
+}
+
+.campsite-more-activities .activity-tag {
+    color: #2c7a7b;
 }
 
 .activity-tag {
