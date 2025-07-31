@@ -30,8 +30,12 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.header-content {
+.header .header-content {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .logo {
@@ -397,6 +401,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    align-items: start;
 }
 
 .detail-section.full-width {
@@ -409,6 +414,8 @@ body {
     border-radius: 15px;
     border-left: 4px solid #38a169;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    align-self: start;
+    height: fit-content;
 }
 
 .detail-section:hover {
@@ -441,11 +448,12 @@ body {
     user-select: none;
 }
 
-.header-content {
+.section-header .header-content {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     flex: 1;
+    text-align: left;
 }
 
 .item-count {
@@ -508,6 +516,7 @@ body {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
     transform: translateY(-10px);
+    position: relative;
 }
 
 .collapsible-content.expanded {
