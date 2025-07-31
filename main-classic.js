@@ -614,6 +614,7 @@
             this.populateAmenities(campsite);
             this.populateActivities(campsite);
             this.populatePackingList(campsite);
+            this.initializeCollapsibleSections();
         }
 
         populateBasicInfo(campsite) {
@@ -816,6 +817,63 @@
 
         isDetailViewVisible() {
             return this.detailSection && !this.detailSection.classList.contains('hidden');
+        }
+
+        initializeCollapsibleSections() {
+            const sectionHeaders = document.querySelectorAll('.section-header');
+            
+            sectionHeaders.forEach(header => {
+                header.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.toggleSection(header);
+                });
+
+                // Add keyboard accessibility
+                header.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.toggleSection(header);
+                    }
+                });
+
+                // Set tabindex for keyboard navigation
+                header.setAttribute('tabindex', '0');
+            });
+        }
+
+        toggleSection(header) {
+            const targetId = header.getAttribute('data-target');
+            const content = document.getElementById(targetId);
+            
+            if (!content) return;
+
+            const isExpanded = header.classList.contains('expanded');
+            
+            if (isExpanded) {
+                // Collapse the section
+                header.classList.remove('expanded');
+                content.classList.remove('expanded');
+                
+                // Add a small delay to ensure smooth animation
+                setTimeout(() => {
+                    content.style.maxHeight = '0';
+                }, 10);
+            } else {
+                // Expand the section
+                header.classList.add('expanded');
+                content.classList.add('expanded');
+                
+                // Calculate the actual height for smooth animation
+                const scrollHeight = content.scrollHeight;
+                content.style.maxHeight = scrollHeight + 'px';
+                
+                // Reset max-height after animation completes
+                setTimeout(() => {
+                    if (content.classList.contains('expanded')) {
+                        content.style.maxHeight = 'none';
+                    }
+                }, 400);
+            }
         }
     }
 
