@@ -525,6 +525,42 @@ body {
     gap: 0.5rem;
 }
 
+/* Activity Container Styles */
+.activity-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.activity-gear-container {
+    margin-left: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.activity-gear-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+.activity-gear-items .inventory-item {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.75rem;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.activity-gear-items .inventory-item:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+    transform: translateX(4px);
+}
+
 .amenity-item,
 .activity-item,
 .packing-item {
