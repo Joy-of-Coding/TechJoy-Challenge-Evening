@@ -334,6 +334,7 @@
             this.currentCampsite = null;
             this.detailSection = null;
             this.backButton = null;
+            this.selectedItems = new Set(); // Track selected items
             this.initializeElements();
             this.bindEvents();
         }
@@ -363,6 +364,8 @@
 
         showCampsiteDetail(campsite) {
             this.currentCampsite = campsite;
+            // Clear selected items when showing a new campsite
+            this.selectedItems.clear();
             this.hideMainSections();
             this.detailSection.classList.remove('hidden');
             this.populateDetailContent(campsite);
@@ -374,6 +377,8 @@
             this.detailSection.classList.add('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             this.currentCampsite = null;
+            // Clear selected items when hiding detail view
+            this.selectedItems.clear();
         }
 
         populateDetailContent(campsite) {
@@ -463,7 +468,13 @@
             if (!inventoryContainer) {
                 inventoryContainer = document.createElement('div');
                 inventoryContainer.id = 'activityInventory';
-                inventoryContainer.innerHTML = '<h4>Selected Activity Gear</h4>';
+                inventoryContainer.innerHTML = `
+                    <h4>Selected Activity Gear</h4>
+                    <button id="printButton" class="print-button" style="display: none;">
+                        <i class="fas fa-print"></i>
+                        PRINT THIS LIST
+                    </button>
+                `;
                 
                 // Insert after activities section - find the right parent
                 const activitiesSection = document.getElementById('detailActivities');
@@ -477,6 +488,9 @@
                     }
                 }
                 console.log('Created inventory container');
+                
+                // Bind print button event
+                this.bindPrintButtonEvent();
             }
             
             // Make sure container is visible
@@ -529,20 +543,139 @@
                     
                     button.classList.toggle('selected');
                     
-                    // Add checkmark when selected
+                    // Track selected items
                     if (button.classList.contains('selected')) {
+                        this.selectedItems.add(item);
                         button.innerHTML = `✅ ${item}`;
                         button.style.backgroundColor = '#48bb78';
                         button.style.color = 'white';
                         console.log('Item selected:', item);
                     } else {
+                        this.selectedItems.delete(item);
                         button.innerHTML = item;
                         button.style.backgroundColor = '';
                         button.style.color = '';
                         console.log('Item deselected:', item);
                     }
+                    
+                    // Show/hide print button based on selection
+                    this.updatePrintButtonVisibility();
                 });
             });
+        }
+
+        updatePrintButtonVisibility() {
+            const printButton = document.getElementById('printButton');
+            if (printButton) {
+                if (this.selectedItems.size > 0) {
+                    printButton.style.display = 'inline-flex';
+                } else {
+                    printButton.style.display = 'none';
+                }
+            }
+        }
+
+        bindPrintButtonEvent() {
+            const printButton = document.getElementById('printButton');
+            if (printButton) {
+                printButton.addEventListener('click', () => {
+                    this.printSelectedItems();
+                });
+            }
+        }
+
+        printSelectedItems() {
+            if (this.selectedItems.size === 0) {
+                alert('No items selected to print.');
+                return;
+            }
+
+            // Create print window content
+            const printContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>CampJoy - Selected Activity Gear</title>
+                    <style>
+                        body {
+                            font-family: 'Inter', sans-serif;
+                            margin: 40px;
+                            line-height: 1.6;
+                        }
+                        .print-header {
+                            text-align: center;
+                            border-bottom: 2px solid #4299e1;
+                            padding-bottom: 20px;
+                            margin-bottom: 30px;
+                        }
+                        .print-header h1 {
+                            color: #2d3748;
+                            margin: 0;
+                        }
+                        .print-header p {
+                            color: #718096;
+                            margin: 10px 0 0 0;
+                        }
+                        .items-list {
+                            margin-top: 30px;
+                        }
+                        .item {
+                            padding: 10px 0;
+                            border-bottom: 1px solid #e2e8f0;
+                            display: flex;
+                            align-items: center;
+                        }
+                        .item:before {
+                            content: "✓";
+                            color: #48bb78;
+                            font-weight: bold;
+                            margin-right: 15px;
+                            font-size: 18px;
+                        }
+                        .print-footer {
+                            margin-top: 40px;
+                            text-align: center;
+                            color: #718096;
+                            font-size: 14px;
+                        }
+                        @media print {
+                            body { margin: 20px; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="print-header">
+                        <h1>CampJoy - Selected Activity Gear</h1>
+                        <p>Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+                        ${this.currentCampsite ? `<p><strong>Campsite:</strong> ${this.currentCampsite.name}</p>` : ''}
+                    </div>
+                    
+                    <div class="items-list">
+                        <h2>Selected Items (${this.selectedItems.size})</h2>
+                        ${Array.from(this.selectedItems).map(item => `
+                            <div class="item">${item}</div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="print-footer">
+                        <p>Happy camping! 🏕️</p>
+                        <p>Generated by CampJoy</p>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            // Open print window
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            
+            // Wait for content to load then print
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.close();
+            };
         }
 
         populatePackingList(campsite) {
@@ -739,6 +872,33 @@
                     color: #2d3748;
                     border-bottom: 2px solid #e2e8f0;
                     padding-bottom: 0.5rem;
+                }
+                
+                .print-button {
+                    background: #4299e1;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    padding: 0.75rem 1.5rem;
+                    margin-top: 1rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
+                }
+                
+                .print-button:hover {
+                    background: #3182ce;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+                }
+                
+                .print-button:active {
+                    transform: translateY(0);
                 }
             `;
             document.head.appendChild(style);
