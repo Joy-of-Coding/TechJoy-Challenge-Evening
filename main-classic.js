@@ -1012,6 +1012,85 @@
                 itemsByCategory[category].push(itemText);
             });
 
+            // Calculate estimated heights and organize categories for pagination
+            const categories = Object.entries(itemsByCategory);
+            const firstPageCategories = [];
+            const secondPageCategories = [];
+
+            // Estimate that each category takes about 60px + (items * 30px)
+            // Ultra-aggressive first page filling - prioritize first page over second page
+            let firstPageHeight = 0;
+            const estimatedCampsiteSectionHeight = 200; // campsite info section
+            const estimatedFooterHeight = 60; // further reduced footer height
+            const maxFirstPageHeight = 750; // increased maximum height
+            const minFirstPageFill = maxFirstPageHeight * 0.85; // increased minimum to 85%
+
+            // Sort categories by size (largest first) to fill first page more efficiently
+            categories.sort((a, b) => b[1].length - a[1].length);
+
+            // First pass: fill first page as much as possible (up to 98% capacity)
+            for (const [category, items] of categories) {
+                const categoryHeight = 60 + (items.length * 30); // header + items
+
+                // Ultra-aggressive filling - use up to 98% of available space
+                if (firstPageHeight + categoryHeight <= maxFirstPageHeight * 0.98) {
+                    firstPageCategories.push([category, items]);
+                    firstPageHeight += categoryHeight;
+                } else {
+                    secondPageCategories.push([category, items]);
+                }
+            }
+
+            // Second pass: ensure minimum 85% fill by moving categories from second page
+            if (firstPageHeight < minFirstPageFill && secondPageCategories.length > 0) {
+                // Move categories from second page to first page until we reach 85% fill
+                while (firstPageHeight < minFirstPageFill && secondPageCategories.length > 0) {
+                    // Find the smallest category that could fit
+                    const smallestCategory = secondPageCategories.reduce((smallest, current) => {
+                        const currentHeight = 60 + (current[1].length * 30);
+                        const smallestHeight = 60 + (smallest[1].length * 30);
+                        return currentHeight < smallestHeight ? current : smallest;
+                    });
+
+                    const smallestHeight = 60 + (smallestCategory[1].length * 30);
+                    const remainingSpace = maxFirstPageHeight * 0.98 - firstPageHeight;
+
+                    if (smallestHeight <= remainingSpace) {
+                        // Move it to first page
+                        secondPageCategories = secondPageCategories.filter(cat => cat !== smallestCategory);
+                        firstPageCategories.push(smallestCategory);
+                        firstPageHeight += smallestHeight;
+                    } else {
+                        // If even the smallest category doesn't fit, break to avoid infinite loop
+                        break;
+                    }
+                }
+            }
+
+            // Third pass: if second page is too small, move more categories to first page
+            if (secondPageCategories.length > 0 && secondPageCategories.length < 3) {
+                // Try to fit more categories on first page even if it gets very full
+                const remainingSpace = maxFirstPageHeight * 0.98 - firstPageHeight;
+                if (remainingSpace > 80) { // If we have at least 80px remaining
+                    // Move up to 2 more categories if they fit
+                    const categoriesToMove = Math.min(2, secondPageCategories.length);
+                    for (let i = 0; i < categoriesToMove; i++) {
+                        const smallestCategory = secondPageCategories.reduce((smallest, current) => {
+                            const currentHeight = 60 + (current[1].length * 30);
+                            const smallestHeight = 60 + (smallest[1].length * 30);
+                            return currentHeight < smallestHeight ? current : smallest;
+                        });
+
+                        const smallestHeight = 60 + (smallestCategory[1].length * 30);
+                        if (smallestHeight <= remainingSpace) {
+                            secondPageCategories = secondPageCategories.filter(cat => cat !== smallestCategory);
+                            firstPageCategories.push(smallestCategory);
+                            firstPageHeight += smallestHeight;
+                        }
+                    }
+                }
+            }
+
             // Create print window content
             const printContent = `
                 <!DOCTYPE html>
@@ -1099,6 +1178,11 @@
                         
                         .packing-section {
                             margin-top: 15px;
+                        }
+                        
+                        .page-break {
+                            page-break-before: always;
+                            margin-top: 0;
                         }
                         
                         .packing-title {
@@ -1225,10 +1309,10 @@
                         </div>
                     </div>
                     
-                    <div class="packing-section">
+                                        <div class="packing-section">
                         <h3 class="packing-title">📦 Selected Packing Items</h3>
-                        ${Object.keys(itemsByCategory).length > 0 ?
-                    Object.entries(itemsByCategory).map(([category, items]) => `
+                        ${firstPageCategories.length > 0 ?
+                    firstPageCategories.map(([category, items]) => `
                                 <div class="category-section">
                                     <h4 class="category-title">${this.formatCategoryName(category)}</h4>
                                     <div class="packing-items">
@@ -1246,10 +1330,31 @@
                         `}
                     </div>
                     
-                    <div class="print-footer">
-                        <p><strong>Generated on:</strong> ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
-                        <p>Happy camping! 🏕️ Generated by Joy of Camping</p>
-                    </div>
+                    ${secondPageCategories.length > 0 ? `
+                        <div class="packing-section page-break">
+                            <h3 class="packing-title">📦 Selected Packing Items (continued)</h3>
+                            ${secondPageCategories.map(([category, items]) => `
+                                <div class="category-section">
+                                    <h4 class="category-title">${this.formatCategoryName(category)}</h4>
+                                    <div class="packing-items">
+                                        ${items.map(item => `
+                                            <div class="packing-item">${item}</div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                            
+                            <div class="print-footer">
+                                <p><strong>Generated on:</strong> ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+                                <p>Happy camping! 🏕️ Generated by Joy of Camping</p>
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="print-footer">
+                            <p><strong>Generated on:</strong> ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+                            <p>Happy camping! 🏕️ Generated by Joy of Camping</p>
+                        </div>
+                    `}
                 </body>
                 </html>
             `;
