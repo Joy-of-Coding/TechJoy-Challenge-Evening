@@ -403,21 +403,34 @@
         }
 
         renderPackingListHTML(packingData) {
-            let packingHTML = '';
+            let packingHTML = '<div class="packing-grid">';
+
+            // Collect all categories
+            const allCategories = [];
 
             Object.entries(packingData.baseItems).forEach(([category, items]) => {
                 const categoryName = this.formatCategoryName(category);
-                packingHTML += this.createCategorySection(categoryName, items, 'suitcase');
+                allCategories.push({
+                    name: categoryName,
+                    items: items,
+                    icon: 'suitcase'
+                });
             });
 
             if (packingData.activityItems.length > 0) {
-                packingHTML += this.createCategorySection(
-                    'Activity-Specific Items',
-                    packingData.activityItems,
-                    'star'
-                );
+                allCategories.push({
+                    name: 'Activity-Specific Items',
+                    items: packingData.activityItems,
+                    icon: 'star'
+                });
             }
 
+            // Render categories in 3-column grid
+            allCategories.forEach((category, index) => {
+                packingHTML += this.createCategorySection(category.name, category.items, category.icon);
+            });
+
+            packingHTML += '</div>';
             return packingHTML;
         }
 
@@ -638,7 +651,7 @@
             this.selectedItems.clear();
             this.selectedPackingItems.clear();
             this.resetCollapseArrows(); // <-- Reset collapse arrows when leaving detail
-        } 
+        }
 
         // Add this function to reset collapse arrows
         resetCollapseArrows() {

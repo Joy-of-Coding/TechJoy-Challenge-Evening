@@ -3,9 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet2" href="print.css" media="print">
+    <link rel="stylesheet" href="print.css" media="print">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Joy of Camping - Find Your Perfect Campsite</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏕️</text></svg>">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -13,31 +15,31 @@
     <style>
         /* Normal styles for screen */
         body {
-        font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif;
         }
 
         .print-only {
-        display: none;
-        }
-
-        @media print {
-        body {
-            background: white;
-            color: black;
-        }
-
-        .no-print {
             display: none;
         }
 
-        .print-only {
-            display: block;
-        }
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
 
-        @page {
-            size: A4 portrait;
-            margin: 1in;
-        }
+            .no-print {
+                display: none;
+            }
+
+            .print-only {
+                display: block;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 1in;
+            }
         }
     </style>
 
@@ -139,7 +141,7 @@
                             Print / Save
                         </button>
                     </div>
- 
+
                     <div class="detail-content">
                         <div class="detail-header">
                             <div class="detail-image">
@@ -190,8 +192,8 @@
                                     <div class="header-content">
                                         <h3><i class="fas fa-suitcase"></i> What to Bring</h3>
                                         <span class="item-count" id="packingCount">0</span>
+                                        <i class="fas fa-chevron-right collapse-arrow"></i>
                                     </div>
-                                    <i class="fas fa-chevron-right collapse-arrow"></i>
                                 </div>
                                 <div id="detailPackingList" class="packing-list collapsible-content"></div>
                             </div>
@@ -248,31 +250,7 @@
     });
     </script> -->
 
-    <script>
-        document.getElementById('printBtn').addEventListener('click', function () {
-        // Optional: Dynamically adjust print styles before printing
-        const style = document.createElement('style');
-        style.media = 'print';
-        style.innerHTML = `
-            @page {
-            size: A4 portrait;
-            margin: 1in;
-            }
-            body {
-            font-size: 14pt;
-            }
-        `;
-        document.head.appendChild(style);
 
-        // Trigger print dialog
-        window.print();
-
-        // Optional: clean up after print
-        setTimeout(() => {
-            document.head.removeChild(style);
-        }, 1000);
-        });
-    </script>
 
 </body>
 
