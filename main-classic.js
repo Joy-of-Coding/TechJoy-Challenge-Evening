@@ -638,7 +638,7 @@
             this.selectedItems.clear();
             this.selectedPackingItems.clear();
             this.resetCollapseArrows(); // <-- Reset collapse arrows when leaving detail
-        }
+        } 
 
         // Add this function to reset collapse arrows
         resetCollapseArrows() {
