@@ -625,6 +625,7 @@
             this.hideMainSections();
             this.detailSection.classList.remove('hidden');
             this.populateDetailContent(campsite);
+            this.resetCollapseArrows(); // <-- Reset collapse arrows when showing detail
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -636,6 +637,26 @@
             // Clear selected items when hiding detail view
             this.selectedItems.clear();
             this.selectedPackingItems.clear();
+            this.resetCollapseArrows(); // <-- Reset collapse arrows when leaving detail
+        }
+
+        // Add this function to reset collapse arrows
+        resetCollapseArrows() {
+            document.querySelectorAll('.collapse-arrow').forEach(arrow => {
+                arrow.classList.remove('expanded');
+                arrow.classList.remove('rotated');
+                arrow.style.transform = ''; // Remove any rotation
+            });
+            // Also collapse all collapsible-content sections
+            document.querySelectorAll('.collapsible-content').forEach(content => {
+                content.classList.remove('expanded');
+                content.style.maxHeight = '0';
+                content.style.overflow = 'hidden';
+            });
+            // Remove expanded class from section headers
+            document.querySelectorAll('.section-header').forEach(header => {
+                header.classList.remove('expanded');
+            });
         }
 
         populateDetailContent(campsite) {
@@ -658,6 +679,8 @@
             this.setElementContent('detailRating', campsite.rating);
             this.setElementContent('detailPrice', campsite.price);
             this.setElementContent('detailCapacity', campsite.capacity);
+            // Add this line to display the description in the About section
+            this.setElementContent('detailDescription', campsite.description);
         }
 
         populateAmenities(campsite) {
