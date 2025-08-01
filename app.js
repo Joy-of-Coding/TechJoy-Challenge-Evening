@@ -1,5 +1,5 @@
-// CampJoy - Main Application
-class CampJoyApp {
+// Joy of Camping - Main Application
+class JoyOfCampingApp {
     constructor() {
         this.campsites = campsitesData;
         this.filteredCampsites = [...this.campsites];
@@ -286,7 +286,7 @@ document.head.appendChild(style);
 
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new CampJoyApp();
+    new JoyOfCampingApp();
 });
 
 // Add some delightful micro-interactions

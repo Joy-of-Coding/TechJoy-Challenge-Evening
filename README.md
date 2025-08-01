@@ -1,4 +1,4 @@
-# CampJoy - TechJoy Challenge Evening
+# Joy of Camping - TechJoy Challenge Evening
 
 A beautiful, functional camping app built with Vanilla JavaScript following SLC (Simple, Lovable, Complete) principles.
 

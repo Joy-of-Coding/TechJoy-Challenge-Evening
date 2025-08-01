@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet2" href="print.css" media="print">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampJoy - Find Your Perfect Campsite</title>
+    <title>Joy of Camping - Find Your Perfect Campsite</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -133,7 +133,8 @@
                             <i class="fas fa-arrow-left" aria-hidden="true"></i>
                             Back to Campsites
                         </button>
-                        <button class="print-btn" id="printBtn" type="button" aria-label="Print or Save Campsite Details">
+                        <button class="print-btn" id="printBtn" type="button"
+                            aria-label="Print or Save Campsite Details">
                             <i class="fas fa-print" aria-hidden="true"></i>
                             Print / Save
                         </button>
@@ -169,28 +170,20 @@
                             </div>
                         </div>
 
-                        <div class="detail-body">
-                            <div class="detail-section collapsible">
-                                <div class="section-header" data-target="detailAmenities">
-                                    <div class="header-content">
-                                        <h3><i class="fas fa-list-check"></i> Amenities</h3>
-                                        <span class="item-count" id="amenitiesCount">0</span>
-                                    </div>
-                                    <i class="fas fa-chevron-right collapse-arrow"></i>
-                                </div>
-                                <div id="detailAmenities" class="amenities-list collapsible-content"></div>
-                            </div>
+                        <div class="detail-activities">
+                            <h3><i class="fas fa-hiking"></i> Activities</h3>
+                            <div id="detailActivitiesList" class="activities-display"></div>
+                        </div>
 
-                            <div class="detail-section collapsible">
-                                <div class="section-header" data-target="detailActivities">
-                                    <div class="header-content">
-                                        <h3><i class="fas fa-hiking"></i> Activities</h3>
-                                        <span class="item-count" id="activitiesCount">0</span>
-                                    </div>
-                                    <i class="fas fa-chevron-right collapse-arrow"></i>
-                                </div>
-                                <div id="detailActivities" class="activities-list collapsible-content"></div>
-                            </div>
+                        <div class="detail-amenities">
+                            <h3><i class="fas fa-list-check"></i> Amenities</h3>
+                            <div id="detailAmenitiesList" class="amenities-display"></div>
+                        </div>
+
+                        <div class="detail-body">
+
+
+
 
                             <div class="detail-section full-width collapsible">
                                 <div class="section-header" data-target="detailPackingList">
@@ -209,7 +202,7 @@
         </main>
 
         <footer class="footer">
-            <p>&copy; 2024 CampJoy. Made with ❤️ for outdoor enthusiasts.</p>
+            <p>&copy; 2024 Joy of Camping. Made with ❤️ for outdoor enthusiasts.</p>
         </footer>
     </div>
 
@@ -220,7 +213,14 @@
 
     <script>
         document.getElementById('printBtn').addEventListener('click', function () {
-            window.print();
+            // Get the detail view controller instance to access selected packing items
+            const detailViewController = window.joyOfCampingApp?.modules?.detailViewController;
+            if (detailViewController) {
+                detailViewController.printCampsiteWithSelectedItems();
+            } else {
+                // Fallback to regular print if detail view controller is not available
+                window.print();
+            }
         });
     </script>
 
