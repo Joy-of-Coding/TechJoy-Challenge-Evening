@@ -1,0 +1,31 @@
+    /* print.css */
+
+    @media print {
+        body {
+        margin: 1in;
+        }
+
+        .landscape {
+        size: landscape;
+        }
+
+        .portrait {
+        size: portrait;
+        }
+
+        .margin-normal {
+        margin: 1in;
+        }
+
+        .margin-narrow {
+        margin: 0.5in;
+        }
+
+        .margin-none {
+        margin: 0;
+        }
+
+        #printBtn, #orientation, #margin {
+        display: none; /* Hide UI during print */
+        }
+    }

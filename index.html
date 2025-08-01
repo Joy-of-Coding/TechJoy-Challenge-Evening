@@ -3,11 +3,44 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet2" href="print.css" media="print">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Joy of Camping - Find Your Perfect Campsite</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* Normal styles for screen */
+        body {
+        font-family: Arial, sans-serif;
+        }
+
+        .print-only {
+        display: none;
+        }
+
+        @media print {
+        body {
+            background: white;
+            color: black;
+        }
+
+        .no-print {
+            display: none;
+        }
+
+        .print-only {
+            display: block;
+        }
+
+        @page {
+            size: A4 portrait;
+            margin: 1in;
+        }
+        }
+    </style>
+
 </head>
 
 <body>
@@ -106,7 +139,7 @@
                             Print / Save
                         </button>
                     </div>
-
+ 
                     <div class="detail-content">
                         <div class="detail-header">
                             <div class="detail-image">
@@ -129,6 +162,11 @@
                                         <span id="detailCapacity"></span>
                                     </span>
                                 </div>
+                                <div class="detail-section">
+                                    <h3><i class="fas fa-info-circle"></i> About</h3>
+                                    <p id="detailDescription"></p>
+                                </div>
+
                             </div>
                         </div>
 
@@ -183,6 +221,56 @@
                 // Fallback to regular print if detail view controller is not available
                 window.print();
             }
+        });
+    </script>
+
+    <!-- <script>
+        document.getElementById('printBtn').addEventListener('click', function () {
+        window.print(); // Triggers print dialog and uses print.css
+        });
+    </script> -->
+
+    <!-- <script>
+    document.getElementById('printBtn').addEventListener('click', function () {
+        // Remove old classes
+        document.body.classList.remove('portrait', 'landscape', 'margin-normal', 'margin-narrow', 'margin-none');
+
+        // Get selected options
+        const orientation = document.getElementById('orientation').value;
+        const margin = document.getElementById('margin').value;
+
+        // Apply corresponding classes
+        document.body.classList.add(orientation);
+        document.body.classList.add(`margin-${margin}`);
+
+        // Trigger print
+        window.print();
+    });
+    </script> -->
+
+    <script>
+        document.getElementById('printBtn').addEventListener('click', function () {
+        // Optional: Dynamically adjust print styles before printing
+        const style = document.createElement('style');
+        style.media = 'print';
+        style.innerHTML = `
+            @page {
+            size: A4 portrait;
+            margin: 1in;
+            }
+            body {
+            font-size: 14pt;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Trigger print dialog
+        window.print();
+
+        // Optional: clean up after print
+        setTimeout(() => {
+            document.head.removeChild(style);
+        }, 1000);
         });
     </script>
 
