@@ -407,7 +407,7 @@
 
             // Collect all categories
             const allCategories = [];
-            
+
             Object.entries(packingData.baseItems).forEach(([category, items]) => {
                 const categoryName = this.formatCategoryName(category);
                 allCategories.push({
@@ -651,7 +651,7 @@
             this.selectedItems.clear();
             this.selectedPackingItems.clear();
             this.resetCollapseArrows(); // <-- Reset collapse arrows when leaving detail
-        } 
+        }
 
         // Add this function to reset collapse arrows
         resetCollapseArrows() {
