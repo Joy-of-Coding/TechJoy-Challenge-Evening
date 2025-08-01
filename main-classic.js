@@ -568,7 +568,6 @@
             this.detailSection = null;
             this.backButton = null;
             this.selectedItems = new Set(); // Track selected activity items
-            this.selectedPackingItems = new Set(); // Track selected packing items
             this.initializeElements();
             this.bindEvents();
         }
@@ -621,7 +620,6 @@
             this.currentCampsite = campsite;
             // Clear selected items when showing a new campsite
             this.selectedItems.clear();
-            this.selectedPackingItems.clear();
             this.hideMainSections();
             this.detailSection.classList.remove('hidden');
             this.populateDetailContent(campsite);
@@ -635,7 +633,6 @@
             this.currentCampsite = null;
             // Clear selected items when hiding detail view
             this.selectedItems.clear();
-            this.selectedPackingItems.clear();
         }
 
         populateDetailContent(campsite) {
@@ -948,199 +945,16 @@
             };
         }
 
-        addPackingPrintButton() {
-            // Find the packing list section header
-            const packingSectionHeader = document.querySelector('[data-target="detailPackingList"] .header-content');
-            if (packingSectionHeader) {
-                // Check if print button already exists
-                let printButton = document.getElementById('packingPrintButton');
-                if (!printButton) {
-                    printButton = document.createElement('button');
-                    printButton.id = 'packingPrintButton';
-                    printButton.className = 'packing-print-button';
-                    printButton.style.display = 'none';
-                    printButton.innerHTML = `
-                        <i class="fas fa-print"></i>
-                        Print Items
-                    `;
-                    printButton.addEventListener('click', () => {
-                        this.printSelectedPackingItems();
-                    });
-                    
-                    // Insert after the header content
-                    packingSectionHeader.appendChild(printButton);
-                }
-            }
-            
-            // Add instructional text under the packing list
-            const packingListElement = document.getElementById('detailPackingList');
-            if (packingListElement) {
-                // Check if instructional text already exists
-                let instructionText = document.getElementById('packingInstruction');
-                if (!instructionText) {
-                    instructionText = document.createElement('p');
-                    instructionText.id = 'packingInstruction';
-                    instructionText.className = 'packing-instruction';
-                    instructionText.innerHTML = 'Click on the items you wish to bring. Don\'t forget the marshmallows. 😀';
-                    
-                    // Insert at the beginning of the packing list
-                    packingListElement.insertBefore(instructionText, packingListElement.firstChild);
-                }
-            }
-        }
+
 
         bindPackingItemEvents() {
-            const packingItems = document.querySelectorAll('.packing-item');
-            packingItems.forEach(item => {
-                item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const itemText = item.dataset.item;
-                    const category = item.dataset.category;
-                    console.log('Packing item clicked:', itemText, 'from category:', category);
-                    
-                    item.classList.toggle('selected');
-                    
-                    // Track selected packing items
-                    if (item.classList.contains('selected')) {
-                        this.selectedPackingItems.add(itemText);
-                        // Add checkmark
-                        const span = item.querySelector('span');
-                        if (span) {
-                            span.innerHTML = `✓ ${itemText}`;
-                        }
-                        item.style.backgroundColor = '#48bb78';
-                        item.style.color = 'white';
-                        console.log('Packing item selected:', itemText);
-                    } else {
-                        this.selectedPackingItems.delete(itemText);
-                        // Remove checkmark
-                        const span = item.querySelector('span');
-                        if (span) {
-                            span.innerHTML = itemText;
-                        }
-                        item.style.backgroundColor = '';
-                        item.style.color = '';
-                        console.log('Packing item deselected:', itemText);
-                    }
-                    
-                    // Show/hide print button based on selection
-                    this.updatePackingPrintButtonVisibility();
-                });
-            });
+            // Packing items are now static and non-interactive
+            // No selection functionality needed
         }
 
-        updatePackingPrintButtonVisibility() {
-            const printButton = document.getElementById('packingPrintButton');
-            console.log('Packing print button found:', printButton);
-            console.log('Selected packing items count:', this.selectedPackingItems.size);
-            if (printButton) {
-                if (this.selectedPackingItems.size > 0) {
-                    printButton.style.display = 'inline-flex';
-                    console.log('Showing packing print button');
-                } else {
-                    printButton.style.display = 'none';
-                    console.log('Hiding packing print button');
-                }
-            } else {
-                console.log('Packing print button not found!');
-            }
-        }
 
-        printSelectedPackingItems() {
-            if (this.selectedPackingItems.size === 0) {
-                alert('No packing items selected to print.');
-                return;
-            }
 
-            // Create print window content for packing items
-            const printContent = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>CampJoy - Selected Packing Items</title>
-                    <style>
-                        body {
-                            font-family: 'Inter', sans-serif;
-                            margin: 40px;
-                            line-height: 1.6;
-                        }
-                        .print-header {
-                            text-align: center;
-                            border-bottom: 2px solid #4299e1;
-                            padding-bottom: 20px;
-                            margin-bottom: 30px;
-                        }
-                        .print-header h1 {
-                            color: #2d3748;
-                            margin: 0;
-                        }
-                        .print-header p {
-                            color: #718096;
-                            margin: 10px 0 0 0;
-                        }
-                        .items-list {
-                            margin-top: 30px;
-                        }
-                        .item {
-                            padding: 10px 0;
-                            border-bottom: 1px solid #e2e8f0;
-                            display: flex;
-                            align-items: center;
-                        }
-                        .item:before {
-                            content: "✓";
-                            color: #48bb78;
-                            font-weight: bold;
-                            margin-right: 15px;
-                            font-size: 18px;
-                        }
-                        .print-footer {
-                            margin-top: 40px;
-                            text-align: center;
-                            color: #718096;
-                            font-size: 14px;
-                        }
-                        @media print {
-                            body { margin: 20px; }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="print-header">
-                        <h1>CampJoy - Selected Packing Items</h1>
-                        <p>Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
-                        ${this.currentCampsite ? `<p><strong>Campsite:</strong> ${this.currentCampsite.name}</p>` : ''}
-                    </div>
-                    
-                    <div class="items-list">
-                        <h2>Selected Packing Items (${this.selectedPackingItems.size})</h2>
-                        ${Array.from(this.selectedPackingItems).map(item => `
-                            <div class="item">${item}</div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="print-footer">
-                        <p>Happy camping! 🏕️</p>
-                        <p>Generated by CampJoy</p>
-                    </div>
-                </body>
-                </html>
-            `;
 
-            // Open print window
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(printContent);
-            printWindow.document.close();
-            printWindow.focus();
-            
-            // Wait for content to load then print
-            printWindow.onload = function() {
-                printWindow.print();
-                printWindow.close();
-            };
-        }
 
         populatePackingList(campsite) {
             const packingListElement = document.getElementById('detailPackingList');
@@ -1150,9 +964,6 @@
                 const packingData = this.packingListGenerator.generatePackingList(campsite);
                 const packingHTML = this.packingListGenerator.renderPackingListHTML(packingData);
                 packingListElement.innerHTML = packingHTML;
-
-                // Add print button next to the packing list
-                this.addPackingPrintButton();
 
                 // Calculate total items across all categories
                 let totalItems = 0;
@@ -1530,45 +1341,6 @@
                 .packing-item.selected {
                     background-color: #48bb78 !important;
                     color: white !important;
-                }
-                
-                .packing-print-button {
-                    background: #4299e1;
-                    color: white;
-                    border: none;
-                    border-radius: 6px;
-                    padding: 0.5rem 1rem;
-                    margin-left: 1rem;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    font-size: 0.8rem;
-                    font-weight: 600;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                    box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
-                }
-                
-                .packing-print-button:hover {
-                    background: #3182ce;
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
-                }
-                
-                .packing-print-button:active {
-                    transform: translateY(0);
-                }
-                
-                .packing-instruction {
-                    background: #f7fafc;
-                    border-left: 4px solid #4299e1;
-                    padding: 1rem;
-                    margin-bottom: 1rem;
-                    border-radius: 0 8px 8px 0;
-                    color: #4a5568;
-                    font-size: 0.95rem;
-                    font-style: italic;
-                    line-height: 1.5;
                 }
                 
                 /* Ensure collapsible content works properly */
