@@ -383,13 +383,14 @@ body {
 
 .detail-info .location {
     color: #718096;
-    font-size: 1.1rem;
+    font-size: 2.1rem;
     margin-bottom: 1rem;
 }
 
 .detail-stats {
     display: flex;
     gap: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .detail-stats .stat {
@@ -449,7 +450,7 @@ body {
 
 .detail-amenities {
     margin-top: 1.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid #e2e8f0;
 }
