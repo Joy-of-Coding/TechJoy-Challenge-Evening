@@ -594,14 +594,14 @@
                     this.hideCampsiteDetail();
                 }
             });
-            
+
             // Make header content clickable to return to home page
             const headerContent = document.querySelector('.header .header-content');
             if (headerContent) {
                 headerContent.addEventListener('click', () => {
                     this.returnToHomePage();
                 });
-                
+
                 // Add keyboard accessibility
                 headerContent.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -609,7 +609,7 @@
                         this.returnToHomePage();
                     }
                 });
-                
+
                 // Set tabindex for keyboard navigation
                 headerContent.setAttribute('tabindex', '0');
                 headerContent.setAttribute('role', 'button');
@@ -643,7 +643,7 @@
             this.populateAmenities(campsite);
             this.populateActivities(campsite);
             this.populatePackingList(campsite);
-            
+
             // Initialize collapsible sections with a small delay to ensure DOM is ready
             setTimeout(() => {
                 this.initializeCollapsibleSections();
@@ -661,333 +661,38 @@
         }
 
         populateAmenities(campsite) {
-            const amenitiesList = document.getElementById('detailAmenities');
-            const amenitiesCount = document.getElementById('amenitiesCount');
+            const amenitiesList = document.getElementById('detailAmenitiesList');
 
-            if (amenitiesList && campsite.amenities) {
+            if (amenitiesList && campsite.amenities && campsite.amenities.length > 0) {
+                // Render simple amenity tags
                 amenitiesList.innerHTML = campsite.amenities.map(amenity =>
-                    `<div class="amenity-item">
-                        <i class="fas fa-check"></i>
-                        <span>${amenity}</span>
-                    </div>`
+                    `<span class="amenity-tag">${amenity}</span>`
                 ).join('');
-
-                // Update count
-                if (amenitiesCount) {
-                    amenitiesCount.textContent = campsite.amenities.length;
-                }
-            } else if (amenitiesCount) {
-                amenitiesCount.textContent = '0';
+            } else if (amenitiesList) {
+                amenitiesList.innerHTML = '<span class="no-amenities">No amenities listed</span>';
             }
         }
 
         populateActivities(campsite) {
-            const activitiesList = document.getElementById('detailActivities');
-            const activitiesCount = document.getElementById('activitiesCount');
+            const activitiesList = document.getElementById('detailActivitiesList');
 
-            if (activitiesList && campsite.activities) {
-                // Render interactive activity buttons with collapsible gear sections
+            if (activitiesList && campsite.activities && campsite.activities.length > 0) {
+                // Render simple activity tags
                 activitiesList.innerHTML = campsite.activities.map(activity =>
-                    `<div class="activity-container">
-                        <button class="interactive-button activity-button" data-activity="${activity}">
-                            <i class="fas fa-hiking"></i>
-                            ${activity}
-                        </button>
-                        <div class="activity-gear-container" data-activity="${activity}" style="display: none;">
-                            <div class="activity-gear-items"></div>
-                        </div>
-                    </div>`
+                    `<span class="activity-tag">${activity}</span>`
                 ).join('');
-
-                // Update count
-                if (activitiesCount) {
-                    activitiesCount.textContent = campsite.activities.length;
-                }
-
-                // Bind click events to activity buttons
-                this.bindActivityButtonEvents(campsite);
-            } else if (activitiesCount) {
-                activitiesCount.textContent = '0';
+            } else if (activitiesList) {
+                activitiesList.innerHTML = '<span class="no-activities">No activities listed</span>';
             }
         }
 
-        bindActivityButtonEvents(campsite) {
-            document.querySelectorAll('.activity-button').forEach(button => {
-                button.addEventListener('click', () => {
-                    const activity = button.dataset.activity;
-                    button.classList.toggle('active');
 
-                    if (button.classList.contains('active')) {
-                        this.showActivityInventory(activity);
-                        button.innerHTML = `<i class="fas fa-check"></i> ${activity}`;
-                    } else {
-                        this.hideActivityInventory(activity);
-                        button.innerHTML = `<i class="fas fa-hiking"></i> ${activity}`;
-                    }
-                });
-            });
-        }
 
-        showActivityInventory(activity) {
-            // Get inventory items for this activity
-            const items = this.packingListGenerator.getActivityPackingList(activity);
 
-            // If no specific items found, create some generic ones for testing
-            let itemsToShow = items;
-            if (items.length === 0) {
-                // Fallback items for testing
-                itemsToShow = [
-                    `${activity} Equipment`,
-                    `${activity} Safety Gear`,
-                    `${activity} Accessories`
-                ];
-            }
 
-            // Find the gear container for this specific activity
-            const gearContainer = document.querySelector(`.activity-gear-container[data-activity="${activity}"]`);
-            const gearItems = gearContainer.querySelector('.activity-gear-items');
 
-            if (gearContainer && gearItems) {
-                // Populate the gear items
-                gearItems.innerHTML = itemsToShow.map(item => `
-                    <button class="interactive-button inventory-item" data-item="${item}" data-activity="${activity}">
-                        ${item}
-                    </button>
-                `).join('');
 
-                // Add print button to the gear container
-                const printButton = document.createElement('button');
-                printButton.id = `printButton-${activity}`;
-                printButton.className = 'print-button';
-                printButton.style.display = 'none';
-                printButton.innerHTML = `
-                    <i class="fas fa-print"></i>
-                    PRINT THIS LIST
-                `;
-                printButton.addEventListener('click', () => {
-                    this.printSelectedItems();
-                });
-                gearContainer.appendChild(printButton);
 
-                // Show the container with smooth animation
-                gearContainer.style.display = 'block';
-                gearContainer.style.maxHeight = '0';
-                gearContainer.style.overflow = 'hidden';
-                gearContainer.style.transition = 'max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-
-                // Trigger the animation
-                setTimeout(() => {
-                    gearContainer.style.maxHeight = gearContainer.scrollHeight + 'px';
-                }, 10);
-
-                // Bind events to the new items
-                this.bindInventoryItemEvents(gearContainer);
-            }
-        }
-
-        hideActivityInventory(activity) {
-            const gearContainer = document.querySelector(`.activity-gear-container[data-activity="${activity}"]`);
-
-            if (gearContainer) {
-                // Animate the collapse
-                gearContainer.style.maxHeight = '0';
-                gearContainer.style.transition = 'max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-
-                // Hide after animation completes
-                setTimeout(() => {
-                    gearContainer.style.display = 'none';
-                    gearContainer.style.maxHeight = '';
-                    gearContainer.style.transition = '';
-                }, 300);
-            }
-        }
-
-        bindInventoryItemEvents(section) {
-            console.log('Binding events for inventory section');
-            section.querySelectorAll('.inventory-item').forEach(button => {
-                console.log('Binding click event for:', button.dataset.item);
-                button.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    const item = button.dataset.item;
-                    const activity = button.dataset.activity;
-                    console.log('Inventory item clicked:', item);
-
-                    button.classList.toggle('selected');
-
-                    // Track selected items
-                    if (button.classList.contains('selected')) {
-                        this.selectedItems.add(item);
-                        button.innerHTML = `✅ ${item}`;
-                        button.style.backgroundColor = '#48bb78';
-                        button.style.color = 'white';
-                        console.log('Item selected:', item);
-                    } else {
-                        this.selectedItems.delete(item);
-                        button.innerHTML = item;
-                        button.style.backgroundColor = '';
-                        button.style.color = '';
-                        console.log('Item deselected:', item);
-                    }
-                    
-                    // Show/hide print button based on selection
-                    this.updatePrintButtonVisibility(activity);
-                });
-            });
-        }
-
-        updatePrintButtonVisibility(activity) {
-            const printButton = document.getElementById(`printButton-${activity}`);
-            console.log('Print button found:', printButton);
-            console.log('Selected items count:', this.selectedItems.size);
-            if (printButton) {
-                if (this.selectedItems.size > 0) {
-                    printButton.style.display = 'inline-flex';
-                    console.log('Showing print button');
-                } else {
-                    printButton.style.display = 'none';
-                    console.log('Hiding print button');
-                }
-            } else {
-                console.log('Print button not found!');
-            }
-        }
-
-        printSelectedItems() {
-            if (this.selectedItems.size === 0) {
-                alert('No items selected to print.');
-                return;
-            }
-
-            // Create print window content
-            const printContent = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>CampJoy - Selected Activity Gear</title>
-                    <style>
-                        body {
-                            font-family: 'Inter', sans-serif;
-                            margin: 40px;
-                            line-height: 1.6;
-                        }
-                        .print-header {
-                            text-align: center;
-                            border-bottom: 2px solid #4299e1;
-                            padding-bottom: 20px;
-                            margin-bottom: 30px;
-                        }
-                        .print-header h1 {
-                            color: #2d3748;
-                            margin: 0;
-                        }
-                        .print-header p {
-                            color: #718096;
-                            margin: 10px 0 0 0;
-                        }
-                        .items-list {
-                            margin-top: 30px;
-                        }
-                        .item {
-                            padding: 10px 0;
-                            border-bottom: 1px solid #e2e8f0;
-                            display: flex;
-                            align-items: center;
-                        }
-                        .item:before {
-                            content: "✓";
-                            color: #48bb78;
-                            font-weight: bold;
-                            margin-right: 15px;
-                            font-size: 18px;
-                        }
-                        .print-footer {
-                            margin-top: 40px;
-                            text-align: center;
-                            color: #718096;
-                            font-size: 14px;
-                        }
-                        @media print {
-                            body { margin: 20px; }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="print-header">
-                        <h1>CampJoy - Selected Activity Gear</h1>
-                        <p>Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
-                        ${this.currentCampsite ? `<p><strong>Campsite:</strong> ${this.currentCampsite.name}</p>` : ''}
-                    </div>
-                    
-                    <div class="items-list">
-                        <h2>Selected Items (${this.selectedItems.size})</h2>
-                        ${Array.from(this.selectedItems).map(item => `
-                            <div class="item">${item}</div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="print-footer">
-                        <p>Happy camping! 🏕️</p>
-                        <p>Generated by CampJoy</p>
-                    </div>
-                </body>
-                </html>
-            `;
-
-            // Open print window
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(printContent);
-            printWindow.document.close();
-            printWindow.focus();
-            
-            // Wait for content to load then print
-            printWindow.onload = function() {
-                printWindow.print();
-                printWindow.close();
-            };
-        }
-
-        addPackingPrintButton() {
-            // Find the packing list section header
-            const packingSectionHeader = document.querySelector('[data-target="detailPackingList"] .header-content');
-            if (packingSectionHeader) {
-                // Check if print button already exists
-                let printButton = document.getElementById('packingPrintButton');
-                if (!printButton) {
-                    printButton = document.createElement('button');
-                    printButton.id = 'packingPrintButton';
-                    printButton.className = 'packing-print-button';
-                    printButton.style.display = 'none';
-                    printButton.innerHTML = `
-                        <i class="fas fa-print"></i>
-                        Print Items
-                    `;
-                    printButton.addEventListener('click', () => {
-                        this.printSelectedPackingItems();
-                    });
-                    
-                    // Insert after the header content
-                    packingSectionHeader.appendChild(printButton);
-                }
-            }
-            
-            // Add instructional text under the packing list
-            const packingListElement = document.getElementById('detailPackingList');
-            if (packingListElement) {
-                // Check if instructional text already exists
-                let instructionText = document.getElementById('packingInstruction');
-                if (!instructionText) {
-                    instructionText = document.createElement('p');
-                    instructionText.id = 'packingInstruction';
-                    instructionText.className = 'packing-instruction';
-                    instructionText.innerHTML = 'Click on the items you wish to bring. Don\'t forget the marshmallows. 😀';
-                    
-                    // Insert at the beginning of the packing list
-                    packingListElement.insertBefore(instructionText, packingListElement.firstChild);
-                }
-            }
-        }
 
         bindPackingItemEvents() {
             const packingItems = document.querySelectorAll('.packing-item');
@@ -995,13 +700,13 @@
                 item.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     const itemText = item.dataset.item;
                     const category = item.dataset.category;
                     console.log('Packing item clicked:', itemText, 'from category:', category);
-                    
+
                     item.classList.toggle('selected');
-                    
+
                     // Track selected packing items
                     if (item.classList.contains('selected')) {
                         this.selectedPackingItems.add(itemText);
@@ -1024,107 +729,376 @@
                         item.style.color = '';
                         console.log('Packing item deselected:', itemText);
                     }
-                    
-                    // Show/hide print button based on selection
-                    this.updatePackingPrintButtonVisibility();
                 });
             });
         }
 
-        updatePackingPrintButtonVisibility() {
-            const printButton = document.getElementById('packingPrintButton');
-            console.log('Packing print button found:', printButton);
-            console.log('Selected packing items count:', this.selectedPackingItems.size);
-            if (printButton) {
-                if (this.selectedPackingItems.size > 0) {
-                    printButton.style.display = 'inline-flex';
-                    console.log('Showing packing print button');
-                } else {
-                    printButton.style.display = 'none';
-                    console.log('Hiding packing print button');
-                }
-            } else {
-                console.log('Packing print button not found!');
-            }
+        formatCategoryName(category) {
+            return category.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
         }
 
-        printSelectedPackingItems() {
-            if (this.selectedPackingItems.size === 0) {
-                alert('No packing items selected to print.');
+        printCampsiteWithSelectedItems() {
+            if (!this.currentCampsite) {
+                alert('No campsite selected to print.');
                 return;
             }
 
-            // Create print window content for packing items
+            // Group selected items by category
+            const itemsByCategory = {};
+            const packingItems = document.querySelectorAll('.packing-item.selected');
+
+            packingItems.forEach(item => {
+                const category = item.dataset.category;
+                const itemText = item.dataset.item;
+                if (!itemsByCategory[category]) {
+                    itemsByCategory[category] = [];
+                }
+                itemsByCategory[category].push(itemText);
+            });
+
+            // Calculate estimated heights and organize categories for pagination
+            const categories = Object.entries(itemsByCategory);
+            const firstPageCategories = [];
+            const secondPageCategories = [];
+
+            // Estimate that each category takes about 60px + (items * 30px)
+            // Ultra-aggressive first page filling - prioritize first page over second page
+            let firstPageHeight = 0;
+            const estimatedCampsiteSectionHeight = 200; // campsite info section
+            const estimatedFooterHeight = 60; // further reduced footer height
+            const maxFirstPageHeight = 750; // increased maximum height
+            const minFirstPageFill = maxFirstPageHeight * 0.85; // increased minimum to 85%
+
+            // Sort categories by size (largest first) to fill first page more efficiently
+            categories.sort((a, b) => b[1].length - a[1].length);
+
+            // First pass: fill first page as much as possible (up to 98% capacity)
+            for (const [category, items] of categories) {
+                const categoryHeight = 60 + (items.length * 30); // header + items
+
+                // Ultra-aggressive filling - use up to 98% of available space
+                if (firstPageHeight + categoryHeight <= maxFirstPageHeight * 0.98) {
+                    firstPageCategories.push([category, items]);
+                    firstPageHeight += categoryHeight;
+                } else {
+                    secondPageCategories.push([category, items]);
+                }
+            }
+
+            // Second pass: ensure minimum 85% fill by moving categories from second page
+            if (firstPageHeight < minFirstPageFill && secondPageCategories.length > 0) {
+                // Move categories from second page to first page until we reach 85% fill
+                while (firstPageHeight < minFirstPageFill && secondPageCategories.length > 0) {
+                    // Find the smallest category that could fit
+                    const smallestCategory = secondPageCategories.reduce((smallest, current) => {
+                        const currentHeight = 60 + (current[1].length * 30);
+                        const smallestHeight = 60 + (smallest[1].length * 30);
+                        return currentHeight < smallestHeight ? current : smallest;
+                    });
+
+                    const smallestHeight = 60 + (smallestCategory[1].length * 30);
+                    const remainingSpace = maxFirstPageHeight * 0.98 - firstPageHeight;
+
+                    if (smallestHeight <= remainingSpace) {
+                        // Move it to first page
+                        secondPageCategories = secondPageCategories.filter(cat => cat !== smallestCategory);
+                        firstPageCategories.push(smallestCategory);
+                        firstPageHeight += smallestHeight;
+                    } else {
+                        // If even the smallest category doesn't fit, break to avoid infinite loop
+                        break;
+                    }
+                }
+            }
+
+            // Third pass: if second page is too small, move more categories to first page
+            if (secondPageCategories.length > 0 && secondPageCategories.length < 3) {
+                // Try to fit more categories on first page even if it gets very full
+                const remainingSpace = maxFirstPageHeight * 0.98 - firstPageHeight;
+                if (remainingSpace > 80) { // If we have at least 80px remaining
+                    // Move up to 2 more categories if they fit
+                    const categoriesToMove = Math.min(2, secondPageCategories.length);
+                    for (let i = 0; i < categoriesToMove; i++) {
+                        const smallestCategory = secondPageCategories.reduce((smallest, current) => {
+                            const currentHeight = 60 + (current[1].length * 30);
+                            const smallestHeight = 60 + (smallest[1].length * 30);
+                            return currentHeight < smallestHeight ? current : smallest;
+                        });
+
+                        const smallestHeight = 60 + (smallestCategory[1].length * 30);
+                        if (smallestHeight <= remainingSpace) {
+                            secondPageCategories = secondPageCategories.filter(cat => cat !== smallestCategory);
+                            firstPageCategories.push(smallestCategory);
+                            firstPageHeight += smallestHeight;
+                        }
+                    }
+                }
+            }
+
+            // Create print window content
             const printContent = `
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>CampJoy - Selected Packing Items</title>
+                    <title>Joy of Camping - ${this.currentCampsite.name}</title>
                     <style>
-                        body {
-                            font-family: 'Inter', sans-serif;
-                            margin: 40px;
-                            line-height: 1.6;
-                        }
-                        .print-header {
-                            text-align: center;
-                            border-bottom: 2px solid #4299e1;
-                            padding-bottom: 20px;
-                            margin-bottom: 30px;
-                        }
-                        .print-header h1 {
-                            color: #2d3748;
+                        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+                        
+                        * {
                             margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
                         }
-                        .print-header p {
+                        
+                        body {
+                            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                            line-height: 1.4;
+                            color: #2d3748;
+                            background: #ffffff;
+                            padding: 25px;
+                            max-width: 800px;
+                            margin: 0 auto;
+                        }
+                        
+                        .campsite-section {
+                            display: flex;
+                            gap: 25px;
+                            margin-bottom: 30px;
+                            align-items: flex-start;
+                            page-break-inside: avoid;
+                        }
+                        
+                        .campsite-image {
+                            flex: 0 0 180px;
+                            height: 135px;
+                            border-radius: 10px;
+                            overflow: hidden;
+                            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+                        }
+                        
+                        .campsite-image img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                        
+                        .campsite-details {
+                            flex: 1;
+                        }
+                        
+                        .campsite-name {
+                            font-size: 1.6rem;
+                            font-weight: 600;
+                            color: #2d3748;
+                            margin-bottom: 6px;
+                        }
+                        
+                        .campsite-location {
+                            font-size: 1rem;
                             color: #718096;
-                            margin: 10px 0 0 0;
+                            margin-bottom: 15px;
+                            font-weight: 500;
                         }
-                        .items-list {
-                            margin-top: 30px;
+                        
+                        .campsite-stats {
+                            display: flex;
+                            gap: 15px;
+                            flex-wrap: wrap;
                         }
-                        .item {
-                            padding: 10px 0;
-                            border-bottom: 1px solid #e2e8f0;
+                        
+                        .stat {
                             display: flex;
                             align-items: center;
+                            gap: 6px;
+                            font-size: 0.9rem;
+                            color: #4a5568;
+                            font-weight: 500;
                         }
-                        .item:before {
+                        
+                        .stat i {
+                            color: #38a169;
+                            font-size: 1rem;
+                        }
+                        
+                        .packing-section {
+                            margin-top: 15px;
+                        }
+                        
+                        .page-break {
+                            page-break-before: always;
+                            margin-top: 0;
+                        }
+                        
+                        .packing-title {
+                            font-size: 1.3rem;
+                            font-weight: 600;
+                            color: #2d3748;
+                            margin-bottom: 12px;
+                            padding-bottom: 6px;
+                            border-bottom: 2px solid #e2e8f0;
+                        }
+                        
+                        .category-section {
+                            margin-bottom: 15px;
+                            page-break-inside: auto;
+                        }
+                        
+                        .category-title {
+                            font-size: 1rem;
+                            font-weight: 600;
+                            color: #4a5568;
+                            margin-bottom: 8px;
+                            padding: 6px 10px;
+                            background: #f7fafc;
+                            border-left: 4px solid #38a169;
+                            border-radius: 0 6px 6px 0;
+                        }
+                        
+                        .packing-items {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                            gap: 6px;
+                            margin-left: 12px;
+                        }
+                        
+                        .packing-item {
+                            padding: 6px 10px;
+                            background: #f7fafc;
+                            border: 1px solid #e2e8f0;
+                            border-radius: 6px;
+                            font-size: 0.9rem;
+                            color: #4a5568;
+                            font-weight: 500;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        }
+                        
+                        .packing-item:before {
                             content: "✓";
-                            color: #48bb78;
+                            color: #38a169;
                             font-weight: bold;
-                            margin-right: 15px;
-                            font-size: 18px;
+                            font-size: 1rem;
                         }
-                        .print-footer {
-                            margin-top: 40px;
+                        
+                        .no-items {
                             text-align: center;
+                            padding: 30px;
                             color: #718096;
-                            font-size: 14px;
+                            font-style: italic;
+                            background: #f7fafc;
+                            border-radius: 8px;
+                            border: 2px dashed #e2e8f0;
                         }
+                        
+                        .print-footer {
+                            margin-top: 30px;
+                            text-align: center;
+                            padding-top: 20px;
+                            border-top: 1px solid #e2e8f0;
+                            color: #718096;
+                            font-size: 0.85rem;
+                        }
+                        
+                        .print-footer p {
+                            margin-bottom: 4px;
+                        }
+                        
                         @media print {
-                            body { margin: 20px; }
+                            body {
+                                padding: 12px;
+                            }
+                            
+                            .campsite-section {
+                                page-break-inside: avoid;
+                            }
+                            
+                            .category-section {
+                                page-break-inside: auto;
+                                page-break-before: auto;
+                            }
+                            
+                            .packing-section {
+                                page-break-inside: auto;
+                            }
+                            
+                            .packing-items {
+                                page-break-inside: auto;
+                            }
                         }
                     </style>
                 </head>
                 <body>
-                    <div class="print-header">
-                        <h1>CampJoy - Selected Packing Items</h1>
-                        <p>Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
-                        ${this.currentCampsite ? `<p><strong>Campsite:</strong> ${this.currentCampsite.name}</p>` : ''}
+                    <div class="campsite-section">
+                        <div class="campsite-image">
+                            <img src="${this.currentCampsite.image}" alt="${this.currentCampsite.name}" />
+                        </div>
+                        <div class="campsite-details">
+                            <h2 class="campsite-name">${this.currentCampsite.name}</h2>
+                            <p class="campsite-location">📍 ${this.currentCampsite.location}</p>
+                            <div class="campsite-stats">
+                                <div class="stat">
+                                    <i class="fas fa-star"></i>
+                                    <span>${this.currentCampsite.rating}</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-dollar-sign"></i>
+                                    <span>${this.currentCampsite.price}</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-users"></i>
+                                    <span>${this.currentCampsite.capacity}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="items-list">
-                        <h2>Selected Packing Items (${this.selectedPackingItems.size})</h2>
-                        ${Array.from(this.selectedPackingItems).map(item => `
-                            <div class="item">${item}</div>
-                        `).join('')}
+                                        <div class="packing-section">
+                        <h3 class="packing-title">📦 Selected Packing Items</h3>
+                        ${firstPageCategories.length > 0 ?
+                    firstPageCategories.map(([category, items]) => `
+                                <div class="category-section">
+                                    <h4 class="category-title">${this.formatCategoryName(category)}</h4>
+                                    <div class="packing-items">
+                                        ${items.map(item => `
+                                            <div class="packing-item">${item}</div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            `).join('')
+                    : `
+                            <div class="no-items">
+                                <p>No items selected for this trip.</p>
+                                <p>Click on items in the "What to Bring" section to select them.</p>
+                            </div>
+                        `}
                     </div>
                     
-                    <div class="print-footer">
-                        <p>Happy camping! 🏕️</p>
-                        <p>Generated by CampJoy</p>
-                    </div>
+                    ${secondPageCategories.length > 0 ? `
+                        <div class="packing-section page-break">
+                            <h3 class="packing-title">📦 Selected Packing Items (continued)</h3>
+                            ${secondPageCategories.map(([category, items]) => `
+                                <div class="category-section">
+                                    <h4 class="category-title">${this.formatCategoryName(category)}</h4>
+                                    <div class="packing-items">
+                                        ${items.map(item => `
+                                            <div class="packing-item">${item}</div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                            
+                            <div class="print-footer">
+                                <p><strong>Generated on:</strong> ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+                                <p>Happy camping! 🏕️ Generated by Joy of Camping</p>
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="print-footer">
+                            <p><strong>Generated on:</strong> ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+                            <p>Happy camping! 🏕️ Generated by Joy of Camping</p>
+                        </div>
+                    `}
                 </body>
                 </html>
             `;
@@ -1134,13 +1108,17 @@
             printWindow.document.write(printContent);
             printWindow.document.close();
             printWindow.focus();
-            
+
             // Wait for content to load then print
-            printWindow.onload = function() {
+            printWindow.onload = function () {
                 printWindow.print();
                 printWindow.close();
             };
         }
+
+
+
+
 
         populatePackingList(campsite) {
             const packingListElement = document.getElementById('detailPackingList');
@@ -1150,9 +1128,6 @@
                 const packingData = this.packingListGenerator.generatePackingList(campsite);
                 const packingHTML = this.packingListGenerator.renderPackingListHTML(packingData);
                 packingListElement.innerHTML = packingHTML;
-
-                // Add print button next to the packing list
-                this.addPackingPrintButton();
 
                 // Calculate total items across all categories
                 let totalItems = 0;
@@ -1206,16 +1181,16 @@
         isDetailViewVisible() {
             return this.detailSection && !this.detailSection.classList.contains('hidden');
         }
-        
+
         returnToHomePage() {
             // If we're on a campsite detail page, hide it to return to home
             if (this.isDetailViewVisible()) {
                 this.hideCampsiteDetail();
             }
-            
+
             // Scroll to top of page
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
+
             // Clear any search or filters to show all campsites
             const searchInput = document.getElementById('searchInput');
             if (searchInput) {
@@ -1223,7 +1198,7 @@
                 // Trigger search event to reset results
                 searchInput.dispatchEvent(new Event('input'));
             }
-            
+
             // Reset filter to "All Sites"
             const allSitesFilter = document.querySelector('.filter-btn[data-filter="all"]');
             if (allSitesFilter) {
@@ -1238,11 +1213,11 @@
 
             sectionHeaders.forEach((header, index) => {
                 console.log(`Setting up header ${index}:`, header);
-                
+
                 // Remove any existing event listeners to prevent duplicates
                 const newHeader = header.cloneNode(true);
                 header.parentNode.replaceChild(newHeader, header);
-                
+
                 newHeader.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -1262,7 +1237,7 @@
 
                 // Set tabindex for keyboard navigation
                 newHeader.setAttribute('tabindex', '0');
-                
+
                 // Ensure content is initially collapsed
                 const targetId = newHeader.getAttribute('data-target');
                 const content = document.getElementById(targetId);
@@ -1272,14 +1247,14 @@
                     console.log(`Initialized content for ${targetId}`);
                 }
             });
-            
+
             console.log('Collapsible sections initialization complete');
         }
 
         toggleSection(header) {
             const targetId = header.getAttribute('data-target');
             const content = document.getElementById(targetId);
-            
+
             console.log('Toggling section:', targetId);
             console.log('Content element:', content);
 
@@ -1326,8 +1301,8 @@
         }
     }
 
-    // Main CampJoyApp - Application controller
-    class CampJoyApp {
+    // Main JoyOfCampingApp - Application controller
+    class JoyOfCampingApp {
         constructor(campsitesData, packingListsData, activityPackingSuggestions) {
             this.campsitesData = campsitesData;
             this.packingListsData = packingListsData;
@@ -1341,7 +1316,7 @@
                 this.initializeModules();
                 this.startApp();
             } catch (error) {
-                console.error('Failed to initialize CampJoy app:', error);
+                console.error('Failed to initialize Joy of Camping app:', error);
                 this.handleInitializationError(error);
             }
         }
@@ -1527,48 +1502,33 @@
                     transform: translateX(5px);
                 }
                 
+                .packing-item {
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    border: 2px solid #e2e8f0;
+                    border-radius: 8px;
+                    padding: 12px 16px;
+                    margin: 4px 0;
+                    background: #ffffff;
+                    color: #4a5568;
+                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                
+                .packing-item:hover {
+                    background-color: #f7fafc;
+                    border-color: #cbd5e0;
+                    transform: translateY(-1px);
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                }
+                
                 .packing-item.selected {
                     background-color: #48bb78 !important;
                     color: white !important;
-                }
-                
-                .packing-print-button {
-                    background: #4299e1;
-                    color: white;
-                    border: none;
-                    border-radius: 6px;
-                    padding: 0.5rem 1rem;
-                    margin-left: 1rem;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    font-size: 0.8rem;
-                    font-weight: 600;
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 0.5rem;
-                    box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
-                }
-                
-                .packing-print-button:hover {
-                    background: #3182ce;
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
-                }
-                
-                .packing-print-button:active {
-                    transform: translateY(0);
-                }
-                
-                .packing-instruction {
-                    background: #f7fafc;
-                    border-left: 4px solid #4299e1;
-                    padding: 1rem;
-                    margin-bottom: 1rem;
-                    border-radius: 0 8px 8px 0;
-                    color: #4a5568;
-                    font-size: 0.95rem;
-                    font-style: italic;
-                    line-height: 1.5;
+                    border-color: #38a169 !important;
+                    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3) !important;
                 }
                 
                 /* Ensure collapsible content works properly */
@@ -1658,17 +1618,17 @@
                 throw new Error('Required data not loaded. Make sure data files are included before main.js');
             }
 
-            const campJoyApp = new CampJoyApp(
+            const joyOfCampingApp = new JoyOfCampingApp(
                 campsitesData,
                 packingListsData,
                 activityPackingSuggestions
             );
 
-            window.campJoyApp = campJoyApp;
-            console.log('🏕️ CampJoy application initialized successfully!');
+            window.joyOfCampingApp = joyOfCampingApp;
+            console.log('🏕️ Joy of Camping application initialized successfully!');
 
         } catch (error) {
-            console.error('Failed to initialize CampJoy application:', error);
+            console.error('Failed to initialize Joy of Camping application:', error);
         }
     }
 

@@ -1,4 +1,4 @@
-// CampJoyApp.js - Main application controller that orchestrates all modules
+// JoyOfCampingApp.js - Main application controller that orchestrates all modules
 import { EventManager, eventManager } from './eventManager.js';
 import { CampsiteManager } from './campsiteManager.js';
 import { CampsiteRenderer } from './campsiteRenderer.js';
@@ -8,7 +8,7 @@ import { DetailViewController } from './detailViewController.js';
 import { UIInteractions } from './uiInteractions.js';
 import { ActivityInventoryController } from './controllers/ActivityInventoryController.js';
 
-export class CampJoyApp {
+export class JoyOfCampingApp {
     constructor(campsitesData, packingListsData, activityPackingSuggestions) {
         // Store data
         this.campsitesData = campsitesData;
@@ -33,7 +33,7 @@ export class CampJoyApp {
             this.bindModuleEvents();
             this.startApp();
         } catch (error) {
-            console.error('Failed to initialize CampJoy app:', error);
+            console.error('Failed to initialize Joy of Camping app:', error);
             this.handleInitializationError(error);
         }
     }

@@ -397,6 +397,106 @@ body {
     font-weight: 500;
 }
 
+.detail-activities {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.detail-activities h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detail-activities h3 i {
+    color: #38a169;
+    font-size: 1rem;
+}
+
+.activities-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.activities-display .activity-tag {
+    background: #f7fafc;
+    color: #4a5568;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.activities-display .activity-tag:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+    transform: translateY(-1px);
+}
+
+.no-activities {
+    color: #718096;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.detail-amenities {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.detail-amenities h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detail-amenities h3 i {
+    color: #38a169;
+    font-size: 1rem;
+}
+
+.amenities-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.amenities-display .amenity-tag {
+    background: #f7fafc;
+    color: #4a5568;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.amenities-display .amenity-tag:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+    transform: translateY(-1px);
+}
+
+.no-amenities {
+    color: #718096;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
 .detail-body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -438,7 +538,7 @@ body {
 
 /* Deactive 'accordian' data */
 .activity-gear-container {
-  display: none !important;
+    display: none !important;
 }
 
 /* Collapsible Section Styles */
@@ -620,30 +720,79 @@ body {
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    background-color: #2d7a46; /* Match or complement your theme */
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
     color: #fff;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     font-size: 1rem;
+    font-weight: 600;
     font-family: inherit;
     cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    height: 100%; /* Ensures vertical alignment with .back-btn */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:
+        0 4px 12px rgba(66, 153, 225, 0.3),
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    height: 100%;
+    /* Ensures vertical alignment with .back-btn */
+    position: relative;
+    overflow: hidden;
+}
+
+.print-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.print-btn:hover::before {
+    left: 100%;
 }
 
 .print-btn i {
     font-size: 1.1em;
+    transition: transform 0.3s ease;
 }
 
 .print-btn:focus {
-    outline: 2px solid #1e5631;
+    outline: 2px solid #3182ce;
     outline-offset: 2px;
+    box-shadow:
+        0 4px 12px rgba(66, 153, 225, 0.4),
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0 0 4px rgba(66, 153, 225, 0.2);
 }
 
-.print-btn:hover,
+.print-btn:hover {
+    background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+    transform: translateY(-2px);
+    box-shadow:
+        0 8px 25px rgba(66, 153, 225, 0.4),
+        0 4px 8px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.print-btn:hover i {
+    transform: scale(1.1) rotate(5deg);
+}
+
 .print-btn:active {
-    background-color: #256338;
+    background: linear-gradient(135deg, #2c5aa0 0%, #1e4a8a 100%);
+    transform: translateY(0);
+    box-shadow:
+        0 2px 8px rgba(66, 153, 225, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.print-btn:active i {
+    transform: scale(0.95);
 }
 
 /* Responsive Design */
