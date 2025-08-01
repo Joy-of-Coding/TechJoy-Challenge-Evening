@@ -30,8 +30,12 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.header-content {
+.header .header-content {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .logo {
@@ -133,12 +137,96 @@ body {
     color: white;
 }
 
-/* Campsites Grid */
+
+
+/* Responsive grid layouts - fixed card sizes with adaptive columns */
 .campsites-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 2rem;
     margin-bottom: 3rem;
+    justify-content: center;
+    padding: 0 2rem;
+}
+
+/* Grid layouts for different card counts - fixed card sizes */
+.campsites-grid.grid-6 {
+    grid-template-columns: repeat(3, 350px);
+    justify-content: center;
+}
+
+.campsites-grid.grid-9 {
+    grid-template-columns: repeat(3, 350px);
+    justify-content: center;
+}
+
+.campsites-grid.grid-15 {
+    grid-template-columns: repeat(3, 350px);
+    justify-content: center;
+}
+
+/* Responsive breakpoints for different screen sizes */
+@media (max-width: 1200px) {
+
+    .campsites-grid.grid-6,
+    .campsites-grid.grid-9,
+    .campsites-grid.grid-15 {
+        grid-template-columns: repeat(2, 350px);
+    }
+}
+
+@media (max-width: 800px) {
+
+    .campsites-grid.grid-6,
+    .campsites-grid.grid-9,
+    .campsites-grid.grid-15 {
+        grid-template-columns: repeat(1, 350px);
+    }
+}
+
+/* Responsive breakpoints for different screen sizes */
+@media (max-width: 1600px) {
+    .campsites-grid {
+        max-width: 1400px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .campsites-grid {
+        max-width: 1200px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .campsites-grid {
+        max-width: 1000px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .campsites-grid {
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 800px) {
+    .campsites-grid {
+        max-width: 600px;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .campsites-grid {
+        max-width: 400px;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .campsites-grid {
+        max-width: 350px;
+        padding: 0 0.5rem;
+    }
 }
 
 .campsite-card {
@@ -169,8 +257,27 @@ body {
 .campsite-name {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #2d3748;
     margin-bottom: 0.5rem;
+}
+
+.campsite-card:nth-child(4n+1) .campsite-name {
+    color: #8B7355;
+    /* Warm earth brown */
+}
+
+.campsite-card:nth-child(4n+2) .campsite-name {
+    color: #5D7A8C;
+    /* Soft water blue-gray */
+}
+
+.campsite-card:nth-child(4n+3) .campsite-name {
+    color: #6B8E6B;
+    /* Forest green */
+}
+
+.campsite-card:nth-child(4n+4) .campsite-name {
+    color: #7A7A7A;
+    /* Neutral gray */
 }
 
 .campsite-location {
@@ -200,6 +307,14 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+}
+
+.campsite-more-activities {
+    margin-top: 0.5rem;
+}
+
+.campsite-more-activities .activity-tag {
+    color: #2c7a7b;
 }
 
 .activity-tag {
@@ -286,10 +401,11 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
+    align-items: start;
 }
 
 .detail-section.full-width {
-  grid-column: 1 / -1;
+    grid-column: 1 / -1;
 }
 
 .detail-section {
@@ -297,6 +413,15 @@ body {
     padding: 1.5rem;
     border-radius: 15px;
     border-left: 4px solid #38a169;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    align-self: start;
+    height: fit-content;
+}
+
+.detail-section:hover {
+    background: #f0f4f8;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .detail-section h3 {
@@ -311,12 +436,143 @@ body {
     color: #38a169;
 }
 
+/* Deactive 'accordian' data */
+.activity-gear-container {
+  display: none !important;
+}
+
+/* Collapsible Section Styles */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+}
+
+.section-header .header-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    text-align: left;
+}
+
+.item-count {
+    background: #38a169;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    min-width: 20px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(56, 161, 105, 0.2);
+}
+
+.section-header:hover .item-count {
+    background: #2f855a;
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(56, 161, 105, 0.3);
+}
+
+.section-header:hover {
+    background: rgba(56, 161, 105, 0.05);
+    transform: translateX(4px);
+}
+
+.section-header:active {
+    transform: translateX(2px) scale(0.98);
+}
+
+.section-header h3 {
+    margin-bottom: 0;
+    transition: color 0.3s ease;
+}
+
+.section-header:hover h3 {
+    color: #38a169;
+}
+
+.collapse-arrow {
+    color: #718096;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+.section-header:hover .collapse-arrow {
+    color: #38a169;
+    transform: scale(1.1);
+}
+
+.section-header.expanded .collapse-arrow {
+    transform: rotate(90deg);
+    color: #38a169;
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(-10px);
+    position: relative;
+}
+
+.collapsible-content.expanded {
+    max-height: 2000px;
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 1rem;
+}
+
 .amenities-list,
 .activities-list,
 .packing-list {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+/* Activity Container Styles */
+.activity-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.activity-gear-container {
+    margin-left: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.activity-gear-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+.activity-gear-items .inventory-item {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.75rem;
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.activity-gear-items .inventory-item:hover {
+    background: #edf2f7;
+    border-color: #cbd5e0;
+    transform: translateX(4px);
 }
 
 .amenity-item,
@@ -358,6 +614,38 @@ body {
     font-size: 0.9rem;
 }
 
+/* Print/Save Button Styles */
+.print-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #2d7a46; /* Match or complement your theme */
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    height: 100%; /* Ensures vertical alignment with .back-btn */
+}
+
+.print-btn i {
+    font-size: 1.1em;
+}
+
+.print-btn:focus {
+    outline: 2px solid #1e5631;
+    outline-offset: 2px;
+}
+
+.print-btn:hover,
+.print-btn:active {
+    background-color: #256338;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
@@ -368,9 +656,7 @@ body {
         font-size: 2rem;
     }
 
-    .campsites-grid {
-        grid-template-columns: 1fr;
-    }
+
 
     .detail-header {
         grid-template-columns: 1fr;
@@ -433,30 +719,230 @@ input:focus {
 
 /* Activity and Inventory Buttons */
 .interactive-button {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  margin: 0.3rem;
-  border: 1px solid #cbd5e0;
-  border-radius: 999px;
-  background-color: #f7fafc;
-  color: #2d3748;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: all 0.3s ease;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin: 0.3rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 999px;
+    background-color: #f7fafc;
+    color: #2d3748;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .interactive-button:hover {
-  background-color: #edf2f7;
-  transform: scale(1.05);
+    background-color: #edf2f7;
+    transform: scale(1.05);
 }
 
 .interactive-button:active {
-  transform: scale(0.98);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transform: scale(0.98);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .interactive-button.active {
-  background-color: #4299e1;
-  color: white;
-  border-color: #3182ce;
+    background-color: #4299e1;
+    color: white;
+    border-color: #3182ce;
+}
+
+/* Display Controls */
+.display-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.display-options {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.display-options label {
+    font-weight: 500;
+    color: #4a5568;
+    font-size: 0.9rem;
+}
+
+.cards-selector-group {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card-option {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    color: #4a5568;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 50px;
+    text-align: center;
+}
+
+.card-option:hover {
+    background: #f7fafc;
+    color: #38a169;
+    transform: translateY(-1px);
+}
+
+.card-option.active {
+    background: #38a169;
+    color: white;
+    box-shadow: 0 2px 8px rgba(56, 161, 105, 0.3);
+}
+
+.card-option:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.1);
+}
+
+.option-divider {
+    width: 1px;
+    height: 20px;
+    background: #e2e8f0;
+    margin: 0 2px;
+}
+
+.results-info {
+    font-size: 0.9rem;
+    color: #718096;
+    font-weight: 500;
+}
+
+/* Pagination */
+.pagination-container {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border: 2px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #4a5568;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    border-color: #38a169;
+    color: #38a169;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(56, 161, 105, 0.2);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.page-numbers {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.page-number {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #4a5568;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.page-number:hover {
+    border-color: #38a169;
+    color: #38a169;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(56, 161, 105, 0.2);
+}
+
+.page-number.active {
+    background: #38a169;
+    border-color: #38a169;
+    color: white;
+}
+
+.page-number.ellipsis {
+    cursor: default;
+    border: none;
+    background: transparent;
+}
+
+.page-number.ellipsis:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive pagination */
+@media (max-width: 768px) {
+    .display-controls {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .page-numbers {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+
+    .pagination-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .page-number {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
 }

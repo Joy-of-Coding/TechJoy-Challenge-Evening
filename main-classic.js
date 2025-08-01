@@ -2,7 +2,7 @@
 // This version doesn't use import/export and can be loaded with regular <script> tags
 
 // All classes will be attached to window object for global access
-(function() {
+(function () {
     'use strict';
 
     // EventManager - Centralized event handling
@@ -47,6 +47,8 @@
             this.filteredCampsites = [...this.campsites];
             this.currentFilter = 'all';
             this.searchTerm = '';
+            this.currentPage = 1;
+            this.cardsPerPage = 9;
         }
 
         getAllCampsites() {
@@ -63,11 +65,13 @@
 
         setSearchTerm(term) {
             this.searchTerm = term.toLowerCase();
+            this.currentPage = 1; // Reset to first page when searching
             this.applyFilters();
         }
 
         setFilter(filter) {
             this.currentFilter = filter;
+            this.currentPage = 1; // Reset to first page when changing filters
             this.applyFilters();
         }
 
@@ -87,8 +91,13 @@
             });
 
             eventManager.emit('campsites:filtered', {
-                campsites: this.filteredCampsites,
-                hasResults: this.filteredCampsites.length > 0
+                campsites: this.getPaginatedCampsites(),
+                allCampsites: this.filteredCampsites,
+                hasResults: this.filteredCampsites.length > 0,
+                currentPage: this.currentPage,
+                totalPages: this.getTotalPages(),
+                totalCampsites: this.getTotalCampsites(),
+                cardsPerPage: this.cardsPerPage
             });
         }
 
@@ -98,6 +107,39 @@
 
         getSearchTerm() {
             return this.searchTerm;
+        }
+
+        setCardsPerPage(cardsPerPage) {
+            this.cardsPerPage = parseInt(cardsPerPage);
+            this.currentPage = 1; // Reset to first page when changing cards per page
+            this.applyFilters();
+        }
+
+        setCurrentPage(page) {
+            this.currentPage = page;
+            this.applyFilters();
+        }
+
+        getCurrentPage() {
+            return this.currentPage;
+        }
+
+        getCardsPerPage() {
+            return this.cardsPerPage;
+        }
+
+        getTotalPages() {
+            return Math.ceil(this.filteredCampsites.length / this.cardsPerPage);
+        }
+
+        getPaginatedCampsites() {
+            const startIndex = (this.currentPage - 1) * this.cardsPerPage;
+            const endIndex = startIndex + this.cardsPerPage;
+            return this.filteredCampsites.slice(startIndex, endIndex);
+        }
+
+        getTotalCampsites() {
+            return this.filteredCampsites.length;
         }
     }
 
@@ -115,21 +157,51 @@
 
         bindEvents() {
             eventManager.on('campsites:filtered', (data) => {
-                this.renderCampsiteGrid(data.campsites, data.hasResults);
+                const paginationData = {
+                    totalCampsites: data.totalCampsites,
+                    totalPages: data.totalPages,
+                    currentPage: data.currentPage,
+                    cardsPerPage: data.cardsPerPage
+                };
+                this.renderCampsiteGrid(data.campsites, data.hasResults, paginationData);
             });
         }
 
-        renderCampsiteGrid(campsites, hasResults = true) {
+        renderCampsiteGrid(campsites, hasResults = true, paginationData = null) {
             if (!hasResults) {
                 this.renderNoResults();
+                this.updateResultsInfo(0, 0);
+                this.renderPagination(0, 1);
                 return;
             }
+
+            // Update grid class based on cards per page (default to 9)
+            this.updateGridLayout(paginationData?.cardsPerPage || 9);
 
             this.gridElement.innerHTML = campsites.map(campsite =>
                 this.createCampsiteCard(campsite)
             ).join('');
 
             this.bindCardEvents(campsites);
+
+            if (paginationData) {
+                this.updateResultsInfo(paginationData.totalCampsites, campsites.length);
+                this.renderPagination(paginationData.totalPages, paginationData.currentPage);
+            }
+        }
+
+        updateGridLayout(cardsPerPage) {
+            // Remove existing grid classes
+            this.gridElement.classList.remove('grid-6', 'grid-9', 'grid-15');
+
+            // Add appropriate grid class
+            if (cardsPerPage === 6) {
+                this.gridElement.classList.add('grid-6');
+            } else if (cardsPerPage === 9) {
+                this.gridElement.classList.add('grid-9');
+            } else if (cardsPerPage === 15) {
+                this.gridElement.classList.add('grid-15');
+            }
         }
 
         createCampsiteCard(campsite) {
@@ -162,11 +234,13 @@
                         </div>
                         <div class="campsite-activities">
                             ${activities}
-                            ${campsite.activities.length > 3 ?
-                                `<span class="activity-tag">+${campsite.activities.length - 3} more</span>` :
-                                ''
-                            }
                         </div>
+                        ${campsite.activities.length > 3 ?
+                    `<div class="campsite-more-activities">
+                        <span class="activity-tag">+${campsite.activities.length - 3} more</span>
+                    </div>` :
+                    ''
+                }
                     </div>
                 </div>
             `;
@@ -192,6 +266,106 @@
 
         showLoading() {
             this.gridElement.innerHTML = '<div class="loading">Loading amazing campsites...</div>';
+        }
+
+        updateResultsInfo(totalCampsites, currentCount) {
+            const resultsElement = document.getElementById('resultsCount');
+            if (resultsElement) {
+                resultsElement.textContent = `Showing ${currentCount} of ${totalCampsites} campsites`;
+            }
+        }
+
+        renderPagination(totalPages, currentPage) {
+            const paginationContainer = document.getElementById('pageNumbers');
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+
+            if (!paginationContainer || totalPages <= 1) {
+                if (paginationContainer) {
+                    paginationContainer.innerHTML = '';
+                }
+                if (prevBtn) prevBtn.disabled = true;
+                if (nextBtn) nextBtn.disabled = true;
+                return;
+            }
+
+            // Update previous/next buttons
+            if (prevBtn) prevBtn.disabled = currentPage <= 1;
+            if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+
+            // Generate page numbers
+            let pageNumbersHTML = '';
+            const maxVisiblePages = 5;
+
+            if (totalPages <= maxVisiblePages) {
+                // Show all pages if total is small
+                for (let i = 1; i <= totalPages; i++) {
+                    pageNumbersHTML += this.createPageNumber(i, i === currentPage);
+                }
+            } else {
+                // Show smart pagination with ellipsis
+                if (currentPage <= 3) {
+                    // Show first 3 pages + ellipsis + last page
+                    for (let i = 1; i <= 3; i++) {
+                        pageNumbersHTML += this.createPageNumber(i, i === currentPage);
+                    }
+                    pageNumbersHTML += this.createEllipsis();
+                    pageNumbersHTML += this.createPageNumber(totalPages, false);
+                } else if (currentPage >= totalPages - 2) {
+                    // Show first page + ellipsis + last 3 pages
+                    pageNumbersHTML += this.createPageNumber(1, false);
+                    pageNumbersHTML += this.createEllipsis();
+                    for (let i = totalPages - 2; i <= totalPages; i++) {
+                        pageNumbersHTML += this.createPageNumber(i, i === currentPage);
+                    }
+                } else {
+                    // Show first page + ellipsis + current-1, current, current+1 + ellipsis + last page
+                    pageNumbersHTML += this.createPageNumber(1, false);
+                    pageNumbersHTML += this.createEllipsis();
+                    for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+                        pageNumbersHTML += this.createPageNumber(i, i === currentPage);
+                    }
+                    pageNumbersHTML += this.createEllipsis();
+                    pageNumbersHTML += this.createPageNumber(totalPages, false);
+                }
+            }
+
+            paginationContainer.innerHTML = pageNumbersHTML;
+            this.bindPaginationEvents();
+        }
+
+        createPageNumber(pageNum, isActive) {
+            return `<button class="page-number ${isActive ? 'active' : ''}" data-page="${pageNum}">${pageNum}</button>`;
+        }
+
+        createEllipsis() {
+            return `<span class="page-number ellipsis">...</span>`;
+        }
+
+        bindPaginationEvents() {
+            // Bind page number clicks
+            document.querySelectorAll('.page-number:not(.ellipsis)').forEach(button => {
+                button.addEventListener('click', () => {
+                    const page = parseInt(button.dataset.page);
+                    eventManager.emit('pagination:pageChange', page);
+                });
+            });
+
+            // Bind previous/next button clicks
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+
+            if (prevBtn) {
+                prevBtn.onclick = () => {
+                    eventManager.emit('pagination:pageChange', 'prev');
+                };
+            }
+
+            if (nextBtn) {
+                nextBtn.onclick = () => {
+                    eventManager.emit('pagination:pageChange', 'next');
+                };
+            }
         }
     }
 
@@ -238,8 +412,8 @@
 
             if (packingData.activityItems.length > 0) {
                 packingHTML += this.createCategorySection(
-                    'Activity-Specific Items', 
-                    packingData.activityItems, 
+                    'Activity-Specific Items',
+                    packingData.activityItems,
                     'star'
                 );
             }
@@ -256,7 +430,7 @@
                 <div class="packing-category">
                     <h4>${categoryName}</h4>
                     ${items.map(item => `
-                        <div class="packing-item">
+                        <div class="packing-item" data-item="${item}" data-category="${categoryName}">
                             <i class="fas fa-${iconClass}"></i>
                             <span>${item}</span>
                         </div>
@@ -319,10 +493,69 @@
             this.filterButtons.forEach(btn => {
                 btn.classList.remove('active');
             });
-            
+
             const activeButton = document.querySelector(`[data-filter="${activeFilter}"]`);
             if (activeButton) {
                 activeButton.classList.add('active');
+            }
+        }
+    }
+
+    // PaginationController - Handle display controls and pagination
+    class PaginationController {
+        constructor(campsiteManager) {
+            this.campsiteManager = campsiteManager;
+            this.initializeElements();
+            this.bindEvents();
+        }
+
+        initializeElements() {
+            this.cardOptions = document.querySelectorAll('.card-option');
+        }
+
+        bindEvents() {
+            // Cards per page change
+            this.cardOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    const value = e.target.dataset.value;
+                    this.handleCardsPerPageChange(value);
+                    this.updateActiveOption(value);
+                });
+            });
+
+            // Pagination events
+            eventManager.on('pagination:pageChange', (page) => {
+                this.handlePageChange(page);
+            });
+        }
+
+        updateActiveOption(selectedValue) {
+            this.cardOptions.forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.value === selectedValue) {
+                    option.classList.add('active');
+                }
+            });
+        }
+
+        handleCardsPerPageChange(cardsPerPage) {
+            this.campsiteManager.setCardsPerPage(cardsPerPage);
+        }
+
+        handlePageChange(page) {
+            if (page === 'prev') {
+                const currentPage = this.campsiteManager.getCurrentPage();
+                if (currentPage > 1) {
+                    this.campsiteManager.setCurrentPage(currentPage - 1);
+                }
+            } else if (page === 'next') {
+                const currentPage = this.campsiteManager.getCurrentPage();
+                const totalPages = this.campsiteManager.getTotalPages();
+                if (currentPage < totalPages) {
+                    this.campsiteManager.setCurrentPage(currentPage + 1);
+                }
+            } else {
+                this.campsiteManager.setCurrentPage(page);
             }
         }
     }
@@ -334,6 +567,8 @@
             this.currentCampsite = null;
             this.detailSection = null;
             this.backButton = null;
+            this.selectedItems = new Set(); // Track selected activity items
+            this.selectedPackingItems = new Set(); // Track selected packing items
             this.initializeElements();
             this.bindEvents();
         }
@@ -359,10 +594,34 @@
                     this.hideCampsiteDetail();
                 }
             });
+            
+            // Make header content clickable to return to home page
+            const headerContent = document.querySelector('.header .header-content');
+            if (headerContent) {
+                headerContent.addEventListener('click', () => {
+                    this.returnToHomePage();
+                });
+                
+                // Add keyboard accessibility
+                headerContent.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.returnToHomePage();
+                    }
+                });
+                
+                // Set tabindex for keyboard navigation
+                headerContent.setAttribute('tabindex', '0');
+                headerContent.setAttribute('role', 'button');
+                headerContent.setAttribute('aria-label', 'Return to home page');
+            }
         }
 
         showCampsiteDetail(campsite) {
             this.currentCampsite = campsite;
+            // Clear selected items when showing a new campsite
+            this.selectedItems.clear();
+            this.selectedPackingItems.clear();
             this.hideMainSections();
             this.detailSection.classList.remove('hidden');
             this.populateDetailContent(campsite);
@@ -374,6 +633,9 @@
             this.detailSection.classList.add('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             this.currentCampsite = null;
+            // Clear selected items when hiding detail view
+            this.selectedItems.clear();
+            this.selectedPackingItems.clear();
         }
 
         populateDetailContent(campsite) {
@@ -381,6 +643,11 @@
             this.populateAmenities(campsite);
             this.populateActivities(campsite);
             this.populatePackingList(campsite);
+            
+            // Initialize collapsible sections with a small delay to ensure DOM is ready
+            setTimeout(() => {
+                this.initializeCollapsibleSections();
+            }, 100);
         }
 
         populateBasicInfo(campsite) {
@@ -395,6 +662,8 @@
 
         populateAmenities(campsite) {
             const amenitiesList = document.getElementById('detailAmenities');
+            const amenitiesCount = document.getElementById('amenitiesCount');
+
             if (amenitiesList && campsite.amenities) {
                 amenitiesList.innerHTML = campsite.amenities.map(amenity =>
                     `<div class="amenity-item">
@@ -402,22 +671,43 @@
                         <span>${amenity}</span>
                     </div>`
                 ).join('');
+
+                // Update count
+                if (amenitiesCount) {
+                    amenitiesCount.textContent = campsite.amenities.length;
+                }
+            } else if (amenitiesCount) {
+                amenitiesCount.textContent = '0';
             }
         }
 
         populateActivities(campsite) {
             const activitiesList = document.getElementById('detailActivities');
+            const activitiesCount = document.getElementById('activitiesCount');
+
             if (activitiesList && campsite.activities) {
-                // Render interactive activity buttons instead of static items
+                // Render interactive activity buttons with collapsible gear sections
                 activitiesList.innerHTML = campsite.activities.map(activity =>
-                    `<button class="interactive-button activity-button" data-activity="${activity}">
-                        <i class="fas fa-hiking"></i>
-                        ${activity}
-                    </button>`
+                    `<div class="activity-container">
+                        <button class="interactive-button activity-button" data-activity="${activity}">
+                            <i class="fas fa-hiking"></i>
+                            ${activity}
+                        </button>
+                        <div class="activity-gear-container" data-activity="${activity}" style="display: none;">
+                            <div class="activity-gear-items"></div>
+                        </div>
+                    </div>`
                 ).join('');
-                
+
+                // Update count
+                if (activitiesCount) {
+                    activitiesCount.textContent = campsite.activities.length;
+                }
+
                 // Bind click events to activity buttons
                 this.bindActivityButtonEvents(campsite);
+            } else if (activitiesCount) {
+                activitiesCount.textContent = '0';
             }
         }
 
@@ -426,7 +716,7 @@
                 button.addEventListener('click', () => {
                     const activity = button.dataset.activity;
                     button.classList.toggle('active');
-                    
+
                     if (button.classList.contains('active')) {
                         this.showActivityInventory(activity);
                         button.innerHTML = `<i class="fas fa-check"></i> ${activity}`;
@@ -440,12 +730,8 @@
 
         showActivityInventory(activity) {
             // Get inventory items for this activity
-            const activityKey = activity.toLowerCase().replace(/\s+/g, '_');
-            console.log('Looking for activity:', activity, 'with key:', activityKey);
-            
             const items = this.packingListGenerator.getActivityPackingList(activity);
-            console.log('Found items:', items);
-            
+
             // If no specific items found, create some generic ones for testing
             let itemsToShow = items;
             if (items.length === 0) {
@@ -455,64 +741,64 @@
                     `${activity} Safety Gear`,
                     `${activity} Accessories`
                 ];
-                console.log('Using fallback items:', itemsToShow);
             }
-            
-            // Find or create inventory container
-            let inventoryContainer = document.getElementById('activityInventory');
-            if (!inventoryContainer) {
-                inventoryContainer = document.createElement('div');
-                inventoryContainer.id = 'activityInventory';
-                inventoryContainer.innerHTML = '<h4>Selected Activity Gear</h4>';
-                
-                // Insert after activities section - find the right parent
-                const activitiesSection = document.getElementById('detailActivities');
-                if (activitiesSection && activitiesSection.parentNode) {
-                    activitiesSection.parentNode.insertBefore(inventoryContainer, activitiesSection.nextSibling);
-                } else {
-                    // Fallback: append to detail section
-                    const detailSection = document.getElementById('campsiteDetail');
-                    if (detailSection) {
-                        detailSection.appendChild(inventoryContainer);
-                    }
-                }
-                console.log('Created inventory container');
+
+            // Find the gear container for this specific activity
+            const gearContainer = document.querySelector(`.activity-gear-container[data-activity="${activity}"]`);
+            const gearItems = gearContainer.querySelector('.activity-gear-items');
+
+            if (gearContainer && gearItems) {
+                // Populate the gear items
+                gearItems.innerHTML = itemsToShow.map(item => `
+                    <button class="interactive-button inventory-item" data-item="${item}" data-activity="${activity}">
+                        ${item}
+                    </button>
+                `).join('');
+
+                // Add print button to the gear container
+                const printButton = document.createElement('button');
+                printButton.id = `printButton-${activity}`;
+                printButton.className = 'print-button';
+                printButton.style.display = 'none';
+                printButton.innerHTML = `
+                    <i class="fas fa-print"></i>
+                    PRINT THIS LIST
+                `;
+                printButton.addEventListener('click', () => {
+                    this.printSelectedItems();
+                });
+                gearContainer.appendChild(printButton);
+
+                // Show the container with smooth animation
+                gearContainer.style.display = 'block';
+                gearContainer.style.maxHeight = '0';
+                gearContainer.style.overflow = 'hidden';
+                gearContainer.style.transition = 'max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+
+                // Trigger the animation
+                setTimeout(() => {
+                    gearContainer.style.maxHeight = gearContainer.scrollHeight + 'px';
+                }, 10);
+
+                // Bind events to the new items
+                this.bindInventoryItemEvents(gearContainer);
             }
-            
-            // Make sure container is visible
-            inventoryContainer.style.display = 'block';
-            
-            // Create section for this activity's items
-            const section = document.createElement('div');
-            section.classList.add('inventory-section');
-            section.dataset.activity = activity;
-            
-            section.innerHTML = `
-                <h5>${activity} Gear</h5>
-                <div class="inventory-items">
-                    ${itemsToShow.map(item => `
-                        <button class="interactive-button inventory-item" data-item="${item}" data-activity="${activity}">
-                            ${item}
-                        </button>
-                    `).join('')}
-                </div>
-            `;
-            
-            inventoryContainer.appendChild(section);
-            console.log('Added section for:', activity);
-            this.bindInventoryItemEvents(section);
         }
 
         hideActivityInventory(activity) {
-            const section = document.querySelector(`.inventory-section[data-activity="${activity}"]`);
-            if (section) {
-                section.remove();
-                
-                // If no more sections, hide the container
-                const inventoryContainer = document.getElementById('activityInventory');
-                if (inventoryContainer && inventoryContainer.querySelectorAll('.inventory-section').length === 0) {
-                    inventoryContainer.style.display = 'none';
-                }
+            const gearContainer = document.querySelector(`.activity-gear-container[data-activity="${activity}"]`);
+
+            if (gearContainer) {
+                // Animate the collapse
+                gearContainer.style.maxHeight = '0';
+                gearContainer.style.transition = 'max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+
+                // Hide after animation completes
+                setTimeout(() => {
+                    gearContainer.style.display = 'none';
+                    gearContainer.style.maxHeight = '';
+                    gearContainer.style.transition = '';
+                }, 300);
             }
         }
 
@@ -523,34 +809,370 @@
                 button.addEventListener('click', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     const item = button.dataset.item;
+                    const activity = button.dataset.activity;
                     console.log('Inventory item clicked:', item);
-                    
+
                     button.classList.toggle('selected');
-                    
-                    // Add checkmark when selected
+
+                    // Track selected items
                     if (button.classList.contains('selected')) {
+                        this.selectedItems.add(item);
                         button.innerHTML = `✅ ${item}`;
                         button.style.backgroundColor = '#48bb78';
                         button.style.color = 'white';
                         console.log('Item selected:', item);
                     } else {
+                        this.selectedItems.delete(item);
                         button.innerHTML = item;
                         button.style.backgroundColor = '';
                         button.style.color = '';
                         console.log('Item deselected:', item);
                     }
+                    
+                    // Show/hide print button based on selection
+                    this.updatePrintButtonVisibility(activity);
                 });
             });
         }
 
+        updatePrintButtonVisibility(activity) {
+            const printButton = document.getElementById(`printButton-${activity}`);
+            console.log('Print button found:', printButton);
+            console.log('Selected items count:', this.selectedItems.size);
+            if (printButton) {
+                if (this.selectedItems.size > 0) {
+                    printButton.style.display = 'inline-flex';
+                    console.log('Showing print button');
+                } else {
+                    printButton.style.display = 'none';
+                    console.log('Hiding print button');
+                }
+            } else {
+                console.log('Print button not found!');
+            }
+        }
+
+        printSelectedItems() {
+            if (this.selectedItems.size === 0) {
+                alert('No items selected to print.');
+                return;
+            }
+
+            // Create print window content
+            const printContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>CampJoy - Selected Activity Gear</title>
+                    <style>
+                        body {
+                            font-family: 'Inter', sans-serif;
+                            margin: 40px;
+                            line-height: 1.6;
+                        }
+                        .print-header {
+                            text-align: center;
+                            border-bottom: 2px solid #4299e1;
+                            padding-bottom: 20px;
+                            margin-bottom: 30px;
+                        }
+                        .print-header h1 {
+                            color: #2d3748;
+                            margin: 0;
+                        }
+                        .print-header p {
+                            color: #718096;
+                            margin: 10px 0 0 0;
+                        }
+                        .items-list {
+                            margin-top: 30px;
+                        }
+                        .item {
+                            padding: 10px 0;
+                            border-bottom: 1px solid #e2e8f0;
+                            display: flex;
+                            align-items: center;
+                        }
+                        .item:before {
+                            content: "✓";
+                            color: #48bb78;
+                            font-weight: bold;
+                            margin-right: 15px;
+                            font-size: 18px;
+                        }
+                        .print-footer {
+                            margin-top: 40px;
+                            text-align: center;
+                            color: #718096;
+                            font-size: 14px;
+                        }
+                        @media print {
+                            body { margin: 20px; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="print-header">
+                        <h1>CampJoy - Selected Activity Gear</h1>
+                        <p>Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+                        ${this.currentCampsite ? `<p><strong>Campsite:</strong> ${this.currentCampsite.name}</p>` : ''}
+                    </div>
+                    
+                    <div class="items-list">
+                        <h2>Selected Items (${this.selectedItems.size})</h2>
+                        ${Array.from(this.selectedItems).map(item => `
+                            <div class="item">${item}</div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="print-footer">
+                        <p>Happy camping! 🏕️</p>
+                        <p>Generated by CampJoy</p>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            // Open print window
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            
+            // Wait for content to load then print
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.close();
+            };
+        }
+
+        addPackingPrintButton() {
+            // Find the packing list section header
+            const packingSectionHeader = document.querySelector('[data-target="detailPackingList"] .header-content');
+            if (packingSectionHeader) {
+                // Check if print button already exists
+                let printButton = document.getElementById('packingPrintButton');
+                if (!printButton) {
+                    printButton = document.createElement('button');
+                    printButton.id = 'packingPrintButton';
+                    printButton.className = 'packing-print-button';
+                    printButton.style.display = 'none';
+                    printButton.innerHTML = `
+                        <i class="fas fa-print"></i>
+                        Print Items
+                    `;
+                    printButton.addEventListener('click', () => {
+                        this.printSelectedPackingItems();
+                    });
+                    
+                    // Insert after the header content
+                    packingSectionHeader.appendChild(printButton);
+                }
+            }
+            
+            // Add instructional text under the packing list
+            const packingListElement = document.getElementById('detailPackingList');
+            if (packingListElement) {
+                // Check if instructional text already exists
+                let instructionText = document.getElementById('packingInstruction');
+                if (!instructionText) {
+                    instructionText = document.createElement('p');
+                    instructionText.id = 'packingInstruction';
+                    instructionText.className = 'packing-instruction';
+                    instructionText.innerHTML = 'Click on the items you wish to bring. Don\'t forget the marshmallows. 😀';
+                    
+                    // Insert at the beginning of the packing list
+                    packingListElement.insertBefore(instructionText, packingListElement.firstChild);
+                }
+            }
+        }
+
+        bindPackingItemEvents() {
+            const packingItems = document.querySelectorAll('.packing-item');
+            packingItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const itemText = item.dataset.item;
+                    const category = item.dataset.category;
+                    console.log('Packing item clicked:', itemText, 'from category:', category);
+                    
+                    item.classList.toggle('selected');
+                    
+                    // Track selected packing items
+                    if (item.classList.contains('selected')) {
+                        this.selectedPackingItems.add(itemText);
+                        // Add checkmark
+                        const span = item.querySelector('span');
+                        if (span) {
+                            span.innerHTML = `✓ ${itemText}`;
+                        }
+                        item.style.backgroundColor = '#48bb78';
+                        item.style.color = 'white';
+                        console.log('Packing item selected:', itemText);
+                    } else {
+                        this.selectedPackingItems.delete(itemText);
+                        // Remove checkmark
+                        const span = item.querySelector('span');
+                        if (span) {
+                            span.innerHTML = itemText;
+                        }
+                        item.style.backgroundColor = '';
+                        item.style.color = '';
+                        console.log('Packing item deselected:', itemText);
+                    }
+                    
+                    // Show/hide print button based on selection
+                    this.updatePackingPrintButtonVisibility();
+                });
+            });
+        }
+
+        updatePackingPrintButtonVisibility() {
+            const printButton = document.getElementById('packingPrintButton');
+            console.log('Packing print button found:', printButton);
+            console.log('Selected packing items count:', this.selectedPackingItems.size);
+            if (printButton) {
+                if (this.selectedPackingItems.size > 0) {
+                    printButton.style.display = 'inline-flex';
+                    console.log('Showing packing print button');
+                } else {
+                    printButton.style.display = 'none';
+                    console.log('Hiding packing print button');
+                }
+            } else {
+                console.log('Packing print button not found!');
+            }
+        }
+
+        printSelectedPackingItems() {
+            if (this.selectedPackingItems.size === 0) {
+                alert('No packing items selected to print.');
+                return;
+            }
+
+            // Create print window content for packing items
+            const printContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>CampJoy - Selected Packing Items</title>
+                    <style>
+                        body {
+                            font-family: 'Inter', sans-serif;
+                            margin: 40px;
+                            line-height: 1.6;
+                        }
+                        .print-header {
+                            text-align: center;
+                            border-bottom: 2px solid #4299e1;
+                            padding-bottom: 20px;
+                            margin-bottom: 30px;
+                        }
+                        .print-header h1 {
+                            color: #2d3748;
+                            margin: 0;
+                        }
+                        .print-header p {
+                            color: #718096;
+                            margin: 10px 0 0 0;
+                        }
+                        .items-list {
+                            margin-top: 30px;
+                        }
+                        .item {
+                            padding: 10px 0;
+                            border-bottom: 1px solid #e2e8f0;
+                            display: flex;
+                            align-items: center;
+                        }
+                        .item:before {
+                            content: "✓";
+                            color: #48bb78;
+                            font-weight: bold;
+                            margin-right: 15px;
+                            font-size: 18px;
+                        }
+                        .print-footer {
+                            margin-top: 40px;
+                            text-align: center;
+                            color: #718096;
+                            font-size: 14px;
+                        }
+                        @media print {
+                            body { margin: 20px; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="print-header">
+                        <h1>CampJoy - Selected Packing Items</h1>
+                        <p>Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+                        ${this.currentCampsite ? `<p><strong>Campsite:</strong> ${this.currentCampsite.name}</p>` : ''}
+                    </div>
+                    
+                    <div class="items-list">
+                        <h2>Selected Packing Items (${this.selectedPackingItems.size})</h2>
+                        ${Array.from(this.selectedPackingItems).map(item => `
+                            <div class="item">${item}</div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="print-footer">
+                        <p>Happy camping! 🏕️</p>
+                        <p>Generated by CampJoy</p>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            // Open print window
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            
+            // Wait for content to load then print
+            printWindow.onload = function() {
+                printWindow.print();
+                printWindow.close();
+            };
+        }
+
         populatePackingList(campsite) {
             const packingListElement = document.getElementById('detailPackingList');
+            const packingCount = document.getElementById('packingCount');
+
             if (packingListElement && this.packingListGenerator) {
                 const packingData = this.packingListGenerator.generatePackingList(campsite);
                 const packingHTML = this.packingListGenerator.renderPackingListHTML(packingData);
                 packingListElement.innerHTML = packingHTML;
+
+                // Add print button next to the packing list
+                this.addPackingPrintButton();
+
+                // Calculate total items across all categories
+                let totalItems = 0;
+                if (packingData && typeof packingData === 'object') {
+                    Object.values(packingData).forEach(category => {
+                        if (Array.isArray(category)) {
+                            totalItems += category.length;
+                        }
+                    });
+                }
+
+                // Update count
+                if (packingCount) {
+                    packingCount.textContent = totalItems;
+                }
+
+                // Bind events to packing items
+                this.bindPackingItemEvents();
+            } else if (packingCount) {
+                packingCount.textContent = '0';
             }
         }
 
@@ -568,7 +1190,7 @@
         hideMainSections() {
             const campsitesSection = document.querySelector('.campsites-section');
             const searchSection = document.querySelector('.search-section');
-            
+
             if (campsitesSection) campsitesSection.style.display = 'none';
             if (searchSection) searchSection.style.display = 'none';
         }
@@ -576,13 +1198,131 @@
         showMainSections() {
             const campsitesSection = document.querySelector('.campsites-section');
             const searchSection = document.querySelector('.search-section');
-            
+
             if (campsitesSection) campsitesSection.style.display = 'block';
             if (searchSection) searchSection.style.display = 'block';
         }
 
         isDetailViewVisible() {
             return this.detailSection && !this.detailSection.classList.contains('hidden');
+        }
+        
+        returnToHomePage() {
+            // If we're on a campsite detail page, hide it to return to home
+            if (this.isDetailViewVisible()) {
+                this.hideCampsiteDetail();
+            }
+            
+            // Scroll to top of page
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Clear any search or filters to show all campsites
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.value = '';
+                // Trigger search event to reset results
+                searchInput.dispatchEvent(new Event('input'));
+            }
+            
+            // Reset filter to "All Sites"
+            const allSitesFilter = document.querySelector('.filter-btn[data-filter="all"]');
+            if (allSitesFilter) {
+                allSitesFilter.click();
+            }
+        }
+
+        initializeCollapsibleSections() {
+            console.log('Initializing collapsible sections...');
+            const sectionHeaders = document.querySelectorAll('.section-header');
+            console.log('Found section headers:', sectionHeaders.length);
+
+            sectionHeaders.forEach((header, index) => {
+                console.log(`Setting up header ${index}:`, header);
+                
+                // Remove any existing event listeners to prevent duplicates
+                const newHeader = header.cloneNode(true);
+                header.parentNode.replaceChild(newHeader, header);
+                
+                newHeader.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Section header clicked:', newHeader);
+                    this.toggleSection(newHeader);
+                });
+
+                // Add keyboard accessibility
+                newHeader.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('Section header key pressed:', newHeader);
+                        this.toggleSection(newHeader);
+                    }
+                });
+
+                // Set tabindex for keyboard navigation
+                newHeader.setAttribute('tabindex', '0');
+                
+                // Ensure content is initially collapsed
+                const targetId = newHeader.getAttribute('data-target');
+                const content = document.getElementById(targetId);
+                if (content) {
+                    content.style.maxHeight = '0';
+                    content.style.overflow = 'hidden';
+                    console.log(`Initialized content for ${targetId}`);
+                }
+            });
+            
+            console.log('Collapsible sections initialization complete');
+        }
+
+        toggleSection(header) {
+            const targetId = header.getAttribute('data-target');
+            const content = document.getElementById(targetId);
+            
+            console.log('Toggling section:', targetId);
+            console.log('Content element:', content);
+
+            if (!content) {
+                console.error('Content element not found for target:', targetId);
+                return;
+            }
+
+            const isExpanded = header.classList.contains('expanded');
+            console.log('Is expanded:', isExpanded);
+
+            if (isExpanded) {
+                // Collapse the section
+                console.log('Collapsing section:', targetId);
+                header.classList.remove('expanded');
+                content.classList.remove('expanded');
+
+                // Add a small delay to ensure smooth animation
+                setTimeout(() => {
+                    content.style.maxHeight = '0';
+                    content.style.overflow = 'hidden';
+                    console.log('Section collapsed:', targetId);
+                }, 10);
+            } else {
+                // Expand the section
+                console.log('Expanding section:', targetId);
+                header.classList.add('expanded');
+                content.classList.add('expanded');
+
+                // Calculate the actual height for smooth animation
+                const scrollHeight = content.scrollHeight;
+                console.log('Content scroll height:', scrollHeight);
+                content.style.maxHeight = scrollHeight + 'px';
+                content.style.overflow = 'visible';
+
+                // Reset max-height after animation completes
+                setTimeout(() => {
+                    if (content.classList.contains('expanded')) {
+                        content.style.maxHeight = 'none';
+                        console.log('Section fully expanded:', targetId);
+                    }
+                }, 400);
+            }
         }
     }
 
@@ -619,12 +1359,18 @@
             this.modules.searchFilterController = new SearchFilterController(
                 this.modules.campsiteManager
             );
+            this.modules.paginationController = new PaginationController(
+                this.modules.campsiteManager
+            );
         }
 
         startApp() {
             this.addDynamicStyles();
             this.addMicroInteractions();
-            
+
+            // Set initial grid layout to 9 cards per page
+            this.modules.campsiteRenderer.updateGridLayout(9);
+
             // Show loading, then render campsites
             this.modules.campsiteRenderer.showLoading();
             setTimeout(() => {
@@ -740,6 +1486,134 @@
                     border-bottom: 2px solid #e2e8f0;
                     padding-bottom: 0.5rem;
                 }
+                
+                .print-button {
+                    background: #4299e1;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    padding: 0.75rem 1.5rem;
+                    margin-top: 1rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
+                }
+                
+                .print-button:hover {
+                    background: #3182ce;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+                }
+                
+                .print-button:active {
+                    transform: translateY(0);
+                }
+                
+                .packing-item {
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    padding: 0.5rem;
+                    border-radius: 6px;
+                    margin: 0.25rem 0;
+                }
+                
+                .packing-item:hover {
+                    background-color: #e2e8f0;
+                    transform: translateX(5px);
+                }
+                
+                .packing-item.selected {
+                    background-color: #48bb78 !important;
+                    color: white !important;
+                }
+                
+                .packing-print-button {
+                    background: #4299e1;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    padding: 0.5rem 1rem;
+                    margin-left: 1rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    box-shadow: 0 2px 8px rgba(66, 153, 225, 0.3);
+                }
+                
+                .packing-print-button:hover {
+                    background: #3182ce;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.4);
+                }
+                
+                .packing-print-button:active {
+                    transform: translateY(0);
+                }
+                
+                .packing-instruction {
+                    background: #f7fafc;
+                    border-left: 4px solid #4299e1;
+                    padding: 1rem;
+                    margin-bottom: 1rem;
+                    border-radius: 0 8px 8px 0;
+                    color: #4a5568;
+                    font-size: 0.95rem;
+                    font-style: italic;
+                    line-height: 1.5;
+                }
+                
+                /* Ensure collapsible content works properly */
+                .collapsible-content {
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                
+                .collapsible-content.expanded {
+                    max-height: 2000px;
+                    overflow: visible;
+                }
+                
+                /* Ensure section headers are clickable */
+                .section-header {
+                    cursor: pointer;
+                    user-select: none;
+                }
+                
+                .section-header:hover {
+                    background-color: rgba(66, 153, 225, 0.05);
+                }
+                
+                /* Make header content clickable */
+                .header .header-content {
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    border-radius: 8px;
+                    padding: 0.5rem;
+                }
+                
+                .header .header-content:hover {
+                    background-color: rgba(56, 161, 105, 0.05);
+                    transform: translateY(-2px);
+                }
+                
+                .header .header-content:active {
+                    transform: translateY(0);
+                }
+                
+                .header .header-content:focus {
+                    outline: 2px solid #38a169;
+                    outline-offset: 2px;
+                }
             `;
             document.head.appendChild(style);
         }
@@ -778,8 +1652,8 @@
     // Initialize the application when DOM is ready
     function initializeApp() {
         try {
-            if (typeof campsitesData === 'undefined' || 
-                typeof packingListsData === 'undefined' || 
+            if (typeof campsitesData === 'undefined' ||
+                typeof packingListsData === 'undefined' ||
                 typeof activityPackingSuggestions === 'undefined') {
                 throw new Error('Required data not loaded. Make sure data files are included before main.js');
             }
