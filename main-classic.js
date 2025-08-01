@@ -661,292 +661,36 @@
         }
 
         populateAmenities(campsite) {
-            const amenitiesList = document.getElementById('detailAmenities');
-            const amenitiesCount = document.getElementById('amenitiesCount');
+            const amenitiesList = document.getElementById('detailAmenitiesList');
 
-            if (amenitiesList && campsite.amenities) {
+            if (amenitiesList && campsite.amenities && campsite.amenities.length > 0) {
+                // Render simple amenity tags
                 amenitiesList.innerHTML = campsite.amenities.map(amenity =>
-                    `<div class="amenity-item">
-                        <i class="fas fa-check"></i>
-                        <span>${amenity}</span>
-                    </div>`
+                    `<span class="amenity-tag">${amenity}</span>`
                 ).join('');
-
-                // Update count
-                if (amenitiesCount) {
-                    amenitiesCount.textContent = campsite.amenities.length;
-                }
-            } else if (amenitiesCount) {
-                amenitiesCount.textContent = '0';
+            } else if (amenitiesList) {
+                amenitiesList.innerHTML = '<span class="no-amenities">No amenities listed</span>';
             }
         }
 
         populateActivities(campsite) {
-            const activitiesList = document.getElementById('detailActivities');
-            const activitiesCount = document.getElementById('activitiesCount');
+            const activitiesList = document.getElementById('detailActivitiesList');
 
-            if (activitiesList && campsite.activities) {
-                // Render interactive activity buttons with collapsible gear sections
+            if (activitiesList && campsite.activities && campsite.activities.length > 0) {
+                // Render simple activity tags
                 activitiesList.innerHTML = campsite.activities.map(activity =>
-                    `<div class="activity-container">
-                        <button class="interactive-button activity-button" data-activity="${activity}">
-                            <i class="fas fa-hiking"></i>
-                            ${activity}
-                        </button>
-                        <div class="activity-gear-container" data-activity="${activity}" style="display: none;">
-                            <div class="activity-gear-items"></div>
-                        </div>
-                    </div>`
+                    `<span class="activity-tag">${activity}</span>`
                 ).join('');
-
-                // Update count
-                if (activitiesCount) {
-                    activitiesCount.textContent = campsite.activities.length;
-                }
-
-                // Bind click events to activity buttons
-                this.bindActivityButtonEvents(campsite);
-            } else if (activitiesCount) {
-                activitiesCount.textContent = '0';
+            } else if (activitiesList) {
+                activitiesList.innerHTML = '<span class="no-activities">No activities listed</span>';
             }
         }
 
-        bindActivityButtonEvents(campsite) {
-            document.querySelectorAll('.activity-button').forEach(button => {
-                button.addEventListener('click', () => {
-                    const activity = button.dataset.activity;
-                    button.classList.toggle('active');
 
-                    if (button.classList.contains('active')) {
-                        this.showActivityInventory(activity);
-                        button.innerHTML = `<i class="fas fa-check"></i> ${activity}`;
-                    } else {
-                        this.hideActivityInventory(activity);
-                        button.innerHTML = `<i class="fas fa-hiking"></i> ${activity}`;
-                    }
-                });
-            });
-        }
 
-        showActivityInventory(activity) {
-            // Get inventory items for this activity
-            const items = this.packingListGenerator.getActivityPackingList(activity);
 
-            // If no specific items found, create some generic ones for testing
-            let itemsToShow = items;
-            if (items.length === 0) {
-                // Fallback items for testing
-                itemsToShow = [
-                    `${activity} Equipment`,
-                    `${activity} Safety Gear`,
-                    `${activity} Accessories`
-                ];
-            }
 
-            // Find the gear container for this specific activity
-            const gearContainer = document.querySelector(`.activity-gear-container[data-activity="${activity}"]`);
-            const gearItems = gearContainer.querySelector('.activity-gear-items');
 
-            if (gearContainer && gearItems) {
-                // Populate the gear items
-                gearItems.innerHTML = itemsToShow.map(item => `
-                    <button class="interactive-button inventory-item" data-item="${item}" data-activity="${activity}">
-                        ${item}
-                    </button>
-                `).join('');
-
-                // Add print button to the gear container
-                const printButton = document.createElement('button');
-                printButton.id = `printButton-${activity}`;
-                printButton.className = 'print-button';
-                printButton.style.display = 'none';
-                printButton.innerHTML = `
-                    <i class="fas fa-print"></i>
-                    PRINT THIS LIST
-                `;
-                printButton.addEventListener('click', () => {
-                    this.printSelectedItems();
-                });
-                gearContainer.appendChild(printButton);
-
-                // Show the container with smooth animation
-                gearContainer.style.display = 'block';
-                gearContainer.style.maxHeight = '0';
-                gearContainer.style.overflow = 'hidden';
-                gearContainer.style.transition = 'max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-
-                // Trigger the animation
-                setTimeout(() => {
-                    gearContainer.style.maxHeight = gearContainer.scrollHeight + 'px';
-                }, 10);
-
-                // Bind events to the new items
-                this.bindInventoryItemEvents(gearContainer);
-            }
-        }
-
-        hideActivityInventory(activity) {
-            const gearContainer = document.querySelector(`.activity-gear-container[data-activity="${activity}"]`);
-
-            if (gearContainer) {
-                // Animate the collapse
-                gearContainer.style.maxHeight = '0';
-                gearContainer.style.transition = 'max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-
-                // Hide after animation completes
-                setTimeout(() => {
-                    gearContainer.style.display = 'none';
-                    gearContainer.style.maxHeight = '';
-                    gearContainer.style.transition = '';
-                }, 300);
-            }
-        }
-
-        bindInventoryItemEvents(section) {
-            console.log('Binding events for inventory section');
-            section.querySelectorAll('.inventory-item').forEach(button => {
-                console.log('Binding click event for:', button.dataset.item);
-                button.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    const item = button.dataset.item;
-                    const activity = button.dataset.activity;
-                    console.log('Inventory item clicked:', item);
-
-                    button.classList.toggle('selected');
-
-                    // Track selected items
-                    if (button.classList.contains('selected')) {
-                        this.selectedItems.add(item);
-                        button.innerHTML = `✅ ${item}`;
-                        button.style.backgroundColor = '#48bb78';
-                        button.style.color = 'white';
-                        console.log('Item selected:', item);
-                    } else {
-                        this.selectedItems.delete(item);
-                        button.innerHTML = item;
-                        button.style.backgroundColor = '';
-                        button.style.color = '';
-                        console.log('Item deselected:', item);
-                    }
-
-                    // Show/hide print button based on selection
-                    this.updatePrintButtonVisibility(activity);
-                });
-            });
-        }
-
-        updatePrintButtonVisibility(activity) {
-            const printButton = document.getElementById(`printButton-${activity}`);
-            console.log('Print button found:', printButton);
-            console.log('Selected items count:', this.selectedItems.size);
-            if (printButton) {
-                if (this.selectedItems.size > 0) {
-                    printButton.style.display = 'inline-flex';
-                    console.log('Showing print button');
-                } else {
-                    printButton.style.display = 'none';
-                    console.log('Hiding print button');
-                }
-            } else {
-                console.log('Print button not found!');
-            }
-        }
-
-        printSelectedItems() {
-            if (this.selectedItems.size === 0) {
-                alert('No items selected to print.');
-                return;
-            }
-
-            // Create print window content
-            const printContent = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Joy of Camping - Selected Activity Gear</title>
-                    <style>
-                        body {
-                            font-family: 'Inter', sans-serif;
-                            margin: 40px;
-                            line-height: 1.6;
-                        }
-                        .print-header {
-                            text-align: center;
-                            border-bottom: 2px solid #4299e1;
-                            padding-bottom: 20px;
-                            margin-bottom: 30px;
-                        }
-                        .print-header h1 {
-                            color: #2d3748;
-                            margin: 0;
-                        }
-                        .print-header p {
-                            color: #718096;
-                            margin: 10px 0 0 0;
-                        }
-                        .items-list {
-                            margin-top: 30px;
-                        }
-                        .item {
-                            padding: 10px 0;
-                            border-bottom: 1px solid #e2e8f0;
-                            display: flex;
-                            align-items: center;
-                        }
-                        .item:before {
-                            content: "✓";
-                            color: #48bb78;
-                            font-weight: bold;
-                            margin-right: 15px;
-                            font-size: 18px;
-                        }
-                        .print-footer {
-                            margin-top: 40px;
-                            text-align: center;
-                            color: #718096;
-                            font-size: 14px;
-                        }
-                        @media print {
-                            body { margin: 20px; }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="print-header">
-                        <h1>Joy of Camping - Selected Activity Gear</h1>
-                        <p>Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
-                        ${this.currentCampsite ? `<p><strong>Campsite:</strong> ${this.currentCampsite.name}</p>` : ''}
-                    </div>
-                    
-                    <div class="items-list">
-                        <h2>Selected Items (${this.selectedItems.size})</h2>
-                        ${Array.from(this.selectedItems).map(item => `
-                            <div class="item">${item}</div>
-                        `).join('')}
-                    </div>
-                    
-                    <div class="print-footer">
-                        <p>Happy camping! 🏕️</p>
-                        <p>Generated by Joy of Camping</p>
-                    </div>
-                </body>
-                </html>
-            `;
-
-            // Open print window
-            const printWindow = window.open('', '_blank');
-            printWindow.document.write(printContent);
-            printWindow.document.close();
-            printWindow.focus();
-
-            // Wait for content to load then print
-            printWindow.onload = function () {
-                printWindow.print();
-                printWindow.close();
-            };
-        }
 
 
 
