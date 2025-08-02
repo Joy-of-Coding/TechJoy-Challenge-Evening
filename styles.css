@@ -350,7 +350,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0;
     transition: all 0.3s ease;
 }
 
@@ -945,4 +945,12 @@ input:focus {
         height: 35px;
         font-size: 0.8rem;
     }
+}
+
+.detail-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    width: 100%;
 }
