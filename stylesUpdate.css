@@ -1,0 +1,425 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ########################################### */
+/* ########################################### */
+
+/* Header Styles */
+.header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header .header-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.logo i {
+  color: #38a169;
+  font-size: 2rem;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  color: #718096;
+  font-weight: 400;
+}
+
+/* ########################################### */
+/* ########################################### */
+
+/* Camp Card */
+.campsites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.campsite-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card-content {
+  padding: 1.5rem 2rem 2rem;
+}
+
+.campsite-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+}
+
+.card-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.campsite-content {
+  padding: 1.5rem 2rem 1rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Type-based color coding */
+.beach-title {
+  color: #8B7355;
+}
+
+.lake-title {
+  color: #32578C;
+}
+
+.forest-title {
+  color: #6B8E6B;
+}
+
+.mountain-title {
+  color: #7A7A7A;
+}
+
+.card-location {
+  color: #718096;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.card-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  flex: 1 1 0;
+    /* allow each stat to grow evenly */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+}
+
+.stat-label {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #4a5568;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #2D3748;
+  background: #f7fafc;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  min-width: 80px;
+  justify-content: center;
+}
+
+.card-description {
+  color: #4a5568;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  padding: 0 1rem;
+  margin: 1rem 0 2rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+}
+
+.card-description::after {
+  content: none;
+}
+
+/* ########################################### */
+/* ########################################### */
+
+/* Search Section */
+.search-section {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Layout: Search on left, filters on right */
+.search-section .search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Search Input */
+#searchInput {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #CBD5E0;
+  border-radius: 8px;
+  background-color: #F7FAFC;
+  color: #2D3748;
+  flex: 1 1 250px;
+  max-width: 300px;
+  transition: border-color 0.2s ease;
+}
+
+#searchInput:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Filters Container */
+.filters {
+  display: flex;
+  gap: 0.75rem;
+  flex: 2 1 600px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Dropdowns */
+.filters select {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid #CBD5E0;
+  border-radius: 6px;
+  background-color: #F7FAFC;
+  color: #2D3748;
+  min-width: 140px;
+  transition: border-color 0.2s ease;
+}
+
+.filters select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+.clear-btn {
+  height: 40px;
+  padding: 0 1rem;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  background-color: #EDF2F7;
+  color: #4A5568;
+  border: 1px solid #CBD5E0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.clear-btn:hover {
+  background-color: #E2E8F0;
+  box-shadow: 0 0 0 3px rgba(160, 174, 192, 0.3);
+}
+
+.clear-btn:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .search-section .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters {
+    justify-content: center;
+  }
+
+  #searchInput,
+  .filters select {
+    max-width: 100%;
+  }
+}
+
+/* ########################################### */
+/* ########################################### */
+
+/* Campsite Detail Section */
+.hidden {
+  display: none;
+}
+
+#back-button {
+  background: #38a169;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+#back-button:hover {
+  background: #2f855a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+}
+
+/* ########################################### */
+/* ########################################### */
+
+/* Detail Header */
+.detail-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  align-items: start;
+}
+
+.detail-image img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.detail-info h2 {
+  font-size: 2rem;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.detail-info .location {
+  color: #718096;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.detail-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.detail-stats .stat {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.detail-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  align-items: start;
+}
+
+.detail-section.full-width {
+  grid-column: 1 / -1;
+}
+
+.detail-section {
+  background: #f7fafc;
+  padding: 1.5rem;
+  border-radius: 15px;
+  border-left: 4px solid #38a169;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  align-self: start;
+  height: fit-content;
+}
+
+.detail-section:hover {
+  background: #f0f4f8;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.detail-section h3 {
+  color: #2d3748;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detail-section h3 i {
+  color: #38a169;
+}
+
+/* ########################################### */
+/* ########################################### */
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}

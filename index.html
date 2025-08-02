@@ -2,198 +2,86 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampJoy - Find Your Perfect Campsite</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joy of Camping - Find Your Perfect Campsite</title>
+  <link rel="stylesheet" href="stylesUpdate.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
-<body>
+  <body>
     <div class="container">
-        <header class="header">
-            <div class="header-content">
-                <h1 class="logo">
-                    <i class="fas fa-campground"></i>
-                    Joy of Camping
-                </h1>
-                <p class="tagline">Discover amazing campsites and pack perfectly for your adventure</p>
+      <header class="header">
+        <div class="header-content">
+          <h1 class="logo">
+            <i class="fas fa-campground"></i>
+            Joy of Camping
+          </h1>
+          <p class="tagline">Discover amazing campsites and pack perfectly for your adventure</p>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <section class="search-section">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search campsites..." />
+        
+            <div class="filters">
+              <select id="typeFilter">
+                <option value="">All Types</option>
+                <option value="lake">Lake</option>
+                <option value="forest">Forest</option>
+                <option value="mountain">Mountain</option>
+                <option value="beach">Beach</option>
+              </select>
+        
+              <select id="tagFilter">
+                <option value="">All Tags</option>
+                <option value="fishing">Fishing</option>
+                <option value="hiking">Hiking</option>
+                <option value="swimming">Swimming</option>
+                <!-- Add more as needed -->
+              </select>
+        
+              <select id="sortBy">
+                <option value="">Sort By</option>
+                <option value="rating-desc">Rating ↓</option>
+                <option value="rating-asc">Rating ↑</option>
+                <option value="price-asc">Price ↑</option>
+                <option value="price-desc">Price ↓</option>
+                <option value="capacity-asc">Capacity ↑</option>
+                <option value="capacity-desc">Capacity ↓</option>
+                <option value="name-asc">Name A–Z</option>
+                <option value="name-desc">Name Z–A</option>
+              </select>
+
+              <button id="clearFilters" class="clear-btn">Clear Filters</button>
+
             </div>
-        </header>
+          </div>
+        </section>
 
-        <main class="main-content">
-            <section class="search-section">
-                <div class="search-container">
-                    <div class="search-box">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" id="searchInput"
-                            placeholder="Search campsites by name, location, or activity..." autocomplete="off">
-                    </div>
-                    <div class="filter-buttons">
-                        <button class="filter-btn active" data-filter="all">
-                            <i class="fas fa-globe"></i>
-                            All Sites
-                        </button>
-                        <button class="filter-btn" data-filter="lake">
-                            <i class="fas fa-water"></i>
-                            Lake
-                        </button>
-                        <button class="filter-btn" data-filter="mountain">
-                            <i class="fas fa-mountain"></i>
-                            Mountain
-                        </button>
-                        <button class="filter-btn" data-filter="forest">
-                            <i class="fas fa-tree"></i>
-                            Forest
-                        </button>
-                        <button class="filter-btn" data-filter="beach">
-                            <i class="fas fa-umbrella-beach"></i>
-                            Beach
-                        </button>
-                    </div>
-                </div>
-            </section>
+        <section class="campsites-section">
 
-            <section class="campsites-section">
-                <div class="display-controls">
-                    <div class="display-options">
-                        <label>Cards per page:</label>
-                        <div class="cards-selector-group">
-                            <button class="card-option" data-value="6">6</button>
-                            <div class="option-divider"></div>
-                            <button class="card-option active" data-value="9">9</button>
-                            <div class="option-divider"></div>
-                            <button class="card-option" data-value="15">15</button>
-                        </div>
-                    </div>
-                    <div class="results-info">
-                        <span id="resultsCount">Showing 0 of 0 campsites</span>
-                    </div>
-                </div>
+        </section>
 
-                <div id="campsitesGrid" class="campsites-grid">
-                    <!-- Campsites will be dynamically loaded here -->
-                </div>
+        <section id="campsiteDetail" class="campsite-detail hidden">
+          <button id="back-button">← Back</button>
+          
+        </section>
+      </main>
 
-                <div class="pagination-container">
-                    <div class="pagination">
-                        <button id="prevPage" class="pagination-btn" disabled>
-                            <i class="fas fa-chevron-left"></i>
-                            Previous
-                        </button>
-                        <div class="page-numbers" id="pageNumbers">
-                            <!-- Page numbers will be generated here -->
-                        </div>
-                        <button id="nextPage" class="pagination-btn">
-                            Next
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <section id="campsiteDetail" class="campsite-detail hidden">
-                <div class="detail-container">
-                    <div style="display: flex; gap: 1rem; align-items: center;">
-                        <button class="back-btn" id="backBtn" type="button" aria-label="Back to Campsites">
-                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
-                            Back to Campsites
-                        </button>
-                        <button class="print-btn" id="printBtn" type="button" aria-label="Print or Save Campsite Details">
-                            <i class="fas fa-print" aria-hidden="true"></i>
-                            Print / Save
-                        </button>
-                    </div>
-
-                    <div class="detail-content">
-                        <div class="detail-header">
-                            <div class="detail-image">
-                                <img id="detailImage" src="" alt="Campsite">
-                            </div>
-                            <div class="detail-info">
-                                <h2 id="detailName"></h2>
-                                <p id="detailLocation" class="location"></p>
-                                <div class="detail-stats">
-                                    <span class="stat">
-                                        <i class="fas fa-star"></i>
-                                        <span id="detailRating"></span>
-                                    </span>
-                                    <span class="stat">
-                                        <i class="fas fa-dollar-sign"></i>
-                                        <span id="detailPrice"></span>
-                                    </span>
-                                    <span class="stat">
-                                        <i class="fas fa-users"></i>
-                                        <span id="detailCapacity"></span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="detail-body">
-                            <div class="detail-section collapsible">
-                                <div class="section-header" data-target="detailAmenities">
-                                    <div class="header-content">
-                                        <h3><i class="fas fa-list-check"></i> Amenities</h3>
-                                        <span class="item-count" id="amenitiesCount">0</span>
-                                    </div>
-                                    <i class="fas fa-chevron-right collapse-arrow"></i>
-                                </div>
-                                <div id="detailAmenities" class="amenities-list collapsible-content"></div>
-                            </div>
-
-                            <div class="detail-section collapsible">
-                                <div class="section-header" data-target="detailActivities">
-                                    <div class="header-content">
-                                        <h3><i class="fas fa-hiking"></i> Activities</h3>
-                                        <span class="item-count" id="activitiesCount">0</span>
-                                    </div>
-                                    <i class="fas fa-chevron-right collapse-arrow"></i>
-                                </div>
-                                <div id="detailActivities" class="activities-list collapsible-content"></div>
-                            </div>
-
-                            <div class="detail-section full-width collapsible">
-                                <div class="section-header" data-target="detailPackingList">
-                                    <div class="header-content">
-                                        <h3><i class="fas fa-suitcase"></i> What to Bring</h3>
-                                        <span class="item-count" id="packingCount">0</span>
-                                    </div>
-                                    <i class="fas fa-chevron-right collapse-arrow"></i>
-                                </div>
-                                <div id="detailPackingList" class="packing-list collapsible-content"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <footer class="footer">
-            <p>&copy; 2024 CampJoy. Made with ❤️ for outdoor enthusiasts.</p>
-        </footer>
+      <footer class="footer">
+        <p>&copy; 2025 Joy of Camping. Made with ❤️ for outdoor enthusiasts.</p>
+      </footer>
     </div>
 
-    <script src="campsitesData.js"></script>
-    <script src="packingListData.js"></script>
-    <script src="activityPackingSuggestions.js"></script>
-    <script src="main-classic.js"></script>
+  <script src="campsitesData.js"></script>
+  <!-- <script src="packingListData.js"></script> -->
+  <!-- <script src="activityPackingSuggestions.js"></script> -->
+  <!-- <script src="main-classic.js"></script> -->
 
-<!-- Add this before the closing </body> tag in index.html -->
-<script>
-    document.getElementById('printBtn').addEventListener('click', function () {
-        window.print();
-    });
-</script>
-
-<!-- Add this before the closing </body> tag in index.html -->
-<script>
-    document.getElementById('printBtn').addEventListener('click', function () {
-        window.print();
-    });
-</script>
-
-</body>
-
+  <script src="app1.js"></script>
+  </body>
 </html>

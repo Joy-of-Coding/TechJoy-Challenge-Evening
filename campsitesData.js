@@ -7,7 +7,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1516132006923-6cf348e5dee2?w=800&h=600&fit=crop",
         "rating": 4.8,
         "price": "25/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Nestled beside the pristine Crystal Lake, this campground offers stunning mountain views and excellent fishing opportunities. The crystal-clear waters reflect the surrounding peaks, creating a picture-perfect camping experience.",
         "amenities": [
             "Boat ramp",
@@ -36,7 +36,7 @@ const campsitesData = [
         "image": "https://assets.milestoneinternet.com/cdn-cgi/image/f=auto/aramark-parent/yosemite-national-park/site-images/climber-with-helmet-and-gear-ascends-a-steep-rock-face-yosemite-national-park-lodging-and-activities-california-united-states.jpg?cropY=534&cropW=4000&cropH=1460&width=800&height=292",
         "rating": 4.9,
         "price": "30/night",
-        "capacity": "Up to 4 people",
+        "capacity": "4 max",
         "description": "High-altitude camping at the base of majestic peaks. This campsite offers challenging hiking trails, breathtaking vistas, and the opportunity to experience alpine ecosystems up close.",
         "amenities": [
             "Bear-proof storage",
@@ -64,7 +64,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
         "rating": 4.7,
         "price": "20/night",
-        "capacity": "Up to 8 people",
+        "capacity": "8 max",
         "description": "Immerse yourself in the ancient redwood forest. Towering trees create a natural cathedral, while the forest floor teems with diverse wildlife and plant life.",
         "amenities": [
             "Forest trails",
@@ -92,7 +92,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
         "rating": 4.6,
         "price": "35/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Oceanfront camping with spectacular sunset views. The sound of crashing waves and salty ocean breeze create the perfect beach camping experience.",
         "amenities": [
             "Beach access",
@@ -120,7 +120,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1562524029-acca99f1a6b1?w=800&h=600&fit=crop",
         "rating": 4.9,
         "price": "28/night",
-        "capacity": "Up to 5 people",
+        "capacity": "5 max",
         "description": "Perched above the stunning Emerald Lake, this campsite offers panoramic views of glacier-carved valleys and crystal-clear alpine waters.",
         "amenities": [
             "Lake access",
@@ -148,7 +148,7 @@ const campsitesData = [
         "image": "https://www.simplyawesometrips.com/wp-content/uploads/2024/12/wildflowers-upper-hawksbill-trail-shenandoah-national-park1.jpg",
         "rating": 4.5,
         "price": "15/night",
-        "capacity": "Up to 3 people",
+        "capacity": "3 max",
         "description": "High-elevation camping along the famous Appalachian Trail. Experience the thrill of mountain camping with stunning ridge-top views and challenging terrain.",
         "amenities": [
             "Trail access",
@@ -175,7 +175,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
         "rating": 4.8,
         "price": "22/night",
-        "capacity": "Up to 7 people",
+        "capacity": "7 max",
         "description": "Ancient temperate rainforest camping surrounded by moss-covered trees and fern-covered forest floors. Experience the magic of the Pacific Northwest.",
         "amenities": [
             "Rainforest trails",
@@ -203,7 +203,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1531001200934-80a87c8da844?w=800&h=600&fit=crop",
         "rating": 4.4,
         "price": "40/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Tropical beach camping with coral reef access. Crystal clear waters and white sand beaches make this a paradise for water enthusiasts.",
         "amenities": [
             "Beachfront access",
@@ -231,7 +231,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1568064917084-015fbb5358ec?w=800&h=600&fit=crop",
         "rating": 4.7,
         "price": "32/night",
-        "capacity": "Up to 8 people",
+        "capacity": "8 max",
         "description": "Peaceful lakeside camping in the heart of the Adirondacks. Perfect for families seeking a quiet retreat with excellent fishing and boating opportunities.",
         "amenities": [
             "Private lake access",
@@ -259,7 +259,7 @@ const campsitesData = [
         "image": "https://images.squarespace-cdn.com/content/v1/61eb640f60360a71b6ced4e7/a8c60ae8-71ac-407d-b89a-8f78995a539a/IMG_4977.jpg",
         "rating": 4.9,
         "price": "35/night",
-        "capacity": "Up to 4 people",
+        "capacity": "4 max",
         "description": "High-altitude camping with spectacular views of the Teton Range. Experience the raw beauty of the Rocky Mountains in this pristine alpine setting.",
         "amenities": [
             "Mountain views",
@@ -287,7 +287,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1445712525433-eba07da78bd2?w=800&h=600&fit=crop",
         "rating": 4.9,
         "price": "26/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Iconic camping in the heart of Yosemite Valley with stunning views of El Capitan and Half Dome. Experience world-class rock climbing, hiking, and breathtaking waterfalls.",
         "amenities": [
             "Shuttle service",
@@ -315,7 +315,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&h=600&fit=crop",
         "rating": 4.7,
         "price": "22/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Coastal camping on Mount Desert Island with dramatic ocean views, granite peaks, and pristine lakes. Perfect for exploring the rugged Maine coastline.",
         "amenities": [
             "Ocean views",
@@ -343,7 +343,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1565588496723-63494874b143?w=800&h=600&fit=crop",
         "rating": 4.6,
         "price": "17/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Misty mountain camping in America's most visited national park. Experience the rich biodiversity, historic cabins, and stunning fall colors.",
         "amenities": [
             "Mountain streams",
@@ -371,7 +371,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1552083375-1447ce886485?w=800&h=600&fit=crop",
         "rating": 4.8,
         "price": "35/night",
-        "capacity": "Up to 8 people",
+        "capacity": "8 max",
         "description": "Crystal clear alpine lake camping with stunning mountain views. Enjoy water sports, hiking, and year-round outdoor activities in this pristine setting.",
         "amenities": [
             "Lake access",
@@ -399,7 +399,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1596662214814-b4a60ea1a1f8?w=800&h=600&fit=crop",
         "rating": 4.5,
         "price": "20/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Blue Ridge Mountains camping with panoramic views and abundant wildlife. Experience the famous Skyline Drive and cascading waterfalls.",
         "amenities": [
             "Mountain views",
@@ -427,7 +427,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1568112505330-f5fa78411f1d?w=800&h=600&fit=crop",
         "rating": 4.9,
         "price": "21/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Camping beside the deepest lake in America with its stunning blue waters. Experience volcanic landscapes and pristine wilderness.",
         "amenities": [
             "Lake views",
@@ -455,7 +455,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop",
         "rating": 4.4,
         "price": "16/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Unique wetland camping in America's largest subtropical wilderness. Experience alligators, exotic birds, and the mysterious River of Grass.",
         "amenities": [
             "Wetland access",
@@ -483,7 +483,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1455763916899-e8b50eca9967?w=800&h=600&fit=crop",
         "rating": 4.8,
         "price": "20/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Dramatic red rock canyon camping with towering sandstone cliffs. Experience world-famous hiking trails and stunning desert landscapes.",
         "amenities": [
             "Canyon views",
@@ -511,7 +511,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=600&fit=crop",
         "rating": 4.9,
         "price": "23/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Alpine camping in the Crown of the Continent with pristine lakes, glaciers, and abundant wildlife including grizzly bears.",
         "amenities": [
             "Alpine lakes",
@@ -539,7 +539,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
         "rating": 4.6,
         "price": "28/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Coastal camping on the historic Cape Cod peninsula with sandy beaches, dunes, and charming New England atmosphere.",
         "amenities": [
             "Beach access",
@@ -567,7 +567,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.7,
         "price": "27/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Wilderness camping in the shadow of North America's highest peak. Experience the vast Alaskan wilderness and abundant wildlife.",
         "amenities": [
             "Wilderness access",
@@ -595,7 +595,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1628118426430-b5bafc5ed491?w=800&h=600&fit=crop",
         "rating": 4.5,
         "price": "15/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Unique volcanic camping experience with active lava flows, steam vents, and dramatic landscapes shaped by volcanic activity.",
         "amenities": [
             "Volcanic views",
@@ -623,7 +623,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&h=600&fit=crop",
         "rating": 4.8,
         "price": "18/night",
-        "capacity": "Up to 4 people",
+        "capacity": "4 max",
         "description": "Remote wilderness camping in a pristine lake district with over 1,000 lakes and streams. Perfect for canoeing and fishing adventures.",
         "amenities": [
             "Lake access",
@@ -651,7 +651,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.6,
         "price": "16/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Desert camping in the remote Chihuahuan Desert with dramatic canyons, the Rio Grande River, and stunning night skies.",
         "amenities": [
             "Desert views",
@@ -679,7 +679,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&h=600&fit=crop",
         "rating": 4.7,
         "price": "20/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Wild Pacific coast camping with dramatic sea stacks, tide pools, and pristine beaches. Experience the rugged Washington coastline.",
         "amenities": [
             "Beach access",
@@ -707,7 +707,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&h=600&fit=crop",
         "rating": 4.5,
         "price": "22/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Mountain camping in the largest protected area in the contiguous United States. Experience 46 high peaks and pristine wilderness.",
         "amenities": [
             "Mountain access",
@@ -735,7 +735,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1693340909044-9524fc427b1b?w=800&h=600&fit=crop",
         "rating": 4.6,
         "price": "20/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Great Lakes camping with stunning sandstone cliffs, waterfalls, and crystal clear waters. Experience the beauty of Lake Superior.",
         "amenities": [
             "Lake access",
@@ -763,7 +763,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.8,
         "price": "35/night",
-        "capacity": "Up to 8 people",
+        "capacity": "8 max",
         "description": "Ancient redwood forest camping with the world's tallest trees. Experience the magic of the coastal redwood ecosystem.",
         "amenities": [
             "Redwood forest",
@@ -791,7 +791,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&h=600&fit=crop",
         "rating": 4.7,
         "price": "25/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Rocky coast camping with dramatic ocean views and granite peaks. Experience the rugged beauty of the Maine coastline.",
         "amenities": [
             "Ocean views",
@@ -819,7 +819,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=600&fit=crop",
         "rating": 4.9,
         "price": "26/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Alpine camping in the heart of the Rockies with pristine lakes, wildflowers, and abundant wildlife including elk and moose.",
         "amenities": [
             "Alpine lakes",
@@ -847,7 +847,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.5,
         "price": "36/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Tropical island camping with crystal clear waters, coral reefs, and white sand beaches. Experience the laid-back Keys lifestyle.",
         "amenities": [
             "Beach access",
@@ -875,7 +875,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.4,
         "price": "20/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Sonoran Desert camping surrounded by iconic saguaro cacti. Experience the unique desert ecosystem and stunning sunsets.",
         "amenities": [
             "Desert views",
@@ -903,7 +903,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.6,
         "price": "15/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "High desert camping with spectacular cave systems and dramatic landscapes. Experience the mysterious underground world.",
         "amenities": [
             "Cave access",
@@ -931,7 +931,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1509838174235-432f709c7bfd?w=800&h=600&fit=crop",
         "rating": 4.5,
         "price": "18/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Northwoods camping with pristine lakes, dense forests, and abundant wildlife. Experience the peaceful beauty of northern Wisconsin.",
         "amenities": [
             "Lake access",
@@ -959,7 +959,7 @@ const campsitesData = [
         "image": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&h=600&fit=crop",
         "rating": 4.7,
         "price": "24/night",
-        "capacity": "Up to 6 people",
+        "capacity": "6 max",
         "description": "Pacific coast camping with dramatic sea cliffs, tide pools, and old-growth forests. Experience the wild Oregon coastline.",
         "amenities": [
             "Ocean views",
