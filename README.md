@@ -81,6 +81,7 @@ The app is ready to deploy on GitHub Pages with no additional setup required!
 - Anna Rankin (anna902)
 - Doug (Level3EyedRaven)
 - Glenn Byers (Glenn_B)
+- Lisa Dean (officerjinxster)
 
 ---
 
