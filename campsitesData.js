@@ -896,8 +896,10 @@ const campsitesData = [
             "Bird watching",
             "Sunset viewing"
         ],
-        "type": "forest",
-        "tags": ["forest", "desert", "hiking", "arizona"]
+        //Changed type from forest to desert. Same in campsiteData_backup.js
+        "type": "desert",
+        "tags": ["desert", "forest", "hiking", "arizona"]
+        
     },
     {
         "id": 33,
