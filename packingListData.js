@@ -178,5 +178,91 @@ const packingListsData = {
             "Beach umbrella",
             "Cooling towels"
         ]
+    },
+    "desert": {
+        "essentials": [
+            "Tent with UV protection",
+            "Lightweight sleeping bag",
+            "Insulated sleeping pad",
+            "Headlamps with extra batteries",
+            "First aid kit with heat illness supplies",
+            "Electrolyte packets",
+            "Water bottles (at least 1 gallon per person per day)",
+            "Portable water filtration",
+            "Sunscreen (SPF 50+)",
+            "Emergency whistle and mirror"
+        ],
+        "sun_heat_protection": [
+            "Wide-brimmed hat",
+            "Sunglasses with UV protection",
+            "UPF-rated clothing",
+            "Cooling towels",
+            "Shade tarp or canopy",
+            "Aloe vera gel",
+            "Lip balm with SPF",
+            "Bandana or neck gaiter"
+        ],
+        "clothing": [
+            "Lightweight long-sleeve shirts",
+            "Lightweight long pants",
+            "Sturdy closed-toe hiking boots",
+            "Gaiters (for sand and snake protection)",
+            "Extra socks",
+            "Warm layers for cold desert nights",
+            "Windbreaker"
+        ],
+        "desert_exploration": [
+            "Trekking poles",
+            "Binoculars",
+            "Camera with extra batteries",
+            "Trail maps and compass",
+            "GPS device",
+            "Snake bite kit",
+            "Flashlight for night wildlife viewing",
+            "Star chart for stargazing"
+        ]
+    },
+    "wetland": {
+        "essentials": [
+            "Waterproof tent with sealed seams",
+            "Sleeping bag (warm weather rated)",
+            "Elevated sleeping pad or cot",
+            "Headlamp with extra batteries",
+            "First aid kit with antihistamines",
+            "Water purification tablets",
+            "Water bottles",
+            "Waterproof dry bags",
+            "Insect repellent (DEET-based)",
+            "Sunscreen (SPF 50+)"
+        ],
+        "water_gear": [
+            "Waterproof boots or waders",
+            "Canoe or kayak",
+            "Paddles",
+            "Life jackets",
+            "Waterproof camera or phone case",
+            "Fishing gear",
+            "Fishing license",
+            "Mesh bait bucket"
+        ],
+        "clothing": [
+            "Long-sleeve moisture-wicking shirts",
+            "Quick-dry pants",
+            "Waterproof rain jacket",
+            "Wide-brimmed hat with mosquito net",
+            "Water shoes or sandals",
+            "Extra socks (moisture-wicking)",
+            "Lightweight gloves"
+        ],
+        "wildlife_exploration": [
+            "Binoculars",
+            "Field guides (birds, reptiles, plants)",
+            "Camera with telephoto lens",
+            "Bug net hat",
+            "Polarized sunglasses",
+            "Nature journal",
+            "Spotting scope",
+            "Zip-lock bags for specimens"
+        ]
     }
 };
