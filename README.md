@@ -16,6 +16,8 @@ A beautiful, functional camping app built with Vanilla JavaScript following SLC 
 - **Mountain**: Hiking, climbing, alpine adventures
 - **Forest**: Nature exploration, wildlife watching
 - **Beach**: Water sports, beach activities, sun protection
+- **Desert**: Stargazing, desert hiking, heat-adapted adventures
+- **Wetland**: Wildlife watching, kayaking, nature photography
 
 ## 🎒 Packing Lists
 
@@ -63,10 +65,25 @@ The app is ready to deploy on GitHub Pages with no additional setup required!
 ## 📁 Project Structure
 
 ```
-├── index.html          # Main HTML file
-├── styles.css          # Beautiful, responsive styling
-├── app.js             # Main application logic (includes embedded data)
-└── README.md          # This file
+├── index.html                      # Main HTML file
+├── styles.css                      # Beautiful, responsive styling
+├── print.css                       # Print-friendly styles
+├── campsitesData.js                # Campsite data (35 sites)
+├── packingListData.js              # Packing lists by campsite type
+├── activityPackingSuggestions.js    # Activity-specific packing items
+├── main-classic.js                 # Core app logic (search, filter, pagination, UI)
+├── app.js                          # Application bootstrap
+├── campJoyApp.js                   # App controller
+├── campsiteManager.js              # Campsite data manager
+├── campsiteRenderer.js             # Card rendering
+├── searchFilterController.js       # Search and filter logic
+├── detailViewController.js         # Detail view rendering
+├── packingListGenerator.js         # Packing list builder
+├── ActivityInventoryController.js  # Activity inventory logic
+├── eventManager.js                 # Pub/sub event system
+├── uiInteractions.js               # UI interaction handlers
+├── CHANGELOG.md                    # Version history and release notes
+└── README.md                       # This file
 ```
 
 ## 🎯 SLC Principles Applied
