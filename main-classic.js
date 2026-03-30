@@ -279,6 +279,7 @@
             const paginationContainer = document.getElementById('pageNumbers');
             const prevBtn = document.getElementById('prevPage');
             const nextBtn = document.getElementById('nextPage');
+            const paginationWrapper = paginationContainer?.closest('.pagination-container');
 
             if (!paginationContainer || totalPages <= 1) {
                 if (paginationContainer) {
@@ -286,8 +287,11 @@
                 }
                 if (prevBtn) prevBtn.disabled = true;
                 if (nextBtn) nextBtn.disabled = true;
+                if (paginationWrapper) paginationWrapper.style.display = 'none';
                 return;
             }
+
+            if (paginationWrapper) paginationWrapper.style.display = '';
 
             // Update previous/next buttons
             if (prevBtn) prevBtn.disabled = currentPage <= 1;
