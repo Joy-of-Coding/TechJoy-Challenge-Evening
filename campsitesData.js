@@ -896,7 +896,7 @@ const campsitesData = [
             "Bird watching",
             "Sunset viewing"
         ],
-        "type": "forest",
+        "type": "desert",
         "tags": ["forest", "desert", "hiking", "arizona"]
     },
     {

@@ -16,6 +16,7 @@ A beautiful, functional camping app built with Vanilla JavaScript following SLC 
 - **Mountain**: Hiking, climbing, alpine adventures
 - **Forest**: Nature exploration, wildlife watching
 - **Beach**: Water sports, beach activities, sun protection
+- **Desert**: four wheeling, back packing
 
 ## 🎒 Packing Lists
 
