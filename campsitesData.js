@@ -34,7 +34,7 @@ const campsitesData = [
         "id": 2,
         "name": "Alpine Peak Base Camp",
         "location": "Mount Rainier National Park, Washington",
-        "image": "https://assets.milestoneinternet.com/cdn-cgi/image/f=auto/aramark-parent/yosemite-national-park/site-images/climber-with-helmet-and-gear-ascends-a-steep-rock-face-yosemite-national-park-lodging-and-activities-california-united-states.jpg?cropY=534&cropW=4000&cropH=1460&width=800&height=292",
+        "image": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
         "rating": 4.9,
         "price": "30/night",
         "capacity": "Up to 4 people",
