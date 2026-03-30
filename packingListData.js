@@ -178,5 +178,51 @@ const packingListsData = {
             "Beach umbrella",
             "Cooling towels"
         ]
+    },
+    // Added the desert packing list 
+    "desert": {
+        "essentials": [
+            "Tent with good ventilation",
+            "Sleeping bags suitable for hot weather",
+            "Sleeping pads",
+            "Camping chairs",
+            "Headlamps/flashlights",
+            "First aid kit",
+            "Sunscreen (SPF 30+)",
+            "Water bottles (large capacity)",
+            "Cooler with ice",
+            "Wide-brimmed hat"
+        ],
+        "desert_activities": [
+            "Hiking boots",
+            "Lightweight clothing (long sleeves and pants for sun protection)",
+            "Sunglasses with UV protection",
+            "Bandana or neck gaiter",
+            "Portable shade structure",
+            "Desert guidebook",
+            "Camera with extra batteries",
+            "Binoculars for wildlife viewing",
+            "Trail maps",
+            "Compass"
+        ],
+        "safety": [
+            "Emergency beacon",
+            "Comprehensive first aid kit",
+            "Water purification system",
+            "High-calorie food",
+            "Emergency shelter",
+            "Whistle",
+            "Signal mirror",
+            "Extra batteries"
+        ],
+        "comfort": [
+            "Portable fan",
+            "Cooling towels",
+            "Lightweight hammock",
+            "Books or e-reader",
+            "Journal and pen",
+            "Portable chair",
+            "Camping table"
+        ]
     }
 };
