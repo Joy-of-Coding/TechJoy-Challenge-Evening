@@ -893,8 +893,8 @@ const campsitesData = [
             "Bird watching",
             "Sunset viewing"
         ],
-        "type": "forest",
-        "tags": ["forest", "desert", "hiking", "arizona"]
+        "type": "desert",
+        "tags": ["desert", "desert", "hiking", "arizona"]
     },
     {
         "id": 33,
