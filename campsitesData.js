@@ -983,4 +983,4 @@ const campsitesData = [
         "type": "beach",
         "tags": ["beach", "pacific", "hiking", "oregon"]
     }
-]; 
+];
