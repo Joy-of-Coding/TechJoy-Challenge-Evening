@@ -1,4 +1,4 @@
-// Campsites Data - Embedded directly for local file access
+// Campsites Data - Embedded directly for local file access 
 const campsitesData = [
     {
         "id": 1,
