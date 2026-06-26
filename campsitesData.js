@@ -672,7 +672,7 @@ const campsitesData = [
             "Photography",
             "Hot springs"
         ],
-        "type": "mountain",
+        "type": "desert",
         "tags": ["mountain", "desert", "hiking", "texas"]
     },
     {
@@ -896,7 +896,7 @@ const campsitesData = [
             "Bird watching",
             "Sunset viewing"
         ],
-        "type": "forest",
+        "type": "desert",
         "tags": ["forest", "desert", "hiking", "arizona"]
     },
     {
@@ -924,7 +924,7 @@ const campsitesData = [
             "Stargazing",
             "Bat watching"
         ],
-        "type": "mountain",
+        "type": "desert",
         "tags": ["mountain", "desert", "caves", "newmexico"]
     },
     {

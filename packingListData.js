@@ -178,5 +178,52 @@ const packingListsData = {
             "Beach umbrella",
             "Cooling towels"
         ]
+    },
+    "desert": {
+        "essentials": [
+            "4-season tent with sun protection",
+            "Warm-weather sleeping bags",
+            "Insulated sleeping pads",
+            "Camping chairs",
+            "Headlamps/flashlights (with extra batteries)",
+            "Comprehensive first aid kit",
+            "Sunscreen (SPF 50+)",
+            "Sunglasses with UV protection",
+            "Wide-brimmed hat",
+            "Water bottles (extra capacity)"
+        ],
+        "desert_specific": [
+            "Cooler with ice",
+            "Lip balm with SPF",
+            "Moisture-wicking clothing",
+            "Lightweight long sleeves and pants",
+            "Bandana or buff",
+            "Cooling towels",
+            "Portable shade structure",
+            "Portable fan",
+            "Creek shoes or sturdy sandals",
+            "Moisturizing lotion"
+        ],
+        "clothing": [
+            "Lightweight, breathable clothing",
+            "Light colors to reflect heat",
+            "Warm layers for cool desert nights",
+            "Sturdy hiking boots",
+            "Extra pairs of socks",
+            "Windbreaker jacket",
+            "Sun hoodie",
+            "Gaiters for sand/dust"
+        ],
+        "safety": [
+            "Emergency blanket",
+            "Signal mirror",
+            "Whistle",
+            "GPS device or offline maps",
+            "Extra water storage",
+            "Emergency contact information",
+            "Snake bite kit",
+            "Insect repellent",
+            "Bear canister (if required)"
+        ]
     }
 };
