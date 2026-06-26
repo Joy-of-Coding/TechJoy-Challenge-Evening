@@ -390,7 +390,7 @@ const campsitesData = [
             "Skiing (winter)"
         ],
         "type": "lake",
-        "tags": ["lake", "alpine", "swimming", "nevada"]
+        "tags": ["lake", "mountain", "alpine", "swimming", "nevada"]
     },
     {
         "id": 15,
@@ -501,8 +501,8 @@ const campsitesData = [
             "Wildlife viewing",
             "Ranger programs"
         ],
-        "type": "mountain",
-        "tags": ["mountain", "canyon", "hiking", "utah"]
+        "type": "desert",
+        "tags": ["desert", "mountain", "canyon", "hiking", "utah"]
     },
     {
         "id": 19,
@@ -642,7 +642,7 @@ const campsitesData = [
             "Photography"
         ],
         "type": "lake",
-        "tags": ["lake", "wilderness", "canoeing", "minnesota"]
+        "tags": ["lake", "forest", "wilderness", "canoeing", "minnesota"]
     },
     {
         "id": 24,
@@ -669,7 +669,7 @@ const campsitesData = [
             "Photography",
             "Hot springs"
         ],
-        "type": "mountain",
+        "type": "desert",
         "tags": ["mountain", "desert", "hiking", "texas"]
     },
     {
@@ -893,8 +893,8 @@ const campsitesData = [
             "Bird watching",
             "Sunset viewing"
         ],
-        "type": "forest",
-        "tags": ["forest", "desert", "hiking", "arizona"]
+        "type": "desert",
+        "tags": ["desert", "hiking", "arizona"]
     },
     {
         "id": 33,
@@ -921,7 +921,7 @@ const campsitesData = [
             "Stargazing",
             "Bat watching"
         ],
-        "type": "mountain",
+        "type": "desert",
         "tags": ["mountain", "desert", "caves", "newmexico"]
     },
     {
