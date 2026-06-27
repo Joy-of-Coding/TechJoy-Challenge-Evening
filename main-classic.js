@@ -85,7 +85,9 @@
                     );
 
                 const matchesFilter = this.currentFilter === 'all' ||
-                    campsite.type === this.currentFilter;
+                    (Array.isArray(campsite.type)
+                        ? campsite.type.includes(this.currentFilter)
+                        : campsite.type === this.currentFilter);
 
                 return matchesSearch && matchesFilter;
             });
