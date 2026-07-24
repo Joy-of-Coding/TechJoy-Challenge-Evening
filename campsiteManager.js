@@ -47,7 +47,7 @@ export class CampsiteManager {
                 );
 
             const matchesFilter = this.currentFilter === 'all' ||
-                campsite.type === this.currentFilter;
+            campsite.type.includes(this.currentFilter);
 
             return matchesSearch && matchesFilter;
         });

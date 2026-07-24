@@ -61,7 +61,7 @@ class JoyOfCampingApp {
                 );
 
             const matchesFilter = this.currentFilter === 'all' ||
-                campsite.type === this.currentFilter;
+                campsite.type===this.currentFilter
 
             return matchesSearch && matchesFilter;
         });
