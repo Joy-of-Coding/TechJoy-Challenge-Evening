@@ -133,6 +133,42 @@ const packingListsData = {
             "Camping table"
         ]
     },
+    "desert": {
+        "essentials": [
+            "Tent with good ventilation",
+            "Sleeping bags (nights get cold)",
+            "Sleeping pads",
+            "Extra water (1+ gallon per person per day)",
+            "Headlamps/flashlights",
+            "First aid kit",
+            "Electrolyte tablets",
+            "Food storage",
+            "Map and compass/GPS"
+        ],
+        "sun_and_heat": [
+            "High-SPF sunscreen",
+            "Wide-brim hat",
+            "UV sunglasses",
+            "Lightweight sun shelter / tarp",
+            "Cooling towel",
+            "Lip balm with SPF"
+        ],
+        "clothing": [
+            "Lightweight, light-colored long sleeves",
+            "Convertible pants",
+            "Sturdy closed-toe hiking shoes",
+            "Warm layer for cold nights",
+            "Buff / neck gaiter (dust & sun)",
+            "Extra socks"
+        ],
+        "comfort": [
+            "Insulated water bottle",
+            "Camp chair",
+            "Portable shade",
+            "Book or e-reader",
+            "Stargazing app (great desert night skies)"
+        ]
+    },
     "beach": {
         "essentials": [
             "Beach tent or canopy",
