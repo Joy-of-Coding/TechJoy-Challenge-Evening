@@ -26,7 +26,7 @@ export class SearchFilterController {
         // Filter button handlers
         this.filterButtons.forEach(button => {
             button.addEventListener('click', (e) => {
-                this.handleFilterChange(e.target.dataset.filter);
+                this.handleFilterChange(e.currentTarget.dataset.filter);
             });
         });
 
