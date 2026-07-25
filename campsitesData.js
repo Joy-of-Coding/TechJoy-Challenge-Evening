@@ -896,8 +896,8 @@ const campsitesData = [
             "Bird watching",
             "Sunset viewing"
         ],
-        "type": "forest",
-        "tags": ["forest", "desert", "hiking", "arizona"]
+        "type": "desert",
+        "tags": ["desert", "hiking", "arizona"]
     },
     {
         "id": 33,
@@ -924,8 +924,8 @@ const campsitesData = [
             "Stargazing",
             "Bat watching"
         ],
-        "type": "mountain",
-        "tags": ["mountain", "desert", "caves", "newmexico"]
+        "type": "desert",
+        "tags": ["desert", "caves", "newmexico"]
     },
     {
         "id": 34,
