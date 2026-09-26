@@ -133,6 +133,40 @@ const packingListsData = {
             "Camping table"
         ]
     },
+    "desert": {
+        "essentials": [
+            "Three-season tent",
+            "Sleeping bag",
+            "Sleeping pad",
+            "Headlamp or flashlight",
+            "First aid kit",
+            "Sunscreen (SPF 30+)",
+            "Extra drinking water",
+            "Water storage containers"
+        ],
+        "desert_exploration": [
+            "Wide-brimmed sun hat",
+            "Sunglasses",
+            "Sturdy hiking boots",
+            "Map and compass",
+            "GPS device",
+            "Emergency shade",
+            "Dust mask"
+        ],
+        "clothing": [
+            "Lightweight, breathable layers",
+            "Long-sleeved shirt",
+            "Lightweight pants",
+            "Warm layers for cold nights"
+        ],
+        "safety": [
+            "Extra batteries",
+            "Emergency blanket",
+            "Whistle",
+            "Electrolyte tablets",
+            "Fire starter"
+        ]
+    },
     "beach": {
         "essentials": [
             "Beach tent or canopy",
